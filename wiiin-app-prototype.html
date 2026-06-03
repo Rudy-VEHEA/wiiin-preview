@@ -1,0 +1,2731 @@
+<!doctype html>
+<html lang="fr"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Wiiin · App — écrans (prototype)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg-base: #f4f0e3;
+  --bg-warm: #ebe6d4;
+  --ink: #0b1b2e;
+  --ink-soft: #1f3a55;
+  --ink-mute: #5e7186;
+  --ink-faint: #a3b0c0;
+  --mint: #68d79f;
+  --mint-deep: #48b87f;
+  --mint-pale: #d4f0e1;
+  --gold: #f7c948;
+  --gold-deep: #e8b633;
+  --cream: #fff1c2;
+  --cream-soft: #fbedb6;
+  --plum: #8a3ad2;
+  --plum-deep: #6e2bb0;
+  --pink: #ffd8e1;
+  --hot: #ff5b3a;
+  --line: #d8d4c2;
+  --display: 'Inter Tight', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+html, body {
+  font-family: var(--display);
+  color: var(--ink);
+  background: linear-gradient(180deg, #1c2e44 0%, #0b1b2e 100%);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 500;
+}
+
+body { padding: 36px 16px 80px; min-height: 100vh; }
+
+/* ===== Lab header ===== */
+.lab-header {
+  max-width: 1400px;
+  margin: 0 auto 36px;
+  padding: 36px;
+  background: var(--mint);
+  color: var(--ink);
+  border-radius: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.lab-header h1 {
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -.045em;
+  line-height: .95;
+  margin-bottom: 14px;
+}
+.lab-header p {
+  color: var(--ink-soft);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 720px;
+  font-weight: 500;
+}
+.lab-header p b { color: var(--ink); font-weight: 700; }
+.lab-header .pill-row { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+.lab-header .lh-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--ink);
+  color: var(--mint);
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .05em;
+}
+
+/* ===== Lab nav ===== */
+.lab-nav {
+  max-width: 1400px;
+  margin: 0 auto 36px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 18px;
+  background: rgba(255,255,255,.06);
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,.08);
+}
+.lab-nav a {
+  padding: 7px 14px;
+  background: rgba(255,255,255,.08);
+  border-radius: 999px;
+  font-size: 12px;
+  color: rgba(255,255,255,.85);
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: -.005em;
+  transition: all .15s;
+}
+.lab-nav a:hover { background: var(--mint); color: var(--ink); }
+
+/* ===== Screens grid ===== */
+.screens-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 36px;
+}
+.screen-wrap {
+  background: rgba(255,255,255,.04);
+  border-radius: 32px;
+  padding: 28px 24px 24px;
+  border: 1px solid rgba(255,255,255,.06);
+}
+.screen-wrap .screen-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--mint);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.screen-wrap h2 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.022em;
+  line-height: 1.05;
+  margin-bottom: 4px;
+  color: white;
+}
+.screen-wrap .screen-route {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(255,255,255,.5);
+  margin-bottom: 18px;
+  font-weight: 600;
+}
+
+/* ===== Phone mockup with thick ink border ===== */
+.phone {
+  width: 364px;
+  height: 760px;
+  max-width: 100%;
+  margin: 0 auto;
+  background: var(--bg-base);
+  border-radius: 44px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 6px var(--ink),
+    0 24px 60px rgba(0,0,0,.4);
+  display: flex;
+  flex-direction: column;
+}
+/* Phone background variants */
+.phone.bg-mint { background: var(--mint); }
+.phone.bg-ink { background: var(--ink); color: var(--bg-base); }
+
+.phone .notch {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 124px;
+  height: 30px;
+  background: var(--ink);
+  border-radius: 18px;
+  z-index: 10;
+}
+.phone .status-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 18px 32px 0;
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  position: relative;
+  z-index: 6;
+  height: 48px;
+  align-items: center;
+}
+.phone.bg-ink .status-bar { color: var(--bg-base); }
+.phone-content {
+  flex: 1;
+  padding: 0 22px 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.phone-content::-webkit-scrollbar { display: none; }
+.phone-body { flex: 1; padding: 16px 0 16px; }
+.phone-body.tight { padding-top: 8px; }
+
+/* ===== Mascot circle ===== */
+.mascot-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--mint);
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.mascot-circle.xs { width: 36px; height: 36px; }
+.mascot-circle.sm { width: 48px; height: 48px; }
+.mascot-circle.md { width: 80px; height: 80px; }
+.mascot-circle.lg { width: 120px; height: 120px; }
+.mascot-circle.xl { width: 160px; height: 160px; border: 4px solid var(--bg-base); }
+.mascot-circle svg { width: 88%; height: 88%; }
+
+/* ===== Coiiins pill (style screenshot) ===== */
+.coiiins-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--ink);
+  color: white;
+  border-radius: 999px;
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+.coiiins-pill .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+
+/* ===== Tab bar (4 onglets line-art) ===== */
+.tab-bar {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  padding: 14px 8px 12px;
+  border-top: 1px solid rgba(11,27,46,.08);
+  background: var(--bg-base);
+  margin: auto -22px 0;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.phone.bg-ink .tab-bar {
+  background: var(--ink);
+  border-top-color: rgba(255,255,255,.1);
+}
+.tab-bar .tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  font-family: var(--display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-mute);
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: -.01em;
+}
+.tab-bar .tab svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--ink-mute);
+}
+.tab-bar .tab.active {
+  color: var(--ink);
+  font-weight: 700;
+}
+.tab-bar .tab.active svg { stroke: var(--ink); }
+.phone.bg-ink .tab-bar .tab { color: rgba(255,255,255,.5); }
+.phone.bg-ink .tab-bar .tab svg { stroke: rgba(255,255,255,.5); }
+.phone.bg-ink .tab-bar .tab.active { color: var(--mint); }
+.phone.bg-ink .tab-bar .tab.active svg { stroke: var(--mint); }
+
+/* ===== App header ===== */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0 16px;
+  gap: 12px;
+}
+.app-header-back {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--bg-warm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  text-decoration: none;
+  flex-shrink: 0;
+  border: 1px solid rgba(11,27,46,.08);
+}
+.phone.bg-ink .app-header-back { background: rgba(255,255,255,.1); color: var(--bg-base); border-color: rgba(255,255,255,.1); }
+.phone.bg-mint .app-header-back { background: var(--ink); color: var(--mint); border: none; }
+.app-header-back svg { width: 16px; height: 16px; }
+.app-header-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.phone.bg-ink .app-header-title { color: rgba(255,255,255,.7); }
+
+/* ===== H1 / H2 massifs (le truc signature) ===== */
+/* Display headings — inside .phone-content, override screen-wrap white inheritance */
+.phone-content .display-xxl,
+.phone-content h1.display-xxl,
+.phone-content h2.display-xxl {
+  font-size: 56px;
+  font-weight: 800;
+  letter-spacing: -.045em;
+  line-height: .92;
+  color: var(--ink);
+}
+.phone-content .display-xl,
+.phone-content h1.display-xl,
+.phone-content h2.display-xl {
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: .95;
+  color: var(--ink);
+}
+.phone-content .display-lg,
+.phone-content h1.display-lg,
+.phone-content h2.display-lg,
+.phone-content h3.display-lg {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -.035em;
+  line-height: .98;
+  color: var(--ink);
+}
+.phone.bg-ink .phone-content .display-xxl,
+.phone.bg-ink .phone-content .display-xl,
+.phone.bg-ink .phone-content .display-lg { color: white; }
+.eyebrow-mono {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-mute);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+/* ===== Pills nav (Pronostiquer / Mes tournois) ===== */
+.nav-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.nav-pill {
+  padding: 11px 20px;
+  border-radius: 999px;
+  background: white;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  border: 1px solid rgba(11,27,46,.06);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-pill.active {
+  background: var(--mint);
+  color: var(--ink);
+  border-color: transparent;
+}
+
+/* ===== Hero match cards (XXL) ===== */
+.hero-match-card {
+  background: var(--ink);
+  color: white;
+  border-radius: 28px;
+  padding: 18px;
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.hero-match-card.cream-card {
+  background: var(--cream);
+  color: var(--ink);
+}
+.hero-match-card.gold-card {
+  background: var(--gold);
+  color: var(--ink);
+}
+.hero-match-card-icon {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--mint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+.hero-match-card.cream-card .hero-match-card-icon {
+  background: white;
+}
+.hero-match-card-title {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.022em;
+  color: var(--mint);
+  line-height: 1;
+}
+.hero-match-card.cream-card .hero-match-card-title { color: var(--ink); }
+.hero-match-card.gold-card .hero-match-card-title { color: var(--ink); }
+.hero-match-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .05em;
+}
+.hero-match-card .live-pulse {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--mint);
+  animation: pulse 1.6s infinite;
+}
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
+.hero-match-card-points {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -.04em;
+  color: var(--mint);
+  line-height: .95;
+}
+
+/* ===== Mes pronos list ===== */
+.prono-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(11,27,46,.06);
+}
+.prono-row:last-child { border: 0; }
+.prono-avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: white;
+  border: 1.5px solid rgba(11,27,46,.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.prono-info { flex: 1; min-width: 0; }
+.prono-info .title {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.018em;
+  margin-bottom: 2px;
+}
+.prono-info .meta {
+  font-size: 13px;
+  color: var(--ink-mute);
+  font-weight: 500;
+}
+.prono-stat {
+  text-align: right;
+  flex-shrink: 0;
+}
+.prono-stat .pts {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--mint-deep);
+  letter-spacing: -.01em;
+}
+.prono-stat .pts.pending { color: var(--ink-mute); }
+.prono-stat .rank {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-mute);
+  font-weight: 600;
+}
+
+/* ===== Buttons ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px 24px;
+  border-radius: 999px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -.01em;
+  border: 0;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: transform .15s, background .15s;
+  width: 100%;
+}
+.btn:active { transform: scale(.97); }
+.btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+/* Constrain inline SVGs throughout phone (back, chevron, etc.) */
+.phone-content svg { max-width: 24px; max-height: 24px; flex-shrink: 0; }
+.phone-content .wheel-disc, .phone-content .wheel-pointer { max-width: none; max-height: none; }
+.phone-content .mascot-circle img,
+.phone-content .mascot-circle svg { max-width: 100%; max-height: 100%; }
+.btn-mint { background: var(--mint); color: var(--ink); }
+.btn-mint:hover { background: var(--mint-deep); }
+.btn-ink { background: var(--ink); color: white; }
+.btn-ink:hover { background: var(--ink-soft); }
+.btn-ink-mint { background: var(--ink); color: var(--mint); }
+.btn-outline {
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
+}
+.btn-outline-white {
+  background: transparent;
+  color: white;
+  border: 1.5px solid rgba(255,255,255,.4);
+}
+.btn-white { background: white; color: var(--ink); }
+.btn-cap {
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: 14px;
+}
+.btn-half { width: auto; flex: 1; }
+.btn-sm { padding: 10px 18px; font-size: 13px; width: auto; }
+
+.sticky-cta {
+  position: sticky;
+  bottom: 0;
+  background: linear-gradient(180deg, transparent 0%, var(--bg-base) 30%, var(--bg-base) 100%);
+  margin: 0 -22px;
+  padding: 16px 22px 12px;
+  z-index: 5;
+}
+.phone.bg-ink .sticky-cta { background: linear-gradient(180deg, transparent 0%, var(--ink) 30%, var(--ink) 100%); }
+
+/* ===== Trading cards (Boosters style) ===== */
+.trading-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.trading-grid.three { grid-template-columns: repeat(3, 1fr); }
+.trading-card {
+  border-radius: 18px;
+  padding: 16px 14px 14px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 110px;
+}
+.trading-card.gold { background: var(--gold); color: var(--ink); }
+.trading-card.mint { background: var(--mint); color: var(--ink); }
+.trading-card.plum { background: var(--plum); color: white; }
+.trading-card.white { background: white; color: var(--ink); border: 1px solid rgba(11,27,46,.08); }
+.trading-card.cream { background: var(--bg-warm); color: var(--ink); border: 1px solid rgba(11,27,46,.04); }
+.trading-card.locked { background: var(--bg-warm); color: var(--ink-mute); opacity: .65; }
+.trading-card.featured { box-shadow: inset 0 0 0 3px var(--ink); }
+
+.trading-card-corner {
+  position: absolute;
+  top: 10px; right: 12px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  opacity: .8;
+}
+.trading-card-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: rgba(11,27,46,.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+.trading-card.plum .trading-card-icon { background: rgba(255,255,255,.18); color: white; }
+.trading-card-icon svg { width: 18px; height: 18px; }
+.trading-card-name {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -.012em;
+  line-height: 1.1;
+  margin-top: auto;
+}
+.trading-card-meta {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 2px;
+  opacity: .7;
+}
+.trading-card.featured .trading-card-meta { opacity: .9; font-weight: 700; }
+
+/* Player card style (screenshot 1) - taller portrait */
+.player-card {
+  border-radius: 16px;
+  aspect-ratio: 3/4;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12px;
+}
+.player-card.gold { background: var(--gold); color: var(--ink); }
+.player-card.plum { background: var(--plum); color: white; }
+.player-card.mint { background: var(--mint); color: var(--ink); }
+.player-card.white { background: white; color: var(--ink); border: 1px solid rgba(11,27,46,.06); }
+.player-card.empty { background: var(--bg-warm); color: var(--ink-faint); }
+.player-card-corner {
+  position: absolute;
+  top: 8px; right: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  opacity: .8;
+}
+.player-card.plum .player-card-corner { color: white; }
+.player-card-name {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  line-height: 1.15;
+}
+
+/* ===== Onboarding etc ===== */
+.flag-circle {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  border: 3px solid var(--ink);
+  overflow: hidden;
+  display: flex;
+  flex-shrink: 0;
+}
+.flag-circle .stripe { flex: 1; height: 100%; }
+
+.input-pill {
+  width: 100%;
+  padding: 18px 22px;
+  background: white;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  outline: none;
+  letter-spacing: -.012em;
+}
+
+/* ===== Wheel (huge style, no pointer) ===== */
+.wheel-stage {
+  position: relative;
+  width: 270px;
+  height: 270px;
+  margin: 24px auto 16px;
+}
+.wheel-pointer {
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 11px solid transparent;
+  border-right: 11px solid transparent;
+  border-top: 16px solid var(--gold);
+  z-index: 4;
+}
+.wheel-disc {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from -22.5deg,
+    var(--mint) 0% 12.5%,
+    var(--gold) 12.5% 25%,
+    var(--plum) 25% 37.5%,
+    var(--hot) 37.5% 50%,
+    var(--mint) 50% 62.5%,
+    var(--gold) 62.5% 75%,
+    var(--plum) 75% 87.5%,
+    var(--hot) 87.5% 100%
+  );
+  border: 6px solid var(--bg-base);
+  box-shadow: 0 0 0 4px var(--ink), 0 16px 40px rgba(0,0,0,.3);
+}
+.phone.bg-ink .wheel-disc { box-shadow: 0 0 0 4px var(--bg-base), 0 16px 40px rgba(0,0,0,.5); }
+.wheel-center {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 38%; height: 38%;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+}
+.wheel-center .num {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -.04em;
+  color: var(--ink);
+  line-height: .9;
+}
+.wheel-center .lbl {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ink-mute);
+  letter-spacing: .14em;
+  margin-top: 2px;
+}
+
+/* ===== Roast HERO — H1 plein écran, screenshot moment ===== */
+.roast-hero {
+  font-family: var(--display);
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1.0;
+  color: white;
+  margin: 8px 0 0;
+}
+.roast-hero em {
+  background: var(--mint);
+  color: var(--ink);
+  padding: 0 .12em;
+  border-radius: .12em;
+  font-style: normal;
+  display: inline-block;
+  line-height: 1.04;
+}
+.roast-hero .strike {
+  text-decoration: line-through;
+  text-decoration-thickness: 5px;
+  text-decoration-color: var(--mint);
+  color: rgba(255,255,255,.55);
+}
+
+/* Roast signature line — small mascot + "WIIIN · IA" */
+.roast-signature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+}
+.roast-signature .label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  color: rgba(255,255,255,.55);
+  text-transform: uppercase;
+}
+
+/* Quote-mark decorator */
+.roast-quote {
+  font-family: var(--display);
+  font-size: 80px;
+  font-weight: 800;
+  color: var(--mint);
+  line-height: .6;
+  letter-spacing: -.05em;
+  margin-bottom: -16px;
+  display: block;
+}
+
+/* Compact stat strip (ligne unique) */
+.stat-strip {
+  display: flex;
+  gap: 0;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.stat-strip > div {
+  flex: 1;
+  padding: 12px 16px;
+  border-right: 1px solid rgba(255,255,255,.08);
+}
+.stat-strip > div:last-child { border-right: 0; }
+.stat-strip .lbl {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: rgba(255,255,255,.5);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.stat-strip .val {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -.018em;
+}
+.stat-strip .val.miss { color: var(--hot); }
+.stat-strip .val.streak { color: rgba(255,255,255,.85); }
+
+/* ===== Roast bubble (legacy, toujours dispo) ===== */
+.roast-bubble {
+  background: var(--mint);
+  color: var(--ink);
+  padding: 22px 22px 22px;
+  border-radius: 22px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -.018em;
+  line-height: 1.2;
+  position: relative;
+  margin-bottom: 16px;
+}
+.roast-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 36px;
+  width: 0; height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 14px solid var(--mint);
+}
+
+/* Stat pill row (roaster) */
+.stat-pill-row {
+  background: rgba(255,255,255,.06);
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255,255,255,.08);
+}
+.stat-pill-row .lbl {
+  font-size: 14px;
+  color: rgba(255,255,255,.85);
+  font-weight: 600;
+}
+.stat-pill-row .val {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--mint);
+}
+
+/* ===== Tournois cards (screenshot 4) ===== */
+.tournoi-card {
+  background: var(--gold);
+  color: var(--ink);
+  border-radius: 22px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.tournoi-card.cream { background: var(--cream); }
+.tournoi-card.mint { background: var(--mint); }
+.tournoi-card.outline {
+  background: transparent;
+  border: 1.5px dashed rgba(11,27,46,.3);
+}
+.tournoi-card-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: rgba(11,27,46,.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.tournoi-card-info { flex: 1; min-width: 0; }
+.tournoi-card-info h4 {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.018em;
+  line-height: 1.15;
+  margin-bottom: 3px;
+}
+.tournoi-card-info .meta {
+  font-size: 13px;
+  color: rgba(11,27,46,.65);
+  font-weight: 500;
+}
+.tournoi-card .price {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.012em;
+}
+
+/* ===== Wiiin+ feature row ===== */
+.feature-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(11,27,46,.06);
+}
+.feature-row:last-child { border: 0; }
+.feature-row-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: var(--mint-pale);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(11,27,46,.08);
+}
+.feature-row-icon svg { width: 20px; height: 20px; }
+.feature-row-name {
+  flex: 1;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -.012em;
+}
+.feature-row-value {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--mint-deep);
+}
+
+/* ===== Shop pack (screenshot 2 droite) ===== */
+.shop-pack {
+  background: white;
+  border-radius: 20px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(11,27,46,.04);
+}
+.shop-pack.featured {
+  background: var(--mint);
+  border-color: transparent;
+}
+.shop-pack-coin {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c0c0c0 0%, #909090 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  border: 2px solid #707070;
+  position: relative;
+}
+.shop-pack-coin::after {
+  content: '🪙';
+  font-size: 14px;
+}
+.shop-pack-info { flex: 1; min-width: 0; }
+.shop-pack-info h4 {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.012em;
+}
+.shop-pack-info .desc {
+  font-size: 12px;
+  color: var(--ink-mute);
+  font-weight: 500;
+  margin-top: 2px;
+}
+.shop-pack.featured .shop-pack-info .desc { color: rgba(11,27,46,.7); }
+.shop-pack-price {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -.012em;
+  flex-shrink: 0;
+}
+
+/* ===== Solde card (Shop Coiiins) ===== */
+.solde-card {
+  background: var(--ink);
+  color: white;
+  border-radius: 22px;
+  padding: 22px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+.solde-card .label-mono {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,.6);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.solde-card .num-massive {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--mint);
+  letter-spacing: -.035em;
+  line-height: 1;
+}
+.solde-card .bonus-pill {
+  background: var(--gold);
+  color: var(--ink);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  max-width: 130px;
+  line-height: 1.15;
+}
+
+/* ===== Leaderboard rows (Casa Boys screenshot) ===== */
+.leaderboard-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(11,27,46,.04);
+}
+.leaderboard-row:last-child { border: 0; }
+.leaderboard-row-rank {
+  font-family: var(--display);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -.025em;
+  color: var(--ink);
+  width: 24px;
+}
+.leaderboard-row-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: white;
+  border: 1.5px solid rgba(11,27,46,.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  flex-shrink: 0;
+}
+.leaderboard-row-avatar.you {
+  background: var(--mint);
+  border-color: var(--mint-deep);
+  color: var(--ink);
+}
+.leaderboard-row-name {
+  flex: 1;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -.012em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.leaderboard-row-name .up {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--mint-deep);
+}
+.leaderboard-row-score {
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* ===== Casa Boys hero card ===== */
+.team-hero {
+  background: var(--mint);
+  color: var(--ink);
+  border-radius: 22px;
+  padding: 22px 22px 22px;
+  margin-bottom: 16px;
+}
+.team-hero h2 {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -.025em;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.team-hero .code-pill {
+  display: inline-block;
+  background: rgba(11,27,46,.16);
+  color: var(--ink);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .05em;
+}
+
+/* ===== Scrollable horizontal cards ===== */
+.h-scroll {
+  display: flex;
+  gap: 12px;
+  margin: 0 -22px;
+  padding: 0 22px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.h-scroll::-webkit-scrollbar { display: none; }
+
+/* ===== Notif preview ===== */
+.notif-preview {
+  background: rgba(60, 60, 60, .82);
+  backdrop-filter: blur(20px);
+  border-radius: 18px;
+  padding: 14px;
+  color: white;
+}
+.notif-preview-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.notif-preview .notif-icon {
+  width: 38px; height: 38px;
+  background: var(--mint);
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.notif-preview .notif-icon svg { width: 90%; height: 90%; }
+.notif-preview-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: rgba(255,255,255,.7);
+  margin-bottom: 3px;
+  font-weight: 600;
+}
+.notif-preview-meta .source { font-weight: 700; color: white; letter-spacing: .04em; }
+.notif-preview-title {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -.012em;
+  line-height: 1.2;
+  margin-bottom: 3px;
+}
+.notif-preview-body {
+  font-size: 13px;
+  color: rgba(255,255,255,.85);
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+/* ===== Match terminé screen ===== */
+.match-terminé-eyebrow {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 12px 4px 0;
+}
+.gigantic {
+  font-size: 110px;
+  font-weight: 800;
+  letter-spacing: -.06em;
+  line-height: .85;
+  color: var(--ink);
+}
+.gigantic-pts {
+  font-size: 60px;
+  font-weight: 800;
+  letter-spacing: -.05em;
+  line-height: .85;
+  color: var(--ink);
+  margin-top: -4px;
+}
+.coiiin-gagne {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 8px;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dark-info-card {
+  background: var(--ink);
+  color: white;
+  border-radius: 18px;
+  padding: 16px 20px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.dark-info-card .left {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+}
+.dark-info-card .left .label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(255,255,255,.6);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 2px;
+}
+.dark-info-card .right {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--mint);
+  text-align: right;
+}
+.dark-info-card .right .check { color: var(--mint); }
+
+/* ===== Vote pills (FRA / N / ARG) ===== */
+.vote-pills {
+  display: flex;
+  gap: 10px;
+}
+
+/* ===== Triche activator (bouton d'activation triche dans event detail) ===== */
+.triche-activator {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--mint-pale);
+  border: 1.5px dashed var(--mint-deep);
+  border-radius: 18px;
+  text-decoration: none;
+  color: var(--ink);
+  margin-bottom: 14px;
+  transition: background .15s;
+}
+.triche-activator:hover { background: var(--mint); border-color: var(--ink); }
+.triche-activator-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.triche-activator-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.triche-activator-info strong {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -.012em;
+}
+.triche-activator-info span {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-mute);
+}
+.triche-activator-arrow {
+  color: var(--mint-deep);
+  flex-shrink: 0;
+}
+.triche-activator-arrow svg { width: 16px; height: 16px; }
+.vote-pill {
+  flex: 1;
+  background: white;
+  color: var(--ink);
+  border: 2px solid transparent;
+  border-radius: 999px;
+  padding: 14px 0;
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: .02em;
+  text-align: center;
+  cursor: pointer;
+}
+.vote-pill.active {
+  background: var(--mint);
+}
+
+/* ===== Gain potentiel card ===== */
+.gain-card {
+  background: var(--ink);
+  color: white;
+  border-radius: 22px;
+  padding: 22px 24px;
+}
+.gain-card .lbl {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--mint);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.gain-card .val {
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1;
+  color: var(--mint);
+}
+.gain-card .sub {
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  margin-top: 6px;
+  font-weight: 500;
+  font-family: var(--mono);
+}
+.gain-card .sub svg, .phone-content p svg { width: 14px; height: 14px; vertical-align: middle; flex-shrink: 0; }
+
+/* ===== Modal ===== */
+.modal-bg {
+  background: rgba(11,27,46,.55);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin: 0 -22px;
+  padding: 0 22px;
+  flex: 1;
+  backdrop-filter: blur(4px);
+}
+.modal-sheet {
+  background: var(--bg-base);
+  margin: 0 -22px;
+  padding: 28px 22px 32px;
+  border-radius: 28px 28px 0 0;
+}
+
+/* ===== Lock screen ===== */
+.lock-screen {
+  background: linear-gradient(180deg, #1a3450 0%, #0a1828 100%);
+  flex: 1;
+  margin: 0 -22px;
+  padding: 50px 22px 22px;
+  color: white;
+}
+.lock-time {
+  text-align: center;
+  font-family: var(--display);
+  font-size: 76px;
+  font-weight: 200;
+  letter-spacing: -.05em;
+  color: white;
+  line-height: 1;
+}
+.lock-date {
+  text-align: center;
+  font-size: 16px;
+  color: rgba(255,255,255,.85);
+  font-weight: 500;
+  margin-top: 6px;
+  margin-bottom: 36px;
+}
+
+/* ===== Settings rows ===== */
+.settings-card {
+  background: white;
+  border-radius: 18px;
+  padding: 4px 18px;
+  border: 1px solid rgba(11,27,46,.04);
+  margin-bottom: 12px;
+}
+.settings-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(11,27,46,.06);
+}
+.settings-row:last-child { border: 0; }
+.settings-row .label {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -.012em;
+}
+.settings-row .value {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-mute);
+}
+.toggle {
+  width: 46px; height: 26px;
+  background: var(--mint);
+  border-radius: 999px;
+  position: relative;
+  flex-shrink: 0;
+  border: 2px solid var(--ink);
+}
+.toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px; right: 2px;
+  width: 18px; height: 18px;
+  background: var(--ink);
+  border-radius: 50%;
+}
+.toggle.off { background: rgba(11,27,46,.16); }
+.toggle.off::after { right: auto; left: 2px; background: white; }
+
+/* ===== Empty state ===== */
+.empty-hero {
+  background: var(--mint);
+  color: var(--ink);
+  border-radius: 28px;
+  padding: 40px 28px 32px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.empty-hero .title {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -.025em;
+  line-height: 1;
+  margin: 16px 0 10px;
+}
+.empty-hero p {
+  font-size: 14px;
+  color: rgba(11,27,46,.7);
+  font-weight: 500;
+  margin-bottom: 20px;
+  line-height: 1.45;
+}
+
+/* ===== UCL hero card (next match prochain match) ===== */
+.next-match-card {
+  background: var(--ink);
+  color: white;
+  border-radius: 18px;
+  padding: 16px 18px;
+  margin-top: 16px;
+}
+.next-match-card .head {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--mint);
+  font-weight: 700;
+  letter-spacing: .14em;
+  margin-bottom: 6px;
+}
+.next-match-card h4 {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -.012em;
+  margin-bottom: 4px;
+}
+.next-match-card .sub {
+  font-size: 12px;
+  color: rgba(255,255,255,.65);
+  font-weight: 500;
+}
+
+/* ===== Live banner (event live) ===== */
+.live-card {
+  background: var(--ink);
+  color: white;
+  border-radius: 28px;
+  padding: 22px 24px;
+}
+.live-card .live-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--mint);
+  letter-spacing: .14em;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.live-card .teams {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -.025em;
+  margin: 6px 0 4px;
+}
+.live-card .teams em {
+  color: var(--mint);
+  font-style: normal;
+  margin: 0 6px;
+}
+.live-card .pts {
+  font-size: 60px;
+  font-weight: 800;
+  color: var(--mint);
+  letter-spacing: -.05em;
+  line-height: 1;
+  margin-top: 16px;
+}
+
+
+/* ===== App prototype shell (overrides the lab gallery) ===== */
+body{background:#0b1b2e !important;padding:0 !important;min-height:100vh;}
+.lab-header,.lab-nav,.screens-grid{display:none !important;}
+.proto-top{position:sticky;top:0;z-index:20;background:rgba(11,27,46,.92);backdrop-filter:blur(12px);padding:10px 12px calc(8px + env(safe-area-inset-top));border-bottom:1px solid rgba(255,255,255,.08);}
+.proto-top .ttl{color:#fff;font-weight:800;font-size:14px;letter-spacing:-.02em;display:flex;align-items:center;gap:8px;}
+.proto-top .ttl .mono{font-family:var(--mono);font-size:10px;color:var(--mint);font-weight:700;background:rgba(104,215,159,.12);padding:2px 7px;border-radius:6px;}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:10px 0 2px;-webkit-overflow-scrolling:touch;}
+.chips::-webkit-scrollbar{display:none;}
+.chip{flex:0 0 auto;background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.08);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:600;font-family:var(--display);white-space:nowrap;cursor:pointer;}
+.chip.on{background:var(--mint);color:var(--ink);border-color:transparent;font-weight:700;}
+.stage{display:flex;flex-direction:column;align-items:center;padding:18px 12px 28px;gap:14px;}
+.appscreen{display:none;justify-content:center;}
+.navbtns{display:flex;gap:10px;align-items:center;}
+.navbtns button{background:var(--mint);color:var(--ink);border:none;border-radius:999px;width:46px;height:46px;font-size:20px;font-weight:800;cursor:pointer;}
+.navbtns .pos{color:rgba(255,255,255,.6);font-family:var(--mono);font-size:12px;min-width:54px;text-align:center;}
+</style>
+</head><body>
+<div class="proto-top">
+  <div class="ttl">🎾 Wiiin · App <span class="mono">PROTOTYPE ÉCRANS</span></div>
+  <div class="chips"><button class="chip on" data-go="0">1. Splash</button><button class="chip" data-go="1">2. Onboarding · 1/4 (Bienvenue)</button><button class="chip" data-go="2">3. Onboarding · 2/4 (Skill)</button><button class="chip" data-go="3">4. Onboarding · "Choisis ton blaze"</button><button class="chip" data-go="4">5. Sign In</button><button class="chip" data-go="5">6. Home (hub)</button><button class="chip" data-go="6">7. Event Detail (Pose ton prono)</button><button class="chip" data-go="7">8. Match terminé · WIN</button><button class="chip" data-go="8">9. Roaster · Match terminé (LOSS)</button><button class="chip" data-go="9">10. Boutique</button><button class="chip" data-go="10">11. Shop · Coiiins</button><button class="chip" data-go="11">12. Wiiin+</button><button class="chip" data-go="12">13. Mes triches</button><button class="chip" data-go="13">14. Tournois</button><button class="chip" data-go="14">15. Créer un tournoi · 1/3</button><button class="chip" data-go="15">16. Rejoindre par code</button><button class="chip" data-go="16">17. Casa Boys (leaderboard)</button><button class="chip" data-go="17">18. Mon deck</button><button class="chip" data-go="18">19. Roue de la fortune</button><button class="chip" data-go="19">20. Profil</button><button class="chip" data-go="20">21. Réglages</button><button class="chip" data-go="21">22. Push notification</button><button class="chip" data-go="22">23. Event LIVE</button><button class="chip" data-go="23">24. Modal · upsell Wiiin+</button><button class="chip" data-go="24">25. Empty state · Tournois</button></div>
+</div>
+<div class="stage">
+  <section class="appscreen" data-i="0" style="display:flex"><div class="phone bg-mint">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="phone-body" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px">
+  <div style="width:240px;margin:auto 0">
+    <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgNjMxLjY1IDI1NS4xMiI+CiAgPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDMwLjMuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDIuMS4zIEJ1aWxkIDE4MikgIC0tPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuc3QwIHsKICAgICAgICBmaWxsOiAjMGIxYjJlOwogICAgICB9CgogICAgICAuc3QxIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuc3QyIHsKICAgICAgICBmaWxsOiAjNjhkNzlmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cmVjdCBjbGFzcz0ic3QyIiB5PSIwIiB3aWR0aD0iNjMxLjY1IiBoZWlnaHQ9IjI1NS4xMiIvPgogIDxnPgogICAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTE1NS44NiwyMTMuODljLTI3LjQ2LDcuOTktNTcuMjYsMS45OS03OS40OC0xNS43My0xNC4zNC0xMS40NC0yNC4zMS0yNy4yOS0yNy4zNC00NS41Ni0zLjAzLTMuMTYtNS4yNS02LjY5LTYuNzgtMTAuODItNC42OC0xMy4zMS0uODgtMjcuMjgsOC42LTM3LjU1LDEuMTQtMTcuMTgsNy4zOS0zMy4yNSwxOC45Ny00Ni4xMiwxOS4xNS0yMS4yOCw0OC4wMy0zMC40LDc2LjExLTI1LjQ5LDQuNzguODQsOS4xOCwxLjk1LDEzLjc5LDMuMzYsMTcuNTYsNS4zOSwzNC44OSwzLjE1LDUxLjA0LTUuNC4zLS4xNiwxLjE0LS4xNSwxLjQ0LDAsMS4xNC41NC45MiwzLjQuNSw1LjUyLTEuNTMsNy43Ny00LjQ1LDEzLjQxLTkuMjMsMTkuODUsNy4zNi0uNDIsMTMuODUtMy4wMSwyMC4yMy02LjQ4LjQtLjIxLDEuMjctLjI2LDEuNTgtLjAzLjM3LjI4LjYsMS4wOC42OSwxLjY5LS40MiwzLjU0LTEuMzcsNi43My0yLjcyLDEwLjAzLTMuNzIsOS4xNS05Ljc0LDE3LjA0LTE4LDIyLjc1LDExLjQxLDIxLjIxLDE1LjIzLDQ0LjYzLDkuNDcsNjguMDgtMy42NSwxNC43OS0xMS4xMiwyOC41Ni0yMS42NiwzOS41OS0xMC4xNSwxMC42Mi0yMywxOC4xOS0zNy4yLDIyLjMyWk0xODEuOTMsNjQuNjhjLS42NS0uMTktMS4xNy0uNTItMS4zNC0xLjAyLS4xMy0uMzcuMTQtMS4xLjU0LTEuMzksMy41OS0yLjU1LDYuNzgtNS4zMyw5LjY2LTguNjMsMS4xMy0xLjQ1LDIuMTgtMi43NCwzLjA4LTQuNjgtMTQuNDksMy4wNi0yNi4yMiwxLjU4LTQwLjI2LTEuNDktNC42LTEuMDEtOC44OS0xLjg2LTEzLjYxLTIuMzktMTcuNDMtMS45NS0zNSwyLjE3LTQ5LjQ1LDEyLjE3LTkuMjYsNi40MS0xNi42LDE1LjE4LTIxLjUyLDI1LjI2LTEuNTMsMy4zOS0yLjg5LDYuNTQtMy42NCwxMC40LDI0LjI5LTE2LjkxLDU1LjQ5LTI1LjIxLDg0LjgyLTI0LjcxLDE0LjU5LjI1LDI4Ljc4LDIuOTQsNDIuMzgsOC41NCw1Ljg5LTIuMTIsMTEuMzQtNS42MywxNS4xNS0xMS01LjAyLjY3LTkuNTEsMS4yMy0xNC4yNS44Ni0zLjk3LS4zMS03LjY4LS43OS0xMS41OC0xLjkyWk0xNjkuNTIsMTAyLjE3YzEwLjYyLjQ0LDIwLjg5LDIuMDcsMzEuMDUsNC45MS4yLS4zNS4zNi0uOTYuMjktMS4yNC0xLjQ2LTUuNjEtMy40NC0xMC44My02LjMyLTE1LjgzLS4zOS0uNjctMS4xNC0xLjY4LTEuODgtMS45My00LjktMS43LTkuNjctMi44NS0xNC44MS0zLjgtMjguODItNS4zNS01OS4zNy0yLjI5LTg2LjM3LDkuMjctMTAuOTksNC43LTIzLjY0LDExLjg2LTMxLjczLDIwLjU2LTMuMjUsMy41LTUuNDIsNy42MS02LjI5LDEyLjMtLjY4LDMuMjktLjczLDYuNTMuMzYsOS45OSw1LjQ4LTguMzcsMTQuNTktMTQuMTIsMjMuNTQtMTguMjMsMjYuOTgtMTIuMzksNjIuNjEtMTcuMjEsOTIuMTYtMTZaTTE4NC42OSwxODEuMWMxNS4yNS0xNi42OCwyMC40MS0zOC43LDE1LjU4LTYwLjY3LS4zMi0xLjQ2LTEuMDctMi4zNy0yLjU0LTIuNzgtOS4wOS0yLjU2LTE4LjI2LTQuMzMtMjcuNzgtNS4xOC0xOC43NS0xLjY3LTM3LjU5LS43Mi01Ni4wOCwyLjc0LTkuMzUsMS43NS0xOC4zNSw0LjEyLTI3LjE3LDcuNTQtOC40NiwzLjI4LTE3LjQxLDcuNi0yMy43NCwxNC4wNy0uODQuODYtMS4wNSwyLjE4LTEuMDMsMy40NS4zOSwyNS4yMSwxNi44NSw0Ni45NywzOS42NCw1Ni45OCwyOC4xNSwxMi4zNyw2Mi4xMSw2Ljg1LDgzLjEyLTE2LjE0WiIvPgogICAgPHBhdGggY2xhc3M9InN0MSIgZD0iTTE4NC42OSwxODEuMWMtMjEuMDIsMjIuOTktNTQuOTcsMjguNTEtODMuMTIsMTYuMTQtMjIuNzktMTAuMDItMzkuMjQtMzEuNzgtMzkuNjQtNTYuOTgtLjAyLTEuMjcuMTktMi41OSwxLjAzLTMuNDUsNi4zMy02LjQ3LDE1LjI4LTEwLjc5LDIzLjc0LTE0LjA3LDguODItMy40MiwxNy44MS01Ljc5LDI3LjE3LTcuNTQsMTguNDktMy40NiwzNy4zMy00LjQxLDU2LjA4LTIuNzQsOS41Mi44NSwxOC42OSwyLjYyLDI3Ljc4LDUuMTgsMS40Ny40MSwyLjIyLDEuMzIsMi41NCwyLjc4LDQuODQsMjEuOTctLjMyLDQzLjk5LTE1LjU4LDYwLjY3Wk0xMDUuMzMsMTUzLjE3YzMuODEsMi41Nyw4LjM2LDEuMjMsMTAuNzMtMi41NSwyLjE1LTMuNDQsMi42NC03LjYyLDEuNzMtMTEuNjQtLjYzLTIuOC0xLjc3LTUuMzgtMy44NC03LjMtMy4wNC0yLjgyLTcuNDgtMi44LTEwLjM5LjEyLTUuNDksNS41My00LjU2LDE3LjEsMS43NywyMS4zN1pNMTc4Ljc3LDEzOS41NWMuNzgtLjEuNTItMS41My4zMy0yLjAxLTEuNzgtNC41OC01LjgxLTcuNTctMTAuODEtNy4zNS05LjExLjQtMTUuOTEsNy42OS0xOC41NiwxNi4yMS0uMTYuNTEuMDksMS40LjQ4LDEuNTYuMzIuMTQsMS4wNy4wNiwxLjQzLS4xNiw4LjI2LTUuMDksMTcuMjUtOS4zMSwyNy4xMi04LjI1Wk0xMDcuMTQsMTc0LjkzYzMuNTMsMi45LDcuMjksNC44OCwxMS41NCw2LjQzLDEzLjgyLDUuMDUsMjkuNDEsMy43Miw0Mi4xMi0zLjcyLDQuODktMi44Niw4Ljk0LTYuNjUsMTEuOTEtMTEuMzguOTYtMS41My45OS0zLjQ2LS4yOS00LjY4LTEuNzUtMS42Ny00LjE5LTEuMTctNS43NC41Ni00Ljk5LDUuNTgtMTEuMzIsOS40Ni0xOC41NiwxMS41OS0xMi43NCwzLjc1LTI2LjQyLDIuMzItMzguMzItMy40NS0xLjE0LS41NS0yLjU4LS4zOS0zLjM0LjUtMS4wOSwxLjI5LS42MywzLjA4LjY4LDQuMTVaIi8+CiAgICA8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMTY5LjUyLDEwMi4xN2MtMjkuNTQtMS4yMS02NS4xNywzLjYxLTkyLjE2LDE2LTguOTUsNC4xMS0xOC4wNiw5Ljg2LTIzLjU0LDE4LjIzLTEuMDktMy40Ni0xLjA0LTYuNy0uMzYtOS45OS44Ny00LjY5LDMuMDQtOC44LDYuMjktMTIuMyw4LjA5LTguNywyMC43NS0xNS44NSwzMS43My0yMC41NiwyNy0xMS41Niw1Ny41NS0xNC42Miw4Ni4zNy05LjI3LDUuMTMuOTUsOS45MSwyLjEsMTQuODEsMy44Ljc0LjI2LDEuNDksMS4yNiwxLjg4LDEuOTMsMi44OCw1LjAxLDQuODYsMTAuMjMsNi4zMiwxNS44My4wNy4yOC0uMDkuODktLjI5LDEuMjQtMTAuMTYtMi44NC0yMC40NC00LjQ4LTMxLjA1LTQuOTFaIi8+CiAgICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTgxLjkzLDY0LjY4YzMuOSwxLjEzLDcuNjEsMS42MSwxMS41OCwxLjkyLDQuNzUuMzcsOS4yMy0uMiwxNC4yNS0uODYtMy44MSw1LjM3LTkuMjYsOC44OC0xNS4xNSwxMS0xMy42LTUuNi0yNy43OS04LjI5LTQyLjM4LTguNTQtMjkuMzQtLjUtNjAuNTMsNy44LTg0LjgyLDI0LjcxLjc1LTMuODYsMi4xMS03LjAxLDMuNjQtMTAuNCw0LjkyLTEwLjA3LDEyLjI2LTE4Ljg1LDIxLjUyLTI1LjI2LDE0LjQ0LTEwLDMyLjAyLTE0LjEyLDQ5LjQ1LTEyLjE3LDQuNzIuNTMsOS4wMSwxLjM4LDEzLjYxLDIuMzksMTQuMDMsMy4wNywyNS43Nyw0LjU2LDQwLjI2LDEuNDktLjkxLDEuOTQtMS45NiwzLjIzLTMuMDgsNC42OC0yLjg4LDMuMy02LjA3LDYuMDgtOS42Niw4LjYzLS40LjI5LS42NywxLjAyLS41NCwxLjM5LjE3LjUuNjkuODIsMS4zNCwxLjAyWiIvPgogICAgPHBhdGggZD0iTTEwNy4xNCwxNzQuOTNjLTEuMzEtMS4wOC0xLjc3LTIuODYtLjY4LTQuMTUuNzYtLjg5LDIuMi0xLjA2LDMuMzQtLjUsMTEuOSw1Ljc3LDI1LjU4LDcuMiwzOC4zMiwzLjQ1LDcuMjQtMi4xMywxMy41Ny02LjAxLDE4LjU2LTExLjU5LDEuNTUtMS43MywzLjk4LTIuMjMsNS43NC0uNTYsMS4yOSwxLjIzLDEuMjUsMy4xNi4yOSw0LjY4LTIuOTcsNC43My03LjAyLDguNTItMTEuOTEsMTEuMzgtMTIuNzEsNy40NC0yOC4zLDguNzctNDIuMTIsMy43Mi00LjI1LTEuNTUtOC4wMS0zLjUzLTExLjU0LTYuNDNaIi8+CiAgICA8cGF0aCBkPSJNMTA1LjMzLDE1My4xN2MtNi4zNC00LjI3LTcuMjYtMTUuODQtMS43Ny0yMS4zNywyLjkxLTIuOTMsNy4zNS0yLjk0LDEwLjM5LS4xMiwyLjA3LDEuOTIsMy4yMSw0LjUxLDMuODQsNy4zLjkxLDQuMDIuNDIsOC4yLTEuNzMsMTEuNjQtMi4zNiwzLjc5LTYuOTEsNS4xMi0xMC43MywyLjU1WiIvPgogICAgPHBhdGggZD0iTTE3OC43NywxMzkuNTVjLTkuODctMS4wNi0xOC44NiwzLjE2LTI3LjEyLDguMjUtLjM3LjIzLTEuMTEuMy0xLjQzLjE2LS4zOS0uMTctLjY0LTEuMDUtLjQ4LTEuNTYsMi42NS04LjUyLDkuNDUtMTUuOCwxOC41Ni0xNi4yMSw1LS4yMiw5LjAzLDIuNzYsMTAuODEsNy4zNS4xOS40OS40NSwxLjkyLS4zMywyLjAxWiIvPgogIDwvZz4KICA8Zz4KICAgIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0zMDMuNjksMTc2LjI1bC0xOS43OS0xLjNjLjE2LTE4LjAxLS4wMi0zNi4wOCwxLjAzLTU0LjI3LTEuMDksMy45OS0xLjk2LDguMDgtMi44MiwxMi4xNC0uODQsMy42Ni0xLjc4LDcuMTctMi43MiwxMC43OWwtOC4xOCwzMC41MS0xNy4wOS0xLjEyLTIuNDMtODAuMDgsMTcuMi0yLjYxYy0uMTgsMTAuMTItLjQ2LDIwLjM1LS43NCwzMC40Mi0uMDEsMi4zOC0uMDIsNC43Ny0uMTQsNy4xNS0uMjQsNS4wMi0uNTgsOS45LS45MiwxNC45LDMuOTMtMTcuODQsOS4yMS0zNS44NiwxNC41NS01NC40MWwxNy40Mi0yLjY0YzAsMTMuMDYuMTQsMjUuOTUtLjMzLDM5LS4yMiw2LjIzLS42OCwxMi40NS0xLjAxLDE4LjY2LDIuMi05LjkxLDQuNTUtMTkuOTUsNy41NC0zMC4wNGw4LjkyLTI5LjkxLDIzLjQ0LTMuNTYtMzMuOTIsOTYuMzhaIi8+CiAgICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMzc1LjUxLDE4MC45N2wtMjcuODEtMS44MiwxOS41OS0xMDMuNzcsMzAuNTItNC42My0yMi4zLDExMC4yM1oiLz4KICAgIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik00MTIuOTcsMTgzLjQybC0zMi4wOC0yLjEsMjIuODUtMTExLjQ5LDM1LjQ3LTUuMzgtMjYuMjQsMTE4Ljk4WiIvPgogICAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTUyOS4yMywxOTEuMDVsLTQ1LjEyLTIuOTYtMTQuMzEtNzQuMDMtMTQuOTcsNzIuMTEtMzUuNi0yLjM0LDI2LjkzLTEyMC40NCwzOS43MS02LjAzLDE2Ljg2LDc4LjczLDE2LjA0LTgzLjczLDUxLjA5LTcuNzYtNDAuNjEsMTQ2LjQzWiIvPgogIDwvZz4KICA8cG9seWdvbiBjbGFzcz0ic3QwIiBwb2ludHM9IjM0My43OCA3OC45NCAzMjcuOTkgMTIzLjgyIDMxOC42NSAxNzcuMjQgMzQzIDE3OC44MyAzNjIuMTUgNzYuMTUgMzQzLjc4IDc4Ljk0Ii8+Cjwvc3ZnPg==" alt="WIIIN" style="width:100%;display:block">
+  </div>
+  <p style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--ink);letter-spacing:.18em;text-transform:uppercase;text-align:center;margin-bottom:8px">CHARGEMENT ...</p>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="1"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="phone-body" style="display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:40px">
+  <div class="mascot-circle xl" style="margin-bottom:36px"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMjU1LjEyIDI1NS4xMiI+CiAgPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDMwLjMuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDIuMS4zIEJ1aWxkIDE4MikgIC0tPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuc3QwIHsKICAgICAgICBmaWxsOiAjMGIxYjJlOwogICAgICB9CgogICAgICAuc3QxIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuc3QyIHsKICAgICAgICBmaWxsOiAjNjhkNzlmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTYxLjEsMjM0LjY0Yy0zMy43OSw5Ljg0LTcwLjQ3LDIuNDUtOTcuODEtMTkuMzYtMTcuNjUtMTQuMDgtMjkuOTItMzMuNTgtMzMuNjUtNTYuMDYtMy43My0zLjg5LTYuNDctOC4yNC04LjM1LTEzLjMyLTUuNzYtMTYuMzgtMS4wOC0zMy41OCwxMC41OC00Ni4yMSwxLjQtMjEuMTQsOS4xLTQwLjkyLDIzLjM1LTU2Ljc2LDIzLjU2LTI2LjE5LDU5LjEtMzcuNDEsOTMuNjYtMzEuMzYsNS44OCwxLjAzLDExLjI5LDIuMzksMTYuOTcsNC4xNCwyMS42MSw2LjYzLDQyLjk0LDMuODgsNjIuODEtNi42NC4zNy0uMiwxLjQtLjE4LDEuNzcsMCwxLjQuNjYsMS4xMyw0LjE5LjYyLDYuNzktMS44OCw5LjU2LTUuNDcsMTYuNS0xMS4zNiwyNC40Miw5LjA2LS41MiwxNy4wNC0zLjcxLDI0LjktNy45Ny40OS0uMjYsMS41Ni0uMzIsMS45NC0uMDQuNDYuMzQuNzQsMS4zMy44NSwyLjA4LS41Miw0LjM2LTEuNjksOC4yOC0zLjM0LDEyLjM1LTQuNTcsMTEuMjYtMTEuOTgsMjAuOTYtMjIuMTUsMjgsMTQuMDQsMjYuMSwxOC43NSw1NC45MiwxMS42NSw4My43OC00LjQ5LDE4LjIxLTEzLjY4LDM1LjE0LTI2LjY1LDQ4LjcyLTEyLjQ5LDEzLjA3LTI4LjMsMjIuMzgtNDUuNzgsMjcuNDd2LS4wM1pNMTkzLjE5LDUxLjAyYy0uOC0uMjQtMS40NC0uNjQtMS42NS0xLjI1LS4xNS0uNDUuMTctMS4zNi42Ny0xLjcxLDQuNDItMy4xNCw4LjM0LTYuNTYsMTEuODktMTAuNjIsMS4zOS0xLjc5LDIuNjgtMy4zOCwzLjgtNS43Ni0xNy44MywzLjc3LTMyLjI3LDEuOTQtNDkuNTQtMS44NC01LjY2LTEuMjQtMTAuOTQtMi4yOS0xNi43NC0yLjk0LTIxLjQ0LTIuNC00My4wOCwyLjY3LTYwLjg1LDE0Ljk4LTExLjM5LDcuODktMjAuNDMsMTguNjktMjYuNDksMzEuMDgtMS44OCw0LjE4LTMuNTUsOC4wNS00LjQ4LDEyLjgsMjkuODktMjAuODEsNjguMjgtMzEuMDMsMTA0LjM5LTMwLjQxLDE3Ljk2LjMxLDM1LjQyLDMuNjIsNTIuMTUsMTAuNTEsNy4yNS0yLjYxLDEzLjk2LTYuOTMsMTguNjQtMTMuNTQtNi4xOC44Mi0xMS43LDEuNTEtMTcuNTQsMS4wNi00Ljg4LS4zOC05LjQ1LS45Ny0xNC4yNS0yLjM3aDBaTTE3Ny45Miw5Ny4xNWMxMy4wNi41NCwyNS43MSwyLjU1LDM4LjIxLDYuMDQuMjQtLjQzLjQ1LTEuMTguMzYtMS41Mi0xLjc5LTYuOS00LjIzLTEzLjMyLTcuNzgtMTkuNDgtLjQ3LS44Mi0xLjQtMi4wNi0yLjMxLTIuMzgtNi4wMy0yLjA5LTExLjktMy41LTE4LjIyLTQuNjgtMzUuNDctNi41OC03My4wNi0yLjgyLTEwNi4yOSwxMS40MS0xMy41Miw1Ljc5LTI5LjEsMTQuNTktMzkuMDUsMjUuMy00LDQuMy02LjY3LDkuMzctNy43NCwxNS4xNC0uODQsNC4wNS0uOSw4LjA0LjQ1LDEyLjMsNi43NS0xMC4zLDE3Ljk1LTE3LjM3LDI4Ljk3LTIyLjQzLDMzLjIxLTE1LjI0LDc3LjA1LTIxLjE4LDExMy40MS0xOS42OWgtLjAxWk0xOTYuNTksMTk0LjI4YzE4Ljc3LTIwLjUzLDI1LjEyLTQ3LjYzLDE5LjE3LTc0LjY3LS40LTEuOC0xLjMxLTIuOTEtMy4xMy0zLjQyLTExLjE5LTMuMTUtMjIuNDctNS4zMy0zNC4xOS02LjM3LTIzLjA4LTIuMDUtNDYuMjYtLjg4LTY5LjAxLDMuMzctMTEuNTEsMi4xNS0yMi41OCw1LjA3LTMzLjQzLDkuMjctMTAuNDEsNC4wMy0yMS40Miw5LjM1LTI5LjIxLDE3LjMxLTEuMDMsMS4wNS0xLjI5LDIuNjgtMS4yNyw0LjI0LjQ5LDMxLjAyLDIwLjc0LDU3LjgsNDguNzgsNzAuMTMsMzQuNjQsMTUuMjIsNzYuNDMsOC40MiwxMDIuMjktMTkuODZoMFoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTk2LjU5LDE5NC4yOGMtMjUuODYsMjguMjktNjcuNjUsMzUuMDktMTAyLjI5LDE5Ljg2LTI4LjA1LTEyLjMyLTQ4LjMtMzkuMS00OC43OC03MC4xMy0uMDItMS41Ni4yNC0zLjE5LDEuMjctNC4yNCw3Ljc5LTcuOTYsMTguOC0xMy4yOCwyOS4yMS0xNy4zMSwxMC44NS00LjIsMjEuOTItNy4xMiwzMy40My05LjI3LDIyLjc1LTQuMjUsNDUuOTQtNS40Miw2OS4wMS0zLjM3LDExLjcyLDEuMDQsMjMsMy4yMywzNC4xOSw2LjM3LDEuODEuNTEsMi43MywxLjYyLDMuMTMsMy40Miw1Ljk1LDI3LjA0LS40LDU0LjE0LTE5LjE3LDc0LjY3aDBaTTk4LjkyLDE1OS45MWM0LjY5LDMuMTYsMTAuMjksMS41MiwxMy4yLTMuMTQsMi42NC00LjIzLDMuMjUtOS4zOCwyLjEzLTE0LjMzLS43OC0zLjQ0LTIuMTgtNi42Mi00LjczLTguOTktMy43NC0zLjQ3LTkuMjEtMy40NS0xMi43OS4xNS02Ljc2LDYuODEtNS42MiwyMS4wNCwyLjE4LDI2LjNoLjAxWk0xODkuMywxNDMuMTZjLjk2LS4xMi42NC0xLjg4LjQxLTIuNDgtMi4xOS01LjY0LTcuMTQtOS4zMi0xMy4zLTkuMDQtMTEuMjEuNS0xOS41OCw5LjQ2LTIyLjg0LDE5Ljk1LS4yLjYzLjExLDEuNzIuNTksMS45My40LjE3LDEuMzEuMDgsMS43Ni0uMiwxMC4xNy02LjI3LDIxLjIzLTExLjQ2LDMzLjM4LTEwLjE1aDBaTTEwMS4xNSwxODYuNjljNC4zNCwzLjU3LDguOTcsNiwxNC4yLDcuOTEsMTcuMDEsNi4yMiwzNi4xOSw0LjU4LDUxLjgzLTQuNTcsNi4wMi0zLjUyLDExLTguMTksMTQuNjYtMTQuMDEsMS4xOC0xLjg4LDEuMjItNC4yNi0uMzYtNS43Ni0yLjE2LTIuMDUtNS4xNi0xLjQ0LTcuMDYuNjktNi4xNCw2Ljg2LTEzLjkzLDExLjY0LTIyLjg0LDE0LjI2LTE1LjY4LDQuNjEtMzIuNTIsMi44Ni00Ny4xNi00LjI1LTEuNC0uNjgtMy4xOC0uNDgtNC4xMS42Mi0xLjM0LDEuNTktLjc4LDMuNzkuODQsNS4xMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMTc3LjkyLDk3LjE1Yy0zNi4zNi0xLjQ5LTgwLjIsNC40NC0xMTMuNDEsMTkuNjktMTEuMDIsNS4wNi0yMi4yMiwxMi4xMy0yOC45NywyMi40My0xLjM0LTQuMjYtMS4yOS04LjI1LS40NS0xMi4zLDEuMDctNS43NywzLjc0LTEwLjgzLDcuNzQtMTUuMTQsOS45Ni0xMC43MSwyNS41My0xOS41MSwzOS4wNS0yNS4zLDMzLjIzLTE0LjIzLDcwLjgyLTE3Ljk5LDEwNi4yOS0xMS40MSw2LjMyLDEuMTcsMTIuMTksMi41OCwxOC4yMiw0LjY4LjkxLjMyLDEuODQsMS41NSwyLjMxLDIuMzgsMy41NSw2LjE2LDUuOTgsMTIuNTksNy43OCwxOS40OC4wOS4zNC0uMTIsMS4wOS0uMzYsMS41Mi0xMi41LTMuNDktMjUuMTUtNS41MS0zOC4yMS02LjA0aC4wMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTkzLjE5LDUxLjAyYzQuOCwxLjM5LDkuMzcsMS45OSwxNC4yNSwyLjM3LDUuODQuNDUsMTEuMzYtLjI0LDE3LjU0LTEuMDYtNC42OCw2LjYxLTExLjM5LDEwLjkzLTE4LjY0LDEzLjU0LTE2LjczLTYuODktMzQuMi0xMC4yLTUyLjE1LTEwLjUxLTM2LjEtLjYyLTc0LjUsOS42LTEwNC4zOSwzMC40MS45Mi00Ljc1LDIuNTktOC42Miw0LjQ4LTEyLjgsNi4wNi0xMi40LDE1LjA5LTIzLjE5LDI2LjQ5LTMxLjA4LDE3Ljc3LTEyLjMxLDM5LjQtMTcuMzgsNjAuODUtMTQuOTgsNS44LjY1LDExLjA5LDEuNywxNi43NCwyLjk0LDE3LjI3LDMuNzcsMzEuNzEsNS42MSw0OS41NCwxLjg0LTEuMTIsMi4zOS0yLjQxLDMuOTctMy44LDUuNzYtMy41NSw0LjA2LTcuNDcsNy40OC0xMS44OSwxMC42Mi0uNS4zNS0uODIsMS4yNi0uNjcsMS43MS4yMS42MS44NSwxLjAxLDEuNjUsMS4yNWgwWiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xMDEuMTUsMTg2LjY5Yy0xLjYxLTEuMzMtMi4xOC0zLjUyLS44NC01LjExLjkzLTEuMSwyLjctMS4zLDQuMTEtLjYyLDE0LjY0LDcuMSwzMS40Nyw4Ljg2LDQ3LjE2LDQuMjUsOC45MS0yLjYyLDE2LjctNy40LDIyLjg0LTE0LjI2LDEuOS0yLjEzLDQuOS0yLjc0LDcuMDYtLjY5LDEuNTgsMS41MSwxLjU0LDMuODguMzYsNS43Ni0zLjY1LDUuODItOC42NCwxMC40OS0xNC42NiwxNC4wMS0xNS42NCw5LjE1LTM0LjgyLDEwLjc5LTUxLjgzLDQuNTctNS4yMy0xLjkxLTkuODYtNC4zNS0xNC4yLTcuOTFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTk4LjkyLDE1OS45MWMtNy44LTUuMjYtOC45NC0xOS40OS0yLjE4LTI2LjMsMy41OC0zLjYsOS4wNC0zLjYyLDEyLjc5LS4xNSwyLjU1LDIuMzYsMy45NSw1LjU1LDQuNzMsOC45OSwxLjEyLDQuOTUuNTEsMTAuMS0yLjEzLDE0LjMzLTIuOTEsNC42Ni04LjUxLDYuMzEtMTMuMiwzLjE0aC0uMDFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTE4OS4zLDE0My4xNmMtMTIuMTUtMS4zMS0yMy4yMSwzLjg5LTMzLjM4LDEwLjE1LS40NS4yOC0xLjM3LjM3LTEuNzYuMi0uNDgtLjIxLS43OC0xLjMtLjU5LTEuOTMsMy4yNi0xMC40OSwxMS42My0xOS40NSwyMi44NC0xOS45NSw2LjE2LS4yNywxMS4xMSwzLjQsMTMuMyw5LjA0LjIzLjYuNTUsMi4zNi0uNDEsMi40OGgwWiIvPgo8L3N2Zz4=" alt="Wiiin" style="width:100%;height:100%;object-fit:contain"></div>
+  <h2 class="display-xl" style="margin-bottom:16px">Bienvenue<br>sur Wiiin.</h2>
+  <p style="font-size:16px;color:var(--ink-soft);font-weight:500;line-height:1.5;max-width:300px;margin-bottom:32px">Le jeu de pronostic sportif. Pas de pari, pas d'argent réel. Du skill et des Coiiins à gagner.</p>
+  <div style="display:flex;gap:8px;justify-content:center;margin-bottom:auto">
+    <span style="width:24px;height:6px;background:var(--ink);border-radius:3px"></span>
+    <span style="width:6px;height:6px;background:rgba(11,27,46,.18);border-radius:3px"></span>
+    <span style="width:6px;height:6px;background:rgba(11,27,46,.18);border-radius:3px"></span>
+    <span style="width:6px;height:6px;background:rgba(11,27,46,.18);border-radius:3px"></span>
+  </div>
+</div>
+<div class="sticky-cta">
+  <a href="#onboard2" class="btn btn-mint btn-cap">Suivant</a>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="2"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="phone-body" style="display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:40px">
+  <div class="mascot-circle xl" style="margin-bottom:36px;background:var(--gold)"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMjU1LjEyIDI1NS4xMiI+CiAgPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDMwLjMuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDIuMS4zIEJ1aWxkIDE4MikgIC0tPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuc3QwIHsKICAgICAgICBmaWxsOiAjMGIxYjJlOwogICAgICB9CgogICAgICAuc3QxIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuc3QyIHsKICAgICAgICBmaWxsOiAjNjhkNzlmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTYxLjEsMjM0LjY0Yy0zMy43OSw5Ljg0LTcwLjQ3LDIuNDUtOTcuODEtMTkuMzYtMTcuNjUtMTQuMDgtMjkuOTItMzMuNTgtMzMuNjUtNTYuMDYtMy43My0zLjg5LTYuNDctOC4yNC04LjM1LTEzLjMyLTUuNzYtMTYuMzgtMS4wOC0zMy41OCwxMC41OC00Ni4yMSwxLjQtMjEuMTQsOS4xLTQwLjkyLDIzLjM1LTU2Ljc2LDIzLjU2LTI2LjE5LDU5LjEtMzcuNDEsOTMuNjYtMzEuMzYsNS44OCwxLjAzLDExLjI5LDIuMzksMTYuOTcsNC4xNCwyMS42MSw2LjYzLDQyLjk0LDMuODgsNjIuODEtNi42NC4zNy0uMiwxLjQtLjE4LDEuNzcsMCwxLjQuNjYsMS4xMyw0LjE5LjYyLDYuNzktMS44OCw5LjU2LTUuNDcsMTYuNS0xMS4zNiwyNC40Miw5LjA2LS41MiwxNy4wNC0zLjcxLDI0LjktNy45Ny40OS0uMjYsMS41Ni0uMzIsMS45NC0uMDQuNDYuMzQuNzQsMS4zMy44NSwyLjA4LS41Miw0LjM2LTEuNjksOC4yOC0zLjM0LDEyLjM1LTQuNTcsMTEuMjYtMTEuOTgsMjAuOTYtMjIuMTUsMjgsMTQuMDQsMjYuMSwxOC43NSw1NC45MiwxMS42NSw4My43OC00LjQ5LDE4LjIxLTEzLjY4LDM1LjE0LTI2LjY1LDQ4LjcyLTEyLjQ5LDEzLjA3LTI4LjMsMjIuMzgtNDUuNzgsMjcuNDd2LS4wM1pNMTkzLjE5LDUxLjAyYy0uOC0uMjQtMS40NC0uNjQtMS42NS0xLjI1LS4xNS0uNDUuMTctMS4zNi42Ny0xLjcxLDQuNDItMy4xNCw4LjM0LTYuNTYsMTEuODktMTAuNjIsMS4zOS0xLjc5LDIuNjgtMy4zOCwzLjgtNS43Ni0xNy44MywzLjc3LTMyLjI3LDEuOTQtNDkuNTQtMS44NC01LjY2LTEuMjQtMTAuOTQtMi4yOS0xNi43NC0yLjk0LTIxLjQ0LTIuNC00My4wOCwyLjY3LTYwLjg1LDE0Ljk4LTExLjM5LDcuODktMjAuNDMsMTguNjktMjYuNDksMzEuMDgtMS44OCw0LjE4LTMuNTUsOC4wNS00LjQ4LDEyLjgsMjkuODktMjAuODEsNjguMjgtMzEuMDMsMTA0LjM5LTMwLjQxLDE3Ljk2LjMxLDM1LjQyLDMuNjIsNTIuMTUsMTAuNTEsNy4yNS0yLjYxLDEzLjk2LTYuOTMsMTguNjQtMTMuNTQtNi4xOC44Mi0xMS43LDEuNTEtMTcuNTQsMS4wNi00Ljg4LS4zOC05LjQ1LS45Ny0xNC4yNS0yLjM3aDBaTTE3Ny45Miw5Ny4xNWMxMy4wNi41NCwyNS43MSwyLjU1LDM4LjIxLDYuMDQuMjQtLjQzLjQ1LTEuMTguMzYtMS41Mi0xLjc5LTYuOS00LjIzLTEzLjMyLTcuNzgtMTkuNDgtLjQ3LS44Mi0xLjQtMi4wNi0yLjMxLTIuMzgtNi4wMy0yLjA5LTExLjktMy41LTE4LjIyLTQuNjgtMzUuNDctNi41OC03My4wNi0yLjgyLTEwNi4yOSwxMS40MS0xMy41Miw1Ljc5LTI5LjEsMTQuNTktMzkuMDUsMjUuMy00LDQuMy02LjY3LDkuMzctNy43NCwxNS4xNC0uODQsNC4wNS0uOSw4LjA0LjQ1LDEyLjMsNi43NS0xMC4zLDE3Ljk1LTE3LjM3LDI4Ljk3LTIyLjQzLDMzLjIxLTE1LjI0LDc3LjA1LTIxLjE4LDExMy40MS0xOS42OWgtLjAxWk0xOTYuNTksMTk0LjI4YzE4Ljc3LTIwLjUzLDI1LjEyLTQ3LjYzLDE5LjE3LTc0LjY3LS40LTEuOC0xLjMxLTIuOTEtMy4xMy0zLjQyLTExLjE5LTMuMTUtMjIuNDctNS4zMy0zNC4xOS02LjM3LTIzLjA4LTIuMDUtNDYuMjYtLjg4LTY5LjAxLDMuMzctMTEuNTEsMi4xNS0yMi41OCw1LjA3LTMzLjQzLDkuMjctMTAuNDEsNC4wMy0yMS40Miw5LjM1LTI5LjIxLDE3LjMxLTEuMDMsMS4wNS0xLjI5LDIuNjgtMS4yNyw0LjI0LjQ5LDMxLjAyLDIwLjc0LDU3LjgsNDguNzgsNzAuMTMsMzQuNjQsMTUuMjIsNzYuNDMsOC40MiwxMDIuMjktMTkuODZoMFoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTk2LjU5LDE5NC4yOGMtMjUuODYsMjguMjktNjcuNjUsMzUuMDktMTAyLjI5LDE5Ljg2LTI4LjA1LTEyLjMyLTQ4LjMtMzkuMS00OC43OC03MC4xMy0uMDItMS41Ni4yNC0zLjE5LDEuMjctNC4yNCw3Ljc5LTcuOTYsMTguOC0xMy4yOCwyOS4yMS0xNy4zMSwxMC44NS00LjIsMjEuOTItNy4xMiwzMy40My05LjI3LDIyLjc1LTQuMjUsNDUuOTQtNS40Miw2OS4wMS0zLjM3LDExLjcyLDEuMDQsMjMsMy4yMywzNC4xOSw2LjM3LDEuODEuNTEsMi43MywxLjYyLDMuMTMsMy40Miw1Ljk1LDI3LjA0LS40LDU0LjE0LTE5LjE3LDc0LjY3aDBaTTk4LjkyLDE1OS45MWM0LjY5LDMuMTYsMTAuMjksMS41MiwxMy4yLTMuMTQsMi42NC00LjIzLDMuMjUtOS4zOCwyLjEzLTE0LjMzLS43OC0zLjQ0LTIuMTgtNi42Mi00LjczLTguOTktMy43NC0zLjQ3LTkuMjEtMy40NS0xMi43OS4xNS02Ljc2LDYuODEtNS42MiwyMS4wNCwyLjE4LDI2LjNoLjAxWk0xODkuMywxNDMuMTZjLjk2LS4xMi42NC0xLjg4LjQxLTIuNDgtMi4xOS01LjY0LTcuMTQtOS4zMi0xMy4zLTkuMDQtMTEuMjEuNS0xOS41OCw5LjQ2LTIyLjg0LDE5Ljk1LS4yLjYzLjExLDEuNzIuNTksMS45My40LjE3LDEuMzEuMDgsMS43Ni0uMiwxMC4xNy02LjI3LDIxLjIzLTExLjQ2LDMzLjM4LTEwLjE1aDBaTTEwMS4xNSwxODYuNjljNC4zNCwzLjU3LDguOTcsNiwxNC4yLDcuOTEsMTcuMDEsNi4yMiwzNi4xOSw0LjU4LDUxLjgzLTQuNTcsNi4wMi0zLjUyLDExLTguMTksMTQuNjYtMTQuMDEsMS4xOC0xLjg4LDEuMjItNC4yNi0uMzYtNS43Ni0yLjE2LTIuMDUtNS4xNi0xLjQ0LTcuMDYuNjktNi4xNCw2Ljg2LTEzLjkzLDExLjY0LTIyLjg0LDE0LjI2LTE1LjY4LDQuNjEtMzIuNTIsMi44Ni00Ny4xNi00LjI1LTEuNC0uNjgtMy4xOC0uNDgtNC4xMS42Mi0xLjM0LDEuNTktLjc4LDMuNzkuODQsNS4xMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMTc3LjkyLDk3LjE1Yy0zNi4zNi0xLjQ5LTgwLjIsNC40NC0xMTMuNDEsMTkuNjktMTEuMDIsNS4wNi0yMi4yMiwxMi4xMy0yOC45NywyMi40My0xLjM0LTQuMjYtMS4yOS04LjI1LS40NS0xMi4zLDEuMDctNS43NywzLjc0LTEwLjgzLDcuNzQtMTUuMTQsOS45Ni0xMC43MSwyNS41My0xOS41MSwzOS4wNS0yNS4zLDMzLjIzLTE0LjIzLDcwLjgyLTE3Ljk5LDEwNi4yOS0xMS40MSw2LjMyLDEuMTcsMTIuMTksMi41OCwxOC4yMiw0LjY4LjkxLjMyLDEuODQsMS41NSwyLjMxLDIuMzgsMy41NSw2LjE2LDUuOTgsMTIuNTksNy43OCwxOS40OC4wOS4zNC0uMTIsMS4wOS0uMzYsMS41Mi0xMi41LTMuNDktMjUuMTUtNS41MS0zOC4yMS02LjA0aC4wMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTkzLjE5LDUxLjAyYzQuOCwxLjM5LDkuMzcsMS45OSwxNC4yNSwyLjM3LDUuODQuNDUsMTEuMzYtLjI0LDE3LjU0LTEuMDYtNC42OCw2LjYxLTExLjM5LDEwLjkzLTE4LjY0LDEzLjU0LTE2LjczLTYuODktMzQuMi0xMC4yLTUyLjE1LTEwLjUxLTM2LjEtLjYyLTc0LjUsOS42LTEwNC4zOSwzMC40MS45Mi00Ljc1LDIuNTktOC42Miw0LjQ4LTEyLjgsNi4wNi0xMi40LDE1LjA5LTIzLjE5LDI2LjQ5LTMxLjA4LDE3Ljc3LTEyLjMxLDM5LjQtMTcuMzgsNjAuODUtMTQuOTgsNS44LjY1LDExLjA5LDEuNywxNi43NCwyLjk0LDE3LjI3LDMuNzcsMzEuNzEsNS42MSw0OS41NCwxLjg0LTEuMTIsMi4zOS0yLjQxLDMuOTctMy44LDUuNzYtMy41NSw0LjA2LTcuNDcsNy40OC0xMS44OSwxMC42Mi0uNS4zNS0uODIsMS4yNi0uNjcsMS43MS4yMS42MS44NSwxLjAxLDEuNjUsMS4yNWgwWiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xMDEuMTUsMTg2LjY5Yy0xLjYxLTEuMzMtMi4xOC0zLjUyLS44NC01LjExLjkzLTEuMSwyLjctMS4zLDQuMTEtLjYyLDE0LjY0LDcuMSwzMS40Nyw4Ljg2LDQ3LjE2LDQuMjUsOC45MS0yLjYyLDE2LjctNy40LDIyLjg0LTE0LjI2LDEuOS0yLjEzLDQuOS0yLjc0LDcuMDYtLjY5LDEuNTgsMS41MSwxLjU0LDMuODguMzYsNS43Ni0zLjY1LDUuODItOC42NCwxMC40OS0xNC42NiwxNC4wMS0xNS42NCw5LjE1LTM0LjgyLDEwLjc5LTUxLjgzLDQuNTctNS4yMy0xLjkxLTkuODYtNC4zNS0xNC4yLTcuOTFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTk4LjkyLDE1OS45MWMtNy44LTUuMjYtOC45NC0xOS40OS0yLjE4LTI2LjMsMy41OC0zLjYsOS4wNC0zLjYyLDEyLjc5LS4xNSwyLjU1LDIuMzYsMy45NSw1LjU1LDQuNzMsOC45OSwxLjEyLDQuOTUuNTEsMTAuMS0yLjEzLDE0LjMzLTIuOTEsNC42Ni04LjUxLDYuMzEtMTMuMiwzLjE0aC0uMDFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTE4OS4zLDE0My4xNmMtMTIuMTUtMS4zMS0yMy4yMSwzLjg5LTMzLjM4LDEwLjE1LS40NS4yOC0xLjM3LjM3LTEuNzYuMi0uNDgtLjIxLS43OC0xLjMtLjU5LTEuOTMsMy4yNi0xMC40OSwxMS42My0xOS40NSwyMi44NC0xOS45NSw2LjE2LS4yNywxMS4xMSwzLjQsMTMuMyw5LjA0LjIzLjYuNTUsMi4zNi0uNDEsMi40OGgwWiIvPgo8L3N2Zz4=" alt="Wiiin" style="width:100%;height:100%;object-fit:contain"></div>
+  <h2 class="display-xl" style="margin-bottom:16px">Pronostique.<br>Pas de mise.</h2>
+  <p style="font-size:16px;color:var(--ink-soft);font-weight:500;line-height:1.5;max-width:300px;margin-bottom:32px">Plus le pronostic est risqué, plus tu marques de points. Skill > paiement, c'est tout.</p>
+  <div style="display:flex;gap:8px;justify-content:center;margin-bottom:auto">
+    <span style="width:6px;height:6px;background:rgba(11,27,46,.18);border-radius:3px"></span>
+    <span style="width:24px;height:6px;background:var(--ink);border-radius:3px"></span>
+    <span style="width:6px;height:6px;background:rgba(11,27,46,.18);border-radius:3px"></span>
+    <span style="width:6px;height:6px;background:rgba(11,27,46,.18);border-radius:3px"></span>
+  </div>
+</div>
+<div class="sticky-cta">
+  <a href="#onboard3" class="btn btn-mint btn-cap">Suivant</a>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="3"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="phone-body" style="padding-top:24px">
+  <div class="eyebrow-mono" style="margin-bottom:16px">ÉTAPE 1 / 3</div>
+  <h2 class="display-xl" style="margin-bottom:16px">Choisis ton<br>blaze.</h2>
+  <p style="font-size:16px;color:var(--ink-soft);font-weight:500;line-height:1.5;margin-bottom:28px">C'est sous ce nom que tu écraseras le classement.</p>
+  <input type="text" class="input-pill" value="RudyBoss">
+  <p style="font-size:14px;color:var(--mint-deep);font-weight:700;margin-top:14px;display:inline-flex;align-items:center;gap:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg> Disponible</p>
+</div>
+<div class="sticky-cta">
+  <a href="#home" class="btn btn-mint btn-cap">Continuer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="4"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="phone-body" style="padding-top:32px">
+  <div style="text-align:center;margin-bottom:36px">
+    <div class="mascot-circle lg" style="margin:0 auto 20px"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMjU1LjEyIDI1NS4xMiI+CiAgPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDMwLjMuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDIuMS4zIEJ1aWxkIDE4MikgIC0tPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuc3QwIHsKICAgICAgICBmaWxsOiAjMGIxYjJlOwogICAgICB9CgogICAgICAuc3QxIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuc3QyIHsKICAgICAgICBmaWxsOiAjNjhkNzlmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTYxLjEsMjM0LjY0Yy0zMy43OSw5Ljg0LTcwLjQ3LDIuNDUtOTcuODEtMTkuMzYtMTcuNjUtMTQuMDgtMjkuOTItMzMuNTgtMzMuNjUtNTYuMDYtMy43My0zLjg5LTYuNDctOC4yNC04LjM1LTEzLjMyLTUuNzYtMTYuMzgtMS4wOC0zMy41OCwxMC41OC00Ni4yMSwxLjQtMjEuMTQsOS4xLTQwLjkyLDIzLjM1LTU2Ljc2LDIzLjU2LTI2LjE5LDU5LjEtMzcuNDEsOTMuNjYtMzEuMzYsNS44OCwxLjAzLDExLjI5LDIuMzksMTYuOTcsNC4xNCwyMS42MSw2LjYzLDQyLjk0LDMuODgsNjIuODEtNi42NC4zNy0uMiwxLjQtLjE4LDEuNzcsMCwxLjQuNjYsMS4xMyw0LjE5LjYyLDYuNzktMS44OCw5LjU2LTUuNDcsMTYuNS0xMS4zNiwyNC40Miw5LjA2LS41MiwxNy4wNC0zLjcxLDI0LjktNy45Ny40OS0uMjYsMS41Ni0uMzIsMS45NC0uMDQuNDYuMzQuNzQsMS4zMy44NSwyLjA4LS41Miw0LjM2LTEuNjksOC4yOC0zLjM0LDEyLjM1LTQuNTcsMTEuMjYtMTEuOTgsMjAuOTYtMjIuMTUsMjgsMTQuMDQsMjYuMSwxOC43NSw1NC45MiwxMS42NSw4My43OC00LjQ5LDE4LjIxLTEzLjY4LDM1LjE0LTI2LjY1LDQ4LjcyLTEyLjQ5LDEzLjA3LTI4LjMsMjIuMzgtNDUuNzgsMjcuNDd2LS4wM1pNMTkzLjE5LDUxLjAyYy0uOC0uMjQtMS40NC0uNjQtMS42NS0xLjI1LS4xNS0uNDUuMTctMS4zNi42Ny0xLjcxLDQuNDItMy4xNCw4LjM0LTYuNTYsMTEuODktMTAuNjIsMS4zOS0xLjc5LDIuNjgtMy4zOCwzLjgtNS43Ni0xNy44MywzLjc3LTMyLjI3LDEuOTQtNDkuNTQtMS44NC01LjY2LTEuMjQtMTAuOTQtMi4yOS0xNi43NC0yLjk0LTIxLjQ0LTIuNC00My4wOCwyLjY3LTYwLjg1LDE0Ljk4LTExLjM5LDcuODktMjAuNDMsMTguNjktMjYuNDksMzEuMDgtMS44OCw0LjE4LTMuNTUsOC4wNS00LjQ4LDEyLjgsMjkuODktMjAuODEsNjguMjgtMzEuMDMsMTA0LjM5LTMwLjQxLDE3Ljk2LjMxLDM1LjQyLDMuNjIsNTIuMTUsMTAuNTEsNy4yNS0yLjYxLDEzLjk2LTYuOTMsMTguNjQtMTMuNTQtNi4xOC44Mi0xMS43LDEuNTEtMTcuNTQsMS4wNi00Ljg4LS4zOC05LjQ1LS45Ny0xNC4yNS0yLjM3aDBaTTE3Ny45Miw5Ny4xNWMxMy4wNi41NCwyNS43MSwyLjU1LDM4LjIxLDYuMDQuMjQtLjQzLjQ1LTEuMTguMzYtMS41Mi0xLjc5LTYuOS00LjIzLTEzLjMyLTcuNzgtMTkuNDgtLjQ3LS44Mi0xLjQtMi4wNi0yLjMxLTIuMzgtNi4wMy0yLjA5LTExLjktMy41LTE4LjIyLTQuNjgtMzUuNDctNi41OC03My4wNi0yLjgyLTEwNi4yOSwxMS40MS0xMy41Miw1Ljc5LTI5LjEsMTQuNTktMzkuMDUsMjUuMy00LDQuMy02LjY3LDkuMzctNy43NCwxNS4xNC0uODQsNC4wNS0uOSw4LjA0LjQ1LDEyLjMsNi43NS0xMC4zLDE3Ljk1LTE3LjM3LDI4Ljk3LTIyLjQzLDMzLjIxLTE1LjI0LDc3LjA1LTIxLjE4LDExMy40MS0xOS42OWgtLjAxWk0xOTYuNTksMTk0LjI4YzE4Ljc3LTIwLjUzLDI1LjEyLTQ3LjYzLDE5LjE3LTc0LjY3LS40LTEuOC0xLjMxLTIuOTEtMy4xMy0zLjQyLTExLjE5LTMuMTUtMjIuNDctNS4zMy0zNC4xOS02LjM3LTIzLjA4LTIuMDUtNDYuMjYtLjg4LTY5LjAxLDMuMzctMTEuNTEsMi4xNS0yMi41OCw1LjA3LTMzLjQzLDkuMjctMTAuNDEsNC4wMy0yMS40Miw5LjM1LTI5LjIxLDE3LjMxLTEuMDMsMS4wNS0xLjI5LDIuNjgtMS4yNyw0LjI0LjQ5LDMxLjAyLDIwLjc0LDU3LjgsNDguNzgsNzAuMTMsMzQuNjQsMTUuMjIsNzYuNDMsOC40MiwxMDIuMjktMTkuODZoMFoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTk2LjU5LDE5NC4yOGMtMjUuODYsMjguMjktNjcuNjUsMzUuMDktMTAyLjI5LDE5Ljg2LTI4LjA1LTEyLjMyLTQ4LjMtMzkuMS00OC43OC03MC4xMy0uMDItMS41Ni4yNC0zLjE5LDEuMjctNC4yNCw3Ljc5LTcuOTYsMTguOC0xMy4yOCwyOS4yMS0xNy4zMSwxMC44NS00LjIsMjEuOTItNy4xMiwzMy40My05LjI3LDIyLjc1LTQuMjUsNDUuOTQtNS40Miw2OS4wMS0zLjM3LDExLjcyLDEuMDQsMjMsMy4yMywzNC4xOSw2LjM3LDEuODEuNTEsMi43MywxLjYyLDMuMTMsMy40Miw1Ljk1LDI3LjA0LS40LDU0LjE0LTE5LjE3LDc0LjY3aDBaTTk4LjkyLDE1OS45MWM0LjY5LDMuMTYsMTAuMjksMS41MiwxMy4yLTMuMTQsMi42NC00LjIzLDMuMjUtOS4zOCwyLjEzLTE0LjMzLS43OC0zLjQ0LTIuMTgtNi42Mi00LjczLTguOTktMy43NC0zLjQ3LTkuMjEtMy40NS0xMi43OS4xNS02Ljc2LDYuODEtNS42MiwyMS4wNCwyLjE4LDI2LjNoLjAxWk0xODkuMywxNDMuMTZjLjk2LS4xMi42NC0xLjg4LjQxLTIuNDgtMi4xOS01LjY0LTcuMTQtOS4zMi0xMy4zLTkuMDQtMTEuMjEuNS0xOS41OCw5LjQ2LTIyLjg0LDE5Ljk1LS4yLjYzLjExLDEuNzIuNTksMS45My40LjE3LDEuMzEuMDgsMS43Ni0uMiwxMC4xNy02LjI3LDIxLjIzLTExLjQ2LDMzLjM4LTEwLjE1aDBaTTEwMS4xNSwxODYuNjljNC4zNCwzLjU3LDguOTcsNiwxNC4yLDcuOTEsMTcuMDEsNi4yMiwzNi4xOSw0LjU4LDUxLjgzLTQuNTcsNi4wMi0zLjUyLDExLTguMTksMTQuNjYtMTQuMDEsMS4xOC0xLjg4LDEuMjItNC4yNi0uMzYtNS43Ni0yLjE2LTIuMDUtNS4xNi0xLjQ0LTcuMDYuNjktNi4xNCw2Ljg2LTEzLjkzLDExLjY0LTIyLjg0LDE0LjI2LTE1LjY4LDQuNjEtMzIuNTIsMi44Ni00Ny4xNi00LjI1LTEuNC0uNjgtMy4xOC0uNDgtNC4xMS42Mi0xLjM0LDEuNTktLjc4LDMuNzkuODQsNS4xMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMTc3LjkyLDk3LjE1Yy0zNi4zNi0xLjQ5LTgwLjIsNC40NC0xMTMuNDEsMTkuNjktMTEuMDIsNS4wNi0yMi4yMiwxMi4xMy0yOC45NywyMi40My0xLjM0LTQuMjYtMS4yOS04LjI1LS40NS0xMi4zLDEuMDctNS43NywzLjc0LTEwLjgzLDcuNzQtMTUuMTQsOS45Ni0xMC43MSwyNS41My0xOS41MSwzOS4wNS0yNS4zLDMzLjIzLTE0LjIzLDcwLjgyLTE3Ljk5LDEwNi4yOS0xMS40MSw2LjMyLDEuMTcsMTIuMTksMi41OCwxOC4yMiw0LjY4LjkxLjMyLDEuODQsMS41NSwyLjMxLDIuMzgsMy41NSw2LjE2LDUuOTgsMTIuNTksNy43OCwxOS40OC4wOS4zNC0uMTIsMS4wOS0uMzYsMS41Mi0xMi41LTMuNDktMjUuMTUtNS41MS0zOC4yMS02LjA0aC4wMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTkzLjE5LDUxLjAyYzQuOCwxLjM5LDkuMzcsMS45OSwxNC4yNSwyLjM3LDUuODQuNDUsMTEuMzYtLjI0LDE3LjU0LTEuMDYtNC42OCw2LjYxLTExLjM5LDEwLjkzLTE4LjY0LDEzLjU0LTE2LjczLTYuODktMzQuMi0xMC4yLTUyLjE1LTEwLjUxLTM2LjEtLjYyLTc0LjUsOS42LTEwNC4zOSwzMC40MS45Mi00Ljc1LDIuNTktOC42Miw0LjQ4LTEyLjgsNi4wNi0xMi40LDE1LjA5LTIzLjE5LDI2LjQ5LTMxLjA4LDE3Ljc3LTEyLjMxLDM5LjQtMTcuMzgsNjAuODUtMTQuOTgsNS44LjY1LDExLjA5LDEuNywxNi43NCwyLjk0LDE3LjI3LDMuNzcsMzEuNzEsNS42MSw0OS41NCwxLjg0LTEuMTIsMi4zOS0yLjQxLDMuOTctMy44LDUuNzYtMy41NSw0LjA2LTcuNDcsNy40OC0xMS44OSwxMC42Mi0uNS4zNS0uODIsMS4yNi0uNjcsMS43MS4yMS42MS44NSwxLjAxLDEuNjUsMS4yNWgwWiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xMDEuMTUsMTg2LjY5Yy0xLjYxLTEuMzMtMi4xOC0zLjUyLS44NC01LjExLjkzLTEuMSwyLjctMS4zLDQuMTEtLjYyLDE0LjY0LDcuMSwzMS40Nyw4Ljg2LDQ3LjE2LDQuMjUsOC45MS0yLjYyLDE2LjctNy40LDIyLjg0LTE0LjI2LDEuOS0yLjEzLDQuOS0yLjc0LDcuMDYtLjY5LDEuNTgsMS41MSwxLjU0LDMuODguMzYsNS43Ni0zLjY1LDUuODItOC42NCwxMC40OS0xNC42NiwxNC4wMS0xNS42NCw5LjE1LTM0LjgyLDEwLjc5LTUxLjgzLDQuNTctNS4yMy0xLjkxLTkuODYtNC4zNS0xNC4yLTcuOTFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTk4LjkyLDE1OS45MWMtNy44LTUuMjYtOC45NC0xOS40OS0yLjE4LTI2LjMsMy41OC0zLjYsOS4wNC0zLjYyLDEyLjc5LS4xNSwyLjU1LDIuMzYsMy45NSw1LjU1LDQuNzMsOC45OSwxLjEyLDQuOTUuNTEsMTAuMS0yLjEzLDE0LjMzLTIuOTEsNC42Ni04LjUxLDYuMzEtMTMuMiwzLjE0aC0uMDFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTE4OS4zLDE0My4xNmMtMTIuMTUtMS4zMS0yMy4yMSwzLjg5LTMzLjM4LDEwLjE1LS40NS4yOC0xLjM3LjM3LTEuNzYuMi0uNDgtLjIxLS43OC0xLjMtLjU5LTEuOTMsMy4yNi0xMC40OSwxMS42My0xOS40NSwyMi44NC0xOS45NSw2LjE2LS4yNywxMS4xMSwzLjQsMTMuMyw5LjA0LjIzLjYuNTUsMi4zNi0uNDEsMi40OGgwWiIvPgo8L3N2Zz4=" alt="Wiiin" style="width:100%;height:100%;object-fit:contain"></div>
+    <h2 class="display-lg" style="margin-bottom:8px">Connecte-toi.</h2>
+    <p style="font-size:14px;color:var(--ink-mute);font-weight:500">Pas d'argent réel · juste du skill</p>
+  </div>
+  <button class="btn btn-ink" style="margin-bottom:10px"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg> Continuer avec Apple</button>
+  <button class="btn btn-white" style="margin-bottom:18px;border:1.5px solid rgba(11,27,46,.1)"><svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg> Continuer avec Google</button>
+  <div style="text-align:center;margin:18px 0;font-family:var(--mono);font-size:11px;color:var(--ink-mute);letter-spacing:.14em;font-weight:700">— OU —</div>
+  <input type="email" placeholder="ton@email.com" class="input-pill" style="text-align:center;font-size:15px">
+  <button class="btn btn-mint" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg> Recevoir un lien magique</button>
+  <p style="text-align:center;font-size:12px;color:var(--ink-mute);margin-top:24px;line-height:1.5;font-weight:500">En continuant, tu acceptes nos <a href="#" style="color:var(--mint-deep);font-weight:700">CGU</a>.<br><b style="color:var(--ink)">Réservé aux 18+</b></p>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="5"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="app-header">
+  <div class="mascot-circle xs"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMjU1LjEyIDI1NS4xMiI+CiAgPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDMwLjMuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDIuMS4zIEJ1aWxkIDE4MikgIC0tPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuc3QwIHsKICAgICAgICBmaWxsOiAjMGIxYjJlOwogICAgICB9CgogICAgICAuc3QxIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuc3QyIHsKICAgICAgICBmaWxsOiAjNjhkNzlmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTYxLjEsMjM0LjY0Yy0zMy43OSw5Ljg0LTcwLjQ3LDIuNDUtOTcuODEtMTkuMzYtMTcuNjUtMTQuMDgtMjkuOTItMzMuNTgtMzMuNjUtNTYuMDYtMy43My0zLjg5LTYuNDctOC4yNC04LjM1LTEzLjMyLTUuNzYtMTYuMzgtMS4wOC0zMy41OCwxMC41OC00Ni4yMSwxLjQtMjEuMTQsOS4xLTQwLjkyLDIzLjM1LTU2Ljc2LDIzLjU2LTI2LjE5LDU5LjEtMzcuNDEsOTMuNjYtMzEuMzYsNS44OCwxLjAzLDExLjI5LDIuMzksMTYuOTcsNC4xNCwyMS42MSw2LjYzLDQyLjk0LDMuODgsNjIuODEtNi42NC4zNy0uMiwxLjQtLjE4LDEuNzcsMCwxLjQuNjYsMS4xMyw0LjE5LjYyLDYuNzktMS44OCw5LjU2LTUuNDcsMTYuNS0xMS4zNiwyNC40Miw5LjA2LS41MiwxNy4wNC0zLjcxLDI0LjktNy45Ny40OS0uMjYsMS41Ni0uMzIsMS45NC0uMDQuNDYuMzQuNzQsMS4zMy44NSwyLjA4LS41Miw0LjM2LTEuNjksOC4yOC0zLjM0LDEyLjM1LTQuNTcsMTEuMjYtMTEuOTgsMjAuOTYtMjIuMTUsMjgsMTQuMDQsMjYuMSwxOC43NSw1NC45MiwxMS42NSw4My43OC00LjQ5LDE4LjIxLTEzLjY4LDM1LjE0LTI2LjY1LDQ4LjcyLTEyLjQ5LDEzLjA3LTI4LjMsMjIuMzgtNDUuNzgsMjcuNDd2LS4wM1pNMTkzLjE5LDUxLjAyYy0uOC0uMjQtMS40NC0uNjQtMS42NS0xLjI1LS4xNS0uNDUuMTctMS4zNi42Ny0xLjcxLDQuNDItMy4xNCw4LjM0LTYuNTYsMTEuODktMTAuNjIsMS4zOS0xLjc5LDIuNjgtMy4zOCwzLjgtNS43Ni0xNy44MywzLjc3LTMyLjI3LDEuOTQtNDkuNTQtMS44NC01LjY2LTEuMjQtMTAuOTQtMi4yOS0xNi43NC0yLjk0LTIxLjQ0LTIuNC00My4wOCwyLjY3LTYwLjg1LDE0Ljk4LTExLjM5LDcuODktMjAuNDMsMTguNjktMjYuNDksMzEuMDgtMS44OCw0LjE4LTMuNTUsOC4wNS00LjQ4LDEyLjgsMjkuODktMjAuODEsNjguMjgtMzEuMDMsMTA0LjM5LTMwLjQxLDE3Ljk2LjMxLDM1LjQyLDMuNjIsNTIuMTUsMTAuNTEsNy4yNS0yLjYxLDEzLjk2LTYuOTMsMTguNjQtMTMuNTQtNi4xOC44Mi0xMS43LDEuNTEtMTcuNTQsMS4wNi00Ljg4LS4zOC05LjQ1LS45Ny0xNC4yNS0yLjM3aDBaTTE3Ny45Miw5Ny4xNWMxMy4wNi41NCwyNS43MSwyLjU1LDM4LjIxLDYuMDQuMjQtLjQzLjQ1LTEuMTguMzYtMS41Mi0xLjc5LTYuOS00LjIzLTEzLjMyLTcuNzgtMTkuNDgtLjQ3LS44Mi0xLjQtMi4wNi0yLjMxLTIuMzgtNi4wMy0yLjA5LTExLjktMy41LTE4LjIyLTQuNjgtMzUuNDctNi41OC03My4wNi0yLjgyLTEwNi4yOSwxMS40MS0xMy41Miw1Ljc5LTI5LjEsMTQuNTktMzkuMDUsMjUuMy00LDQuMy02LjY3LDkuMzctNy43NCwxNS4xNC0uODQsNC4wNS0uOSw4LjA0LjQ1LDEyLjMsNi43NS0xMC4zLDE3Ljk1LTE3LjM3LDI4Ljk3LTIyLjQzLDMzLjIxLTE1LjI0LDc3LjA1LTIxLjE4LDExMy40MS0xOS42OWgtLjAxWk0xOTYuNTksMTk0LjI4YzE4Ljc3LTIwLjUzLDI1LjEyLTQ3LjYzLDE5LjE3LTc0LjY3LS40LTEuOC0xLjMxLTIuOTEtMy4xMy0zLjQyLTExLjE5LTMuMTUtMjIuNDctNS4zMy0zNC4xOS02LjM3LTIzLjA4LTIuMDUtNDYuMjYtLjg4LTY5LjAxLDMuMzctMTEuNTEsMi4xNS0yMi41OCw1LjA3LTMzLjQzLDkuMjctMTAuNDEsNC4wMy0yMS40Miw5LjM1LTI5LjIxLDE3LjMxLTEuMDMsMS4wNS0xLjI5LDIuNjgtMS4yNyw0LjI0LjQ5LDMxLjAyLDIwLjc0LDU3LjgsNDguNzgsNzAuMTMsMzQuNjQsMTUuMjIsNzYuNDMsOC40MiwxMDIuMjktMTkuODZoMFoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTk2LjU5LDE5NC4yOGMtMjUuODYsMjguMjktNjcuNjUsMzUuMDktMTAyLjI5LDE5Ljg2LTI4LjA1LTEyLjMyLTQ4LjMtMzkuMS00OC43OC03MC4xMy0uMDItMS41Ni4yNC0zLjE5LDEuMjctNC4yNCw3Ljc5LTcuOTYsMTguOC0xMy4yOCwyOS4yMS0xNy4zMSwxMC44NS00LjIsMjEuOTItNy4xMiwzMy40My05LjI3LDIyLjc1LTQuMjUsNDUuOTQtNS40Miw2OS4wMS0zLjM3LDExLjcyLDEuMDQsMjMsMy4yMywzNC4xOSw2LjM3LDEuODEuNTEsMi43MywxLjYyLDMuMTMsMy40Miw1Ljk1LDI3LjA0LS40LDU0LjE0LTE5LjE3LDc0LjY3aDBaTTk4LjkyLDE1OS45MWM0LjY5LDMuMTYsMTAuMjksMS41MiwxMy4yLTMuMTQsMi42NC00LjIzLDMuMjUtOS4zOCwyLjEzLTE0LjMzLS43OC0zLjQ0LTIuMTgtNi42Mi00LjczLTguOTktMy43NC0zLjQ3LTkuMjEtMy40NS0xMi43OS4xNS02Ljc2LDYuODEtNS42MiwyMS4wNCwyLjE4LDI2LjNoLjAxWk0xODkuMywxNDMuMTZjLjk2LS4xMi42NC0xLjg4LjQxLTIuNDgtMi4xOS01LjY0LTcuMTQtOS4zMi0xMy4zLTkuMDQtMTEuMjEuNS0xOS41OCw5LjQ2LTIyLjg0LDE5Ljk1LS4yLjYzLjExLDEuNzIuNTksMS45My40LjE3LDEuMzEuMDgsMS43Ni0uMiwxMC4xNy02LjI3LDIxLjIzLTExLjQ2LDMzLjM4LTEwLjE1aDBaTTEwMS4xNSwxODYuNjljNC4zNCwzLjU3LDguOTcsNiwxNC4yLDcuOTEsMTcuMDEsNi4yMiwzNi4xOSw0LjU4LDUxLjgzLTQuNTcsNi4wMi0zLjUyLDExLTguMTksMTQuNjYtMTQuMDEsMS4xOC0xLjg4LDEuMjItNC4yNi0uMzYtNS43Ni0yLjE2LTIuMDUtNS4xNi0xLjQ0LTcuMDYuNjktNi4xNCw2Ljg2LTEzLjkzLDExLjY0LTIyLjg0LDE0LjI2LTE1LjY4LDQuNjEtMzIuNTIsMi44Ni00Ny4xNi00LjI1LTEuNC0uNjgtMy4xOC0uNDgtNC4xMS42Mi0xLjM0LDEuNTktLjc4LDMuNzkuODQsNS4xMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMTc3LjkyLDk3LjE1Yy0zNi4zNi0xLjQ5LTgwLjIsNC40NC0xMTMuNDEsMTkuNjktMTEuMDIsNS4wNi0yMi4yMiwxMi4xMy0yOC45NywyMi40My0xLjM0LTQuMjYtMS4yOS04LjI1LS40NS0xMi4zLDEuMDctNS43NywzLjc0LTEwLjgzLDcuNzQtMTUuMTQsOS45Ni0xMC43MSwyNS41My0xOS41MSwzOS4wNS0yNS4zLDMzLjIzLTE0LjIzLDcwLjgyLTE3Ljk5LDEwNi4yOS0xMS40MSw2LjMyLDEuMTcsMTIuMTksMi41OCwxOC4yMiw0LjY4LjkxLjMyLDEuODQsMS41NSwyLjMxLDIuMzgsMy41NSw2LjE2LDUuOTgsMTIuNTksNy43OCwxOS40OC4wOS4zNC0uMTIsMS4wOS0uMzYsMS41Mi0xMi41LTMuNDktMjUuMTUtNS41MS0zOC4yMS02LjA0aC4wMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTkzLjE5LDUxLjAyYzQuOCwxLjM5LDkuMzcsMS45OSwxNC4yNSwyLjM3LDUuODQuNDUsMTEuMzYtLjI0LDE3LjU0LTEuMDYtNC42OCw2LjYxLTExLjM5LDEwLjkzLTE4LjY0LDEzLjU0LTE2LjczLTYuODktMzQuMi0xMC4yLTUyLjE1LTEwLjUxLTM2LjEtLjYyLTc0LjUsOS42LTEwNC4zOSwzMC40MS45Mi00Ljc1LDIuNTktOC42Miw0LjQ4LTEyLjgsNi4wNi0xMi40LDE1LjA5LTIzLjE5LDI2LjQ5LTMxLjA4LDE3Ljc3LTEyLjMxLDM5LjQtMTcuMzgsNjAuODUtMTQuOTgsNS44LjY1LDExLjA5LDEuNywxNi43NCwyLjk0LDE3LjI3LDMuNzcsMzEuNzEsNS42MSw0OS41NCwxLjg0LTEuMTIsMi4zOS0yLjQxLDMuOTctMy44LDUuNzYtMy41NSw0LjA2LTcuNDcsNy40OC0xMS44OSwxMC42Mi0uNS4zNS0uODIsMS4yNi0uNjcsMS43MS4yMS42MS44NSwxLjAxLDEuNjUsMS4yNWgwWiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xMDEuMTUsMTg2LjY5Yy0xLjYxLTEuMzMtMi4xOC0zLjUyLS44NC01LjExLjkzLTEuMSwyLjctMS4zLDQuMTEtLjYyLDE0LjY0LDcuMSwzMS40Nyw4Ljg2LDQ3LjE2LDQuMjUsOC45MS0yLjYyLDE2LjctNy40LDIyLjg0LTE0LjI2LDEuOS0yLjEzLDQuOS0yLjc0LDcuMDYtLjY5LDEuNTgsMS41MSwxLjU0LDMuODguMzYsNS43Ni0zLjY1LDUuODItOC42NCwxMC40OS0xNC42NiwxNC4wMS0xNS42NCw5LjE1LTM0LjgyLDEwLjc5LTUxLjgzLDQuNTctNS4yMy0xLjkxLTkuODYtNC4zNS0xNC4yLTcuOTFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTk4LjkyLDE1OS45MWMtNy44LTUuMjYtOC45NC0xOS40OS0yLjE4LTI2LjMsMy41OC0zLjYsOS4wNC0zLjYyLDEyLjc5LS4xNSwyLjU1LDIuMzYsMy45NSw1LjU1LDQuNzMsOC45OSwxLjEyLDQuOTUuNTEsMTAuMS0yLjEzLDE0LjMzLTIuOTEsNC42Ni04LjUxLDYuMzEtMTMuMiwzLjE0aC0uMDFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTE4OS4zLDE0My4xNmMtMTIuMTUtMS4zMS0yMy4yMSwzLjg5LTMzLjM4LDEwLjE1LS40NS4yOC0xLjM3LjM3LTEuNzYuMi0uNDgtLjIxLS43OC0xLjMtLjU5LTEuOTMsMy4yNi0xMC40OSwxMS42My0xOS40NSwyMi44NC0xOS45NSw2LjE2LS4yNywxMS4xMSwzLjQsMTMuMyw5LjA0LjIzLjYuNTUsMi4zNi0uNDEsMi40OGgwWiIvPgo8L3N2Zz4=" alt="Wiiin" style="width:100%;height:100%;object-fit:contain"></div>
+  <span class="coiiins-pill"><span class="dot"></span>240 Coiiins</span>
+  <button class="app-header-back" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/></svg></button>
+</div>
+<div class="phone-body tight">
+  <h1 class="display-xxl" style="margin-bottom:18px">Salut Rudy</h1>
+  <div class="nav-pills" style="margin-bottom:20px">
+    <a class="nav-pill active" href="#event_detail">Pronostiquer</a>
+    <a class="nav-pill" href="#leagues_hub">Mes tournois 🏆</a>
+    <a class="nav-pill" href="#shop_boosters">Cartes</a>
+  </div>
+
+  <div class="h-scroll" style="margin-bottom:24px">
+    <div class="hero-match-card">
+      <div class="hero-match-card-icon">⚽</div>
+      <div class="hero-match-card-title">FRA - ARG</div>
+      <div class="hero-match-card-meta"><span class="live-pulse"></span>LIVE · 67E</div>
+      <div class="hero-match-card-points">+210 pts</div>
+    </div>
+    <div class="hero-match-card cream-card">
+      <div class="hero-match-card-icon">🏆</div>
+      <div class="hero-match-card-title">UCL Final</div>
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em">30 mai · Budapest</div>
+      <div class="hero-match-card-points" style="color:var(--ink);font-size:24px">Tap →</div>
+    </div>
+    <div class="hero-match-card gold-card">
+      <div class="hero-match-card-icon">⚔️</div>
+      <div class="hero-match-card-title">Casa Boys</div>
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em">8 amis · #2/8</div>
+      <div class="hero-match-card-points" style="color:var(--ink);font-size:24px">12.4K</div>
+    </div>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+    <h3 class="display-lg" style="font-size:28px">Mes pronos</h3>
+    <a href="#" style="font-size:15px;font-weight:700;color:var(--ink);text-decoration:underline;text-underline-offset:4px">Voir tout</a>
+  </div>
+
+  <div class="prono-row">
+    <div class="prono-avatar">⚽</div>
+    <div class="prono-info">
+      <div class="title">FRA - ARG · 1/8</div>
+      <div class="meta">Pronostic · FRA · gagné</div>
+    </div>
+    <div class="prono-stat">
+      <div class="pts">+210 pts</div>
+      <div class="rank">#847 ↑12</div>
+    </div>
+  </div>
+  <div class="prono-row">
+    <div class="prono-avatar" style="background:#cbe85a">🎾</div>
+    <div class="prono-info">
+      <div class="title">Alcaraz vs Sinner</div>
+      <div class="meta">En attente · Vainqueur Alcaraz</div>
+    </div>
+    <div class="prono-stat">
+      <div class="pts pending">+180 si</div>
+    </div>
+  </div>
+</div>
+<div class="tab-bar"><a class="tab active" href="#home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1v-9z"/></svg><span>Home</span></a><a class="tab" href="#shop_hub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg><span>Sports</span></a><a class="tab" href="#leagues_hub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 8l4 4 5-7 5 7 4-4-1.5 11h-15z"/><circle cx="3" cy="8" r="1.2" fill="currentColor"/><circle cx="21" cy="8" r="1.2" fill="currentColor"/><circle cx="12" cy="5" r="1.2" fill="currentColor"/></svg><span>Ranks</span></a><a class="tab" href="#profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9 13.5q1.5 1.5 3 1.5t3-1.5"/></svg><span>Profil</span></a></div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="6"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="app-header">
+  <a href="#home" class="app-header-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a>
+  <div style="font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.06em;display:inline-flex;align-items:center;gap:8px">
+    <span style="font-size:18px">⚽</span>
+    <span>COUPE DU MONDE · 1/8</span>
+  </div>
+  <div style="width:44px"></div>
+</div>
+<div class="phone-body tight" style="padding-top:16px">
+  <div style="display:flex;align-items:center;justify-content:space-around;margin-bottom:24px">
+    <div style="text-align:center">
+      <div class="flag-circle" style="margin:0 auto 10px">
+        <div class="stripe" style="background:#0055A4"></div>
+        <div class="stripe" style="background:white"></div>
+        <div class="stripe" style="background:#EF4135"></div>
+      </div>
+      <div style="font-size:18px;font-weight:800;letter-spacing:-.018em">France</div>
+      <div style="font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink-mute);margin-top:2px">210 pts</div>
+    </div>
+    <div style="font-family:var(--display);font-size:24px;font-weight:800;color:var(--ink-mute);letter-spacing:-.025em">VS</div>
+    <div style="text-align:center">
+      <div class="flag-circle" style="margin:0 auto 10px;flex-direction:column">
+        <div class="stripe" style="background:#75AADB;height:33%;width:100%;flex:none"></div>
+        <div class="stripe" style="background:white;height:33%;width:100%;flex:none"></div>
+        <div class="stripe" style="background:#75AADB;height:34%;width:100%;flex:none"></div>
+      </div>
+      <div style="font-size:18px;font-weight:800;letter-spacing:-.018em">Argentine</div>
+      <div style="font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink-mute);margin-top:2px">340 pts</div>
+    </div>
+  </div>
+
+  <div class="eyebrow-mono" style="margin-bottom:10px">TON PRONO</div>
+  <div class="vote-pills" style="margin-bottom:14px">
+    <button class="vote-pill active">FRA</button>
+    <button class="vote-pill">N</button>
+    <button class="vote-pill">ARG</button>
+  </div>
+
+  <!-- Bouton activation triche -->
+  <a href="#shop_boosters" class="triche-activator">
+    <span class="triche-activator-icon">🎴</span>
+    <div class="triche-activator-info">
+      <strong>Activer une triche</strong>
+      <span>3 dispo · Doubleur, Filet, L'Œil</span>
+    </div>
+    <span class="triche-activator-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+  </a>
+
+  <div class="gain-card">
+    <div class="lbl">⚡ POINTS POTENTIELS</div>
+    <div class="val">+210 pts</div>
+    <div class="sub">+ 1 Coiiin gagné si correct</div>
+  </div>
+  <p style="text-align:center;font-family:var(--mono);font-size:12px;color:var(--ink-mute);font-weight:600;margin-top:14px;display:inline-flex;align-items:center;gap:6px;justify-content:center;width:100%"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Fermeture · 02:14:08</p>
+</div>
+<div class="sticky-cta">
+  <a href="#post_settle_win" class="btn btn-mint btn-cap">Valider mon prono</a>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="7"><div class="phone bg-mint">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="match-terminé-eyebrow">MATCH TERMINÉ</div>
+<div class="phone-body" style="padding-top:8px;display:flex;flex-direction:column">
+  <div style="margin-top:20px">
+    <div class="gigantic">+210</div>
+    <div class="gigantic-pts">PTS</div>
+    <div class="coiiin-gagne">+ 1 Coiiin gagné <span style="font-size:20px">⚡</span></div>
+  </div>
+  
+  <div style="margin-top:auto;margin-bottom:20px">
+    <div class="dark-info-card">
+      <div class="left">
+        <span style="display:block;font-weight:700">FRA 2 - 1 ARG</span>
+        <span style="opacity:.65">Pronostic FRA · gagné</span>
+      </div>
+      <div class="right">
+        <span style="display:block">✓ FRA</span>
+        <span>+210 pts</span>
+      </div>
+    </div>
+    <div class="dark-info-card">
+      <div class="left"><span class="label">TON RANG</span></div>
+      <div class="right" style="font-size:18px"><b>#835 ↑12</b></div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:10px">
+    <a href="#home" class="btn btn-white btn-half" style="border:1.5px solid var(--ink)">Partager</a>
+    <a href="#home" class="btn btn-ink btn-half">Prochain <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+  </div>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="8"><div class="phone bg-ink">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="phone-body" style="padding-top:8px;color:white;display:flex;flex-direction:column">
+  <!-- Eyebrow -->
+  <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--mint);letter-spacing:.14em;display:inline-flex;align-items:center;gap:8px;margin-bottom:24px">
+    <span style="width:8px;height:8px;border-radius:50%;background:var(--mint);display:inline-block"></span>
+    ROASTER · MATCH TERMINÉ
+  </div>
+
+  <!-- HERO: roast en typographie massive avec mots-clés highlight -->
+  <span class="roast-quote">"</span>
+  <h1 class="roast-hero">
+    <em>Argentine</em> ?<br>
+    Sérieux ?<br>
+    Même mon chien<br>
+    aurait dit <em>France</em>.
+  </h1>
+
+  <!-- Signature mascotte -->
+  <div class="roast-signature">
+    <div class="mascot-circle xs" style="width:32px;height:32px"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMjU1LjEyIDI1NS4xMiI+CiAgPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDMwLjMuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDIuMS4zIEJ1aWxkIDE4MikgIC0tPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuc3QwIHsKICAgICAgICBmaWxsOiAjMGIxYjJlOwogICAgICB9CgogICAgICAuc3QxIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuc3QyIHsKICAgICAgICBmaWxsOiAjNjhkNzlmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTYxLjEsMjM0LjY0Yy0zMy43OSw5Ljg0LTcwLjQ3LDIuNDUtOTcuODEtMTkuMzYtMTcuNjUtMTQuMDgtMjkuOTItMzMuNTgtMzMuNjUtNTYuMDYtMy43My0zLjg5LTYuNDctOC4yNC04LjM1LTEzLjMyLTUuNzYtMTYuMzgtMS4wOC0zMy41OCwxMC41OC00Ni4yMSwxLjQtMjEuMTQsOS4xLTQwLjkyLDIzLjM1LTU2Ljc2LDIzLjU2LTI2LjE5LDU5LjEtMzcuNDEsOTMuNjYtMzEuMzYsNS44OCwxLjAzLDExLjI5LDIuMzksMTYuOTcsNC4xNCwyMS42MSw2LjYzLDQyLjk0LDMuODgsNjIuODEtNi42NC4zNy0uMiwxLjQtLjE4LDEuNzcsMCwxLjQuNjYsMS4xMyw0LjE5LjYyLDYuNzktMS44OCw5LjU2LTUuNDcsMTYuNS0xMS4zNiwyNC40Miw5LjA2LS41MiwxNy4wNC0zLjcxLDI0LjktNy45Ny40OS0uMjYsMS41Ni0uMzIsMS45NC0uMDQuNDYuMzQuNzQsMS4zMy44NSwyLjA4LS41Miw0LjM2LTEuNjksOC4yOC0zLjM0LDEyLjM1LTQuNTcsMTEuMjYtMTEuOTgsMjAuOTYtMjIuMTUsMjgsMTQuMDQsMjYuMSwxOC43NSw1NC45MiwxMS42NSw4My43OC00LjQ5LDE4LjIxLTEzLjY4LDM1LjE0LTI2LjY1LDQ4LjcyLTEyLjQ5LDEzLjA3LTI4LjMsMjIuMzgtNDUuNzgsMjcuNDd2LS4wM1pNMTkzLjE5LDUxLjAyYy0uOC0uMjQtMS40NC0uNjQtMS42NS0xLjI1LS4xNS0uNDUuMTctMS4zNi42Ny0xLjcxLDQuNDItMy4xNCw4LjM0LTYuNTYsMTEuODktMTAuNjIsMS4zOS0xLjc5LDIuNjgtMy4zOCwzLjgtNS43Ni0xNy44MywzLjc3LTMyLjI3LDEuOTQtNDkuNTQtMS44NC01LjY2LTEuMjQtMTAuOTQtMi4yOS0xNi43NC0yLjk0LTIxLjQ0LTIuNC00My4wOCwyLjY3LTYwLjg1LDE0Ljk4LTExLjM5LDcuODktMjAuNDMsMTguNjktMjYuNDksMzEuMDgtMS44OCw0LjE4LTMuNTUsOC4wNS00LjQ4LDEyLjgsMjkuODktMjAuODEsNjguMjgtMzEuMDMsMTA0LjM5LTMwLjQxLDE3Ljk2LjMxLDM1LjQyLDMuNjIsNTIuMTUsMTAuNTEsNy4yNS0yLjYxLDEzLjk2LTYuOTMsMTguNjQtMTMuNTQtNi4xOC44Mi0xMS43LDEuNTEtMTcuNTQsMS4wNi00Ljg4LS4zOC05LjQ1LS45Ny0xNC4yNS0yLjM3aDBaTTE3Ny45Miw5Ny4xNWMxMy4wNi41NCwyNS43MSwyLjU1LDM4LjIxLDYuMDQuMjQtLjQzLjQ1LTEuMTguMzYtMS41Mi0xLjc5LTYuOS00LjIzLTEzLjMyLTcuNzgtMTkuNDgtLjQ3LS44Mi0xLjQtMi4wNi0yLjMxLTIuMzgtNi4wMy0yLjA5LTExLjktMy41LTE4LjIyLTQuNjgtMzUuNDctNi41OC03My4wNi0yLjgyLTEwNi4yOSwxMS40MS0xMy41Miw1Ljc5LTI5LjEsMTQuNTktMzkuMDUsMjUuMy00LDQuMy02LjY3LDkuMzctNy43NCwxNS4xNC0uODQsNC4wNS0uOSw4LjA0LjQ1LDEyLjMsNi43NS0xMC4zLDE3Ljk1LTE3LjM3LDI4Ljk3LTIyLjQzLDMzLjIxLTE1LjI0LDc3LjA1LTIxLjE4LDExMy40MS0xOS42OWgtLjAxWk0xOTYuNTksMTk0LjI4YzE4Ljc3LTIwLjUzLDI1LjEyLTQ3LjYzLDE5LjE3LTc0LjY3LS40LTEuOC0xLjMxLTIuOTEtMy4xMy0zLjQyLTExLjE5LTMuMTUtMjIuNDctNS4zMy0zNC4xOS02LjM3LTIzLjA4LTIuMDUtNDYuMjYtLjg4LTY5LjAxLDMuMzctMTEuNTEsMi4xNS0yMi41OCw1LjA3LTMzLjQzLDkuMjctMTAuNDEsNC4wMy0yMS40Miw5LjM1LTI5LjIxLDE3LjMxLTEuMDMsMS4wNS0xLjI5LDIuNjgtMS4yNyw0LjI0LjQ5LDMxLjAyLDIwLjc0LDU3LjgsNDguNzgsNzAuMTMsMzQuNjQsMTUuMjIsNzYuNDMsOC40MiwxMDIuMjktMTkuODZoMFoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTk2LjU5LDE5NC4yOGMtMjUuODYsMjguMjktNjcuNjUsMzUuMDktMTAyLjI5LDE5Ljg2LTI4LjA1LTEyLjMyLTQ4LjMtMzkuMS00OC43OC03MC4xMy0uMDItMS41Ni4yNC0zLjE5LDEuMjctNC4yNCw3Ljc5LTcuOTYsMTguOC0xMy4yOCwyOS4yMS0xNy4zMSwxMC44NS00LjIsMjEuOTItNy4xMiwzMy40My05LjI3LDIyLjc1LTQuMjUsNDUuOTQtNS40Miw2OS4wMS0zLjM3LDExLjcyLDEuMDQsMjMsMy4yMywzNC4xOSw2LjM3LDEuODEuNTEsMi43MywxLjYyLDMuMTMsMy40Miw1Ljk1LDI3LjA0LS40LDU0LjE0LTE5LjE3LDc0LjY3aDBaTTk4LjkyLDE1OS45MWM0LjY5LDMuMTYsMTAuMjksMS41MiwxMy4yLTMuMTQsMi42NC00LjIzLDMuMjUtOS4zOCwyLjEzLTE0LjMzLS43OC0zLjQ0LTIuMTgtNi42Mi00LjczLTguOTktMy43NC0zLjQ3LTkuMjEtMy40NS0xMi43OS4xNS02Ljc2LDYuODEtNS42MiwyMS4wNCwyLjE4LDI2LjNoLjAxWk0xODkuMywxNDMuMTZjLjk2LS4xMi42NC0xLjg4LjQxLTIuNDgtMi4xOS01LjY0LTcuMTQtOS4zMi0xMy4zLTkuMDQtMTEuMjEuNS0xOS41OCw5LjQ2LTIyLjg0LDE5Ljk1LS4yLjYzLjExLDEuNzIuNTksMS45My40LjE3LDEuMzEuMDgsMS43Ni0uMiwxMC4xNy02LjI3LDIxLjIzLTExLjQ2LDMzLjM4LTEwLjE1aDBaTTEwMS4xNSwxODYuNjljNC4zNCwzLjU3LDguOTcsNiwxNC4yLDcuOTEsMTcuMDEsNi4yMiwzNi4xOSw0LjU4LDUxLjgzLTQuNTcsNi4wMi0zLjUyLDExLTguMTksMTQuNjYtMTQuMDEsMS4xOC0xLjg4LDEuMjItNC4yNi0uMzYtNS43Ni0yLjE2LTIuMDUtNS4xNi0xLjQ0LTcuMDYuNjktNi4xNCw2Ljg2LTEzLjkzLDExLjY0LTIyLjg0LDE0LjI2LTE1LjY4LDQuNjEtMzIuNTIsMi44Ni00Ny4xNi00LjI1LTEuNC0uNjgtMy4xOC0uNDgtNC4xMS42Mi0xLjM0LDEuNTktLjc4LDMuNzkuODQsNS4xMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMTc3LjkyLDk3LjE1Yy0zNi4zNi0xLjQ5LTgwLjIsNC40NC0xMTMuNDEsMTkuNjktMTEuMDIsNS4wNi0yMi4yMiwxMi4xMy0yOC45NywyMi40My0xLjM0LTQuMjYtMS4yOS04LjI1LS40NS0xMi4zLDEuMDctNS43NywzLjc0LTEwLjgzLDcuNzQtMTUuMTQsOS45Ni0xMC43MSwyNS41My0xOS41MSwzOS4wNS0yNS4zLDMzLjIzLTE0LjIzLDcwLjgyLTE3Ljk5LDEwNi4yOS0xMS40MSw2LjMyLDEuMTcsMTIuMTksMi41OCwxOC4yMiw0LjY4LjkxLjMyLDEuODQsMS41NSwyLjMxLDIuMzgsMy41NSw2LjE2LDUuOTgsMTIuNTksNy43OCwxOS40OC4wOS4zNC0uMTIsMS4wOS0uMzYsMS41Mi0xMi41LTMuNDktMjUuMTUtNS41MS0zOC4yMS02LjA0aC4wMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTkzLjE5LDUxLjAyYzQuOCwxLjM5LDkuMzcsMS45OSwxNC4yNSwyLjM3LDUuODQuNDUsMTEuMzYtLjI0LDE3LjU0LTEuMDYtNC42OCw2LjYxLTExLjM5LDEwLjkzLTE4LjY0LDEzLjU0LTE2LjczLTYuODktMzQuMi0xMC4yLTUyLjE1LTEwLjUxLTM2LjEtLjYyLTc0LjUsOS42LTEwNC4zOSwzMC40MS45Mi00Ljc1LDIuNTktOC42Miw0LjQ4LTEyLjgsNi4wNi0xMi40LDE1LjA5LTIzLjE5LDI2LjQ5LTMxLjA4LDE3Ljc3LTEyLjMxLDM5LjQtMTcuMzgsNjAuODUtMTQuOTgsNS44LjY1LDExLjA5LDEuNywxNi43NCwyLjk0LDE3LjI3LDMuNzcsMzEuNzEsNS42MSw0OS41NCwxLjg0LTEuMTIsMi4zOS0yLjQxLDMuOTctMy44LDUuNzYtMy41NSw0LjA2LTcuNDcsNy40OC0xMS44OSwxMC42Mi0uNS4zNS0uODIsMS4yNi0uNjcsMS43MS4yMS42MS44NSwxLjAxLDEuNjUsMS4yNWgwWiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xMDEuMTUsMTg2LjY5Yy0xLjYxLTEuMzMtMi4xOC0zLjUyLS44NC01LjExLjkzLTEuMSwyLjctMS4zLDQuMTEtLjYyLDE0LjY0LDcuMSwzMS40Nyw4Ljg2LDQ3LjE2LDQuMjUsOC45MS0yLjYyLDE2LjctNy40LDIyLjg0LTE0LjI2LDEuOS0yLjEzLDQuOS0yLjc0LDcuMDYtLjY5LDEuNTgsMS41MSwxLjU0LDMuODguMzYsNS43Ni0zLjY1LDUuODItOC42NCwxMC40OS0xNC42NiwxNC4wMS0xNS42NCw5LjE1LTM0LjgyLDEwLjc5LTUxLjgzLDQuNTctNS4yMy0xLjkxLTkuODYtNC4zNS0xNC4yLTcuOTFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTk4LjkyLDE1OS45MWMtNy44LTUuMjYtOC45NC0xOS40OS0yLjE4LTI2LjMsMy41OC0zLjYsOS4wNC0zLjYyLDEyLjc5LS4xNSwyLjU1LDIuMzYsMy45NSw1LjU1LDQuNzMsOC45OSwxLjEyLDQuOTUuNTEsMTAuMS0yLjEzLDE0LjMzLTIuOTEsNC42Ni04LjUxLDYuMzEtMTMuMiwzLjE0aC0uMDFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTE4OS4zLDE0My4xNmMtMTIuMTUtMS4zMS0yMy4yMSwzLjg5LTMzLjM4LDEwLjE1LS40NS4yOC0xLjM3LjM3LTEuNzYuMi0uNDgtLjIxLS43OC0xLjMtLjU5LTEuOTMsMy4yNi0xMC40OSwxMS42My0xOS40NSwyMi44NC0xOS45NSw2LjE2LS4yNywxMS4xMSwzLjQsMTMuMyw5LjA0LjIzLjYuNTUsMi4zNi0uNDEsMi40OGgwWiIvPgo8L3N2Zz4=" alt="Wiiin" style="width:100%;height:100%;object-fit:contain"></div>
+    <span class="label">WIIIN · IA</span>
+  </div>
+
+  <!-- Stats compactes en ligne -->
+  <div class="stat-strip" style="margin-top:auto;margin-bottom:14px">
+    <div>
+      <div class="lbl">POINTS RATÉS</div>
+      <div class="val miss">400</div>
+    </div>
+    <div>
+      <div class="lbl">SÉRIE</div>
+      <div class="val streak">0/3</div>
+    </div>
+    <div>
+      <div class="lbl">RANG</div>
+      <div class="val streak">#1 247</div>
+    </div>
+  </div>
+
+  <!-- CTA Partager mis en avant pour le screenshot moment -->
+  <button class="btn btn-mint" style="margin-bottom:8px">📸 Partager ce roast</button>
+  <button class="btn btn-outline-white" style="margin-bottom:14px">Mute le roaster</button>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="9"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="app-header">
+  <div class="mascot-circle xs"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMjU1LjEyIDI1NS4xMiI+CiAgPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDMwLjMuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDIuMS4zIEJ1aWxkIDE4MikgIC0tPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuc3QwIHsKICAgICAgICBmaWxsOiAjMGIxYjJlOwogICAgICB9CgogICAgICAuc3QxIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuc3QyIHsKICAgICAgICBmaWxsOiAjNjhkNzlmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTYxLjEsMjM0LjY0Yy0zMy43OSw5Ljg0LTcwLjQ3LDIuNDUtOTcuODEtMTkuMzYtMTcuNjUtMTQuMDgtMjkuOTItMzMuNTgtMzMuNjUtNTYuMDYtMy43My0zLjg5LTYuNDctOC4yNC04LjM1LTEzLjMyLTUuNzYtMTYuMzgtMS4wOC0zMy41OCwxMC41OC00Ni4yMSwxLjQtMjEuMTQsOS4xLTQwLjkyLDIzLjM1LTU2Ljc2LDIzLjU2LTI2LjE5LDU5LjEtMzcuNDEsOTMuNjYtMzEuMzYsNS44OCwxLjAzLDExLjI5LDIuMzksMTYuOTcsNC4xNCwyMS42MSw2LjYzLDQyLjk0LDMuODgsNjIuODEtNi42NC4zNy0uMiwxLjQtLjE4LDEuNzcsMCwxLjQuNjYsMS4xMyw0LjE5LjYyLDYuNzktMS44OCw5LjU2LTUuNDcsMTYuNS0xMS4zNiwyNC40Miw5LjA2LS41MiwxNy4wNC0zLjcxLDI0LjktNy45Ny40OS0uMjYsMS41Ni0uMzIsMS45NC0uMDQuNDYuMzQuNzQsMS4zMy44NSwyLjA4LS41Miw0LjM2LTEuNjksOC4yOC0zLjM0LDEyLjM1LTQuNTcsMTEuMjYtMTEuOTgsMjAuOTYtMjIuMTUsMjgsMTQuMDQsMjYuMSwxOC43NSw1NC45MiwxMS42NSw4My43OC00LjQ5LDE4LjIxLTEzLjY4LDM1LjE0LTI2LjY1LDQ4LjcyLTEyLjQ5LDEzLjA3LTI4LjMsMjIuMzgtNDUuNzgsMjcuNDd2LS4wM1pNMTkzLjE5LDUxLjAyYy0uOC0uMjQtMS40NC0uNjQtMS42NS0xLjI1LS4xNS0uNDUuMTctMS4zNi42Ny0xLjcxLDQuNDItMy4xNCw4LjM0LTYuNTYsMTEuODktMTAuNjIsMS4zOS0xLjc5LDIuNjgtMy4zOCwzLjgtNS43Ni0xNy44MywzLjc3LTMyLjI3LDEuOTQtNDkuNTQtMS44NC01LjY2LTEuMjQtMTAuOTQtMi4yOS0xNi43NC0yLjk0LTIxLjQ0LTIuNC00My4wOCwyLjY3LTYwLjg1LDE0Ljk4LTExLjM5LDcuODktMjAuNDMsMTguNjktMjYuNDksMzEuMDgtMS44OCw0LjE4LTMuNTUsOC4wNS00LjQ4LDEyLjgsMjkuODktMjAuODEsNjguMjgtMzEuMDMsMTA0LjM5LTMwLjQxLDE3Ljk2LjMxLDM1LjQyLDMuNjIsNTIuMTUsMTAuNTEsNy4yNS0yLjYxLDEzLjk2LTYuOTMsMTguNjQtMTMuNTQtNi4xOC44Mi0xMS43LDEuNTEtMTcuNTQsMS4wNi00Ljg4LS4zOC05LjQ1LS45Ny0xNC4yNS0yLjM3aDBaTTE3Ny45Miw5Ny4xNWMxMy4wNi41NCwyNS43MSwyLjU1LDM4LjIxLDYuMDQuMjQtLjQzLjQ1LTEuMTguMzYtMS41Mi0xLjc5LTYuOS00LjIzLTEzLjMyLTcuNzgtMTkuNDgtLjQ3LS44Mi0xLjQtMi4wNi0yLjMxLTIuMzgtNi4wMy0yLjA5LTExLjktMy41LTE4LjIyLTQuNjgtMzUuNDctNi41OC03My4wNi0yLjgyLTEwNi4yOSwxMS40MS0xMy41Miw1Ljc5LTI5LjEsMTQuNTktMzkuMDUsMjUuMy00LDQuMy02LjY3LDkuMzctNy43NCwxNS4xNC0uODQsNC4wNS0uOSw4LjA0LjQ1LDEyLjMsNi43NS0xMC4zLDE3Ljk1LTE3LjM3LDI4Ljk3LTIyLjQzLDMzLjIxLTE1LjI0LDc3LjA1LTIxLjE4LDExMy40MS0xOS42OWgtLjAxWk0xOTYuNTksMTk0LjI4YzE4Ljc3LTIwLjUzLDI1LjEyLTQ3LjYzLDE5LjE3LTc0LjY3LS40LTEuOC0xLjMxLTIuOTEtMy4xMy0zLjQyLTExLjE5LTMuMTUtMjIuNDctNS4zMy0zNC4xOS02LjM3LTIzLjA4LTIuMDUtNDYuMjYtLjg4LTY5LjAxLDMuMzctMTEuNTEsMi4xNS0yMi41OCw1LjA3LTMzLjQzLDkuMjctMTAuNDEsNC4wMy0yMS40Miw5LjM1LTI5LjIxLDE3LjMxLTEuMDMsMS4wNS0xLjI5LDIuNjgtMS4yNyw0LjI0LjQ5LDMxLjAyLDIwLjc0LDU3LjgsNDguNzgsNzAuMTMsMzQuNjQsMTUuMjIsNzYuNDMsOC40MiwxMDIuMjktMTkuODZoMFoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTk2LjU5LDE5NC4yOGMtMjUuODYsMjguMjktNjcuNjUsMzUuMDktMTAyLjI5LDE5Ljg2LTI4LjA1LTEyLjMyLTQ4LjMtMzkuMS00OC43OC03MC4xMy0uMDItMS41Ni4yNC0zLjE5LDEuMjctNC4yNCw3Ljc5LTcuOTYsMTguOC0xMy4yOCwyOS4yMS0xNy4zMSwxMC44NS00LjIsMjEuOTItNy4xMiwzMy40My05LjI3LDIyLjc1LTQuMjUsNDUuOTQtNS40Miw2OS4wMS0zLjM3LDExLjcyLDEuMDQsMjMsMy4yMywzNC4xOSw2LjM3LDEuODEuNTEsMi43MywxLjYyLDMuMTMsMy40Miw1Ljk1LDI3LjA0LS40LDU0LjE0LTE5LjE3LDc0LjY3aDBaTTk4LjkyLDE1OS45MWM0LjY5LDMuMTYsMTAuMjksMS41MiwxMy4yLTMuMTQsMi42NC00LjIzLDMuMjUtOS4zOCwyLjEzLTE0LjMzLS43OC0zLjQ0LTIuMTgtNi42Mi00LjczLTguOTktMy43NC0zLjQ3LTkuMjEtMy40NS0xMi43OS4xNS02Ljc2LDYuODEtNS42MiwyMS4wNCwyLjE4LDI2LjNoLjAxWk0xODkuMywxNDMuMTZjLjk2LS4xMi42NC0xLjg4LjQxLTIuNDgtMi4xOS01LjY0LTcuMTQtOS4zMi0xMy4zLTkuMDQtMTEuMjEuNS0xOS41OCw5LjQ2LTIyLjg0LDE5Ljk1LS4yLjYzLjExLDEuNzIuNTksMS45My40LjE3LDEuMzEuMDgsMS43Ni0uMiwxMC4xNy02LjI3LDIxLjIzLTExLjQ2LDMzLjM4LTEwLjE1aDBaTTEwMS4xNSwxODYuNjljNC4zNCwzLjU3LDguOTcsNiwxNC4yLDcuOTEsMTcuMDEsNi4yMiwzNi4xOSw0LjU4LDUxLjgzLTQuNTcsNi4wMi0zLjUyLDExLTguMTksMTQuNjYtMTQuMDEsMS4xOC0xLjg4LDEuMjItNC4yNi0uMzYtNS43Ni0yLjE2LTIuMDUtNS4xNi0xLjQ0LTcuMDYuNjktNi4xNCw2Ljg2LTEzLjkzLDExLjY0LTIyLjg0LDE0LjI2LTE1LjY4LDQuNjEtMzIuNTIsMi44Ni00Ny4xNi00LjI1LTEuNC0uNjgtMy4xOC0uNDgtNC4xMS42Mi0xLjM0LDEuNTktLjc4LDMuNzkuODQsNS4xMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMTc3LjkyLDk3LjE1Yy0zNi4zNi0xLjQ5LTgwLjIsNC40NC0xMTMuNDEsMTkuNjktMTEuMDIsNS4wNi0yMi4yMiwxMi4xMy0yOC45NywyMi40My0xLjM0LTQuMjYtMS4yOS04LjI1LS40NS0xMi4zLDEuMDctNS43NywzLjc0LTEwLjgzLDcuNzQtMTUuMTQsOS45Ni0xMC43MSwyNS41My0xOS41MSwzOS4wNS0yNS4zLDMzLjIzLTE0LjIzLDcwLjgyLTE3Ljk5LDEwNi4yOS0xMS40MSw2LjMyLDEuMTcsMTIuMTksMi41OCwxOC4yMiw0LjY4LjkxLjMyLDEuODQsMS41NSwyLjMxLDIuMzgsMy41NSw2LjE2LDUuOTgsMTIuNTksNy43OCwxOS40OC4wOS4zNC0uMTIsMS4wOS0uMzYsMS41Mi0xMi41LTMuNDktMjUuMTUtNS41MS0zOC4yMS02LjA0aC4wMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTkzLjE5LDUxLjAyYzQuOCwxLjM5LDkuMzcsMS45OSwxNC4yNSwyLjM3LDUuODQuNDUsMTEuMzYtLjI0LDE3LjU0LTEuMDYtNC42OCw2LjYxLTExLjM5LDEwLjkzLTE4LjY0LDEzLjU0LTE2LjczLTYuODktMzQuMi0xMC4yLTUyLjE1LTEwLjUxLTM2LjEtLjYyLTc0LjUsOS42LTEwNC4zOSwzMC40MS45Mi00Ljc1LDIuNTktOC42Miw0LjQ4LTEyLjgsNi4wNi0xMi40LDE1LjA5LTIzLjE5LDI2LjQ5LTMxLjA4LDE3Ljc3LTEyLjMxLDM5LjQtMTcuMzgsNjAuODUtMTQuOTgsNS44LjY1LDExLjA5LDEuNywxNi43NCwyLjk0LDE3LjI3LDMuNzcsMzEuNzEsNS42MSw0OS41NCwxLjg0LTEuMTIsMi4zOS0yLjQxLDMuOTctMy44LDUuNzYtMy41NSw0LjA2LTcuNDcsNy40OC0xMS44OSwxMC42Mi0uNS4zNS0uODIsMS4yNi0uNjcsMS43MS4yMS42MS44NSwxLjAxLDEuNjUsMS4yNWgwWiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xMDEuMTUsMTg2LjY5Yy0xLjYxLTEuMzMtMi4xOC0zLjUyLS44NC01LjExLjkzLTEuMSwyLjctMS4zLDQuMTEtLjYyLDE0LjY0LDcuMSwzMS40Nyw4Ljg2LDQ3LjE2LDQuMjUsOC45MS0yLjYyLDE2LjctNy40LDIyLjg0LTE0LjI2LDEuOS0yLjEzLDQuOS0yLjc0LDcuMDYtLjY5LDEuNTgsMS41MSwxLjU0LDMuODguMzYsNS43Ni0zLjY1LDUuODItOC42NCwxMC40OS0xNC42NiwxNC4wMS0xNS42NCw5LjE1LTM0LjgyLDEwLjc5LTUxLjgzLDQuNTctNS4yMy0xLjkxLTkuODYtNC4zNS0xNC4yLTcuOTFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTk4LjkyLDE1OS45MWMtNy44LTUuMjYtOC45NC0xOS40OS0yLjE4LTI2LjMsMy41OC0zLjYsOS4wNC0zLjYyLDEyLjc5LS4xNSwyLjU1LDIuMzYsMy45NSw1LjU1LDQuNzMsOC45OSwxLjEyLDQuOTUuNTEsMTAuMS0yLjEzLDE0LjMzLTIuOTEsNC42Ni04LjUxLDYuMzEtMTMuMiwzLjE0aC0uMDFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTE4OS4zLDE0My4xNmMtMTIuMTUtMS4zMS0yMy4yMSwzLjg5LTMzLjM4LDEwLjE1LS40NS4yOC0xLjM3LjM3LTEuNzYuMi0uNDgtLjIxLS43OC0xLjMtLjU5LTEuOTMsMy4yNi0xMC40OSwxMS42My0xOS40NSwyMi44NC0xOS45NSw2LjE2LS4yNywxMS4xMSwzLjQsMTMuMyw5LjA0LjIzLjYuNTUsMi4zNi0uNDEsMi40OGgwWiIvPgo8L3N2Zz4=" alt="Wiiin" style="width:100%;height:100%;object-fit:contain"></div>
+  <span class="coiiins-pill"><span class="dot"></span>240 Coiiins</span>
+  <button class="app-header-back" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/></svg></button>
+</div>
+<div class="phone-body tight">
+  <h1 class="display-xl" style="margin-bottom:6px">Boutique</h1>
+  <p style="font-size:14px;color:var(--ink-soft);font-weight:500;margin-bottom:18px">Coiiins, Wiiin+, et toutes les triches</p>
+
+  <!-- Solde dashboard -->
+  <div class="solde-card" style="margin-bottom:14px;padding:18px 20px">
+    <div>
+      <div class="label-mono">MON SOLDE</div>
+      <div class="num-massive" style="font-size:30px">240 Coiiins</div>
+    </div>
+    <a href="#shop_coiiins" class="btn btn-mint" style="width:auto;padding:10px 16px;font-size:13px;white-space:nowrap;align-self:center">
+      Recharger
+    </a>
+  </div>
+
+  <!-- Promo bannière du jour -->
+  <div style="background:linear-gradient(135deg,var(--gold) 0%,var(--gold-deep) 100%);border-radius:18px;padding:14px 18px;margin-bottom:24px;display:flex;align-items:center;gap:14px;border:1.5px solid var(--ink)">
+    <div style="font-size:28px;flex-shrink:0">🔥</div>
+    <div style="flex:1;min-width:0">
+      <div style="font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(11,27,46,.7);margin-bottom:2px">PACK DU JOUR · -20%</div>
+      <div style="font-size:15px;font-weight:800;letter-spacing:-.012em">300 Coiiins · 4,99€</div>
+      <div style="font-size:11px;color:rgba(11,27,46,.65);margin-top:1px">Au lieu de 5,99€ · jusqu'à dimanche</div>
+    </div>
+    <a href="#shop_coiiins" class="btn btn-ink" style="width:auto;padding:9px 14px;font-size:12px;white-space:nowrap;color:var(--gold);font-weight:800;letter-spacing:.06em;text-transform:uppercase">Acheter</a>
+  </div>
+
+  <!-- Catégories -->
+  <div class="eyebrow-mono" style="margin-bottom:10px">CATÉGORIES</div>
+
+  <a href="#shop_plus" class="tournoi-card" style="text-decoration:none;background:linear-gradient(135deg,var(--plum) 0%,var(--plum-deep) 100%);color:white">
+    <div class="tournoi-card-icon" style="background:rgba(255,255,255,.18);color:white;font-size:22px">⭐</div>
+    <div class="tournoi-card-info">
+      <h4 style="color:white">Wiiin+</h4>
+      <div class="meta" style="color:rgba(255,255,255,.78)">Mode Expert · sans pub · Roue Wiiin+</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--mint)">DÈS 4,08€/M</div>
+      <span style="color:white;opacity:.6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+    </div>
+  </a>
+
+  <a href="#shop_coiiins" class="tournoi-card" style="text-decoration:none;background:var(--gold)">
+    <div class="tournoi-card-icon" style="background:rgba(11,27,46,.18);font-size:22px">🪙</div>
+    <div class="tournoi-card-info">
+      <h4>Coiiins</h4>
+      <div class="meta">5 packs · de 0,99€ à 19,99€</div>
+    </div>
+    <span style="color:var(--ink);opacity:.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+  </a>
+
+  <a href="#shop_boosters" class="tournoi-card" style="text-decoration:none;background:var(--ink);color:white">
+    <div class="tournoi-card-icon" style="background:rgba(104,215,159,.18);color:var(--mint);font-size:22px">🎴</div>
+    <div class="tournoi-card-info">
+      <h4 style="color:var(--mint)">Cartes & Boosters</h4>
+      <div class="meta" style="color:rgba(255,255,255,.6)">22 disponibles · 7/14 dans ton deck</div>
+    </div>
+    <span style="color:var(--mint);opacity:.7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+  </a>
+</div>
+<div class="tab-bar"><a class="tab" href="#home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1v-9z"/></svg><span>Home</span></a><a class="tab active" href="#shop_hub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg><span>Sports</span></a><a class="tab" href="#leagues_hub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 8l4 4 5-7 5 7 4-4-1.5 11h-15z"/><circle cx="3" cy="8" r="1.2" fill="currentColor"/><circle cx="21" cy="8" r="1.2" fill="currentColor"/><circle cx="12" cy="5" r="1.2" fill="currentColor"/></svg><span>Ranks</span></a><a class="tab" href="#profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9 13.5q1.5 1.5 3 1.5t3-1.5"/></svg><span>Profil</span></a></div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="10"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="app-header">
+  <a href="#shop_hub" class="app-header-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a>
+  <div style="width:44px"></div>
+  <div style="width:44px"></div>
+</div>
+<div class="phone-body tight">
+  <h1 class="display-xl" style="margin-bottom:6px">Shop · Coiiins</h1>
+  <p style="font-size:14px;color:var(--ink-soft);font-weight:500;line-height:1.45;margin-bottom:20px">Achète des Coiiins pour spinner, ouvrir des packs, équiper ton avatar</p>
+
+  <div class="solde-card">
+    <div>
+      <div class="label-mono">SOLDE</div>
+      <div class="num-massive">240 Coiiins</div>
+    </div>
+    <div class="bonus-pill">+30 jours sans pub</div>
+  </div>
+
+  <div class="shop-pack">
+    <div class="shop-pack-coin"></div>
+    <div class="shop-pack-info">
+      <h4>50 Coiiins</h4>
+      <div class="desc">+100 pts bonus + 1 carte</div>
+    </div>
+    <div class="shop-pack-price">0,99 €</div>
+  </div>
+
+  <div class="shop-pack featured">
+    <div class="shop-pack-coin"></div>
+    <div class="shop-pack-info">
+      <h4>300 Coiiins · +20 %</h4>
+      <div class="desc">30 jours sans pub + 5 Coiiins + 3 spins premium</div>
+    </div>
+    <div class="shop-pack-price">4,99 €</div>
+  </div>
+
+  <div class="shop-pack">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:-4px">
+      <div class="shop-pack-coin"></div>
+      <div class="shop-pack-coin" style="margin-top:-12px"></div>
+    </div>
+    <div class="shop-pack-info">
+      <h4>800 Coiiins · +35 %</h4>
+      <div class="desc">1 mois Wiiin+ + 2 cartes épiques + skin</div>
+    </div>
+    <div class="shop-pack-price">12,99 €</div>
+  </div>
+
+  <p style="text-align:center;font-size:11px;color:var(--ink-mute);margin-top:16px;font-weight:500">Coiiins = monnaie virtuelle non convertible</p>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="11"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="app-header">
+  <a href="#shop_hub" class="app-header-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a>
+  <div style="width:44px"></div>
+  <div style="width:44px"></div>
+</div>
+<div class="phone-body tight">
+  <div class="mascot-circle md" style="margin-bottom:16px"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMjU1LjEyIDI1NS4xMiI+CiAgPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDMwLjMuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDIuMS4zIEJ1aWxkIDE4MikgIC0tPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuc3QwIHsKICAgICAgICBmaWxsOiAjMGIxYjJlOwogICAgICB9CgogICAgICAuc3QxIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuc3QyIHsKICAgICAgICBmaWxsOiAjNjhkNzlmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTYxLjEsMjM0LjY0Yy0zMy43OSw5Ljg0LTcwLjQ3LDIuNDUtOTcuODEtMTkuMzYtMTcuNjUtMTQuMDgtMjkuOTItMzMuNTgtMzMuNjUtNTYuMDYtMy43My0zLjg5LTYuNDctOC4yNC04LjM1LTEzLjMyLTUuNzYtMTYuMzgtMS4wOC0zMy41OCwxMC41OC00Ni4yMSwxLjQtMjEuMTQsOS4xLTQwLjkyLDIzLjM1LTU2Ljc2LDIzLjU2LTI2LjE5LDU5LjEtMzcuNDEsOTMuNjYtMzEuMzYsNS44OCwxLjAzLDExLjI5LDIuMzksMTYuOTcsNC4xNCwyMS42MSw2LjYzLDQyLjk0LDMuODgsNjIuODEtNi42NC4zNy0uMiwxLjQtLjE4LDEuNzcsMCwxLjQuNjYsMS4xMyw0LjE5LjYyLDYuNzktMS44OCw5LjU2LTUuNDcsMTYuNS0xMS4zNiwyNC40Miw5LjA2LS41MiwxNy4wNC0zLjcxLDI0LjktNy45Ny40OS0uMjYsMS41Ni0uMzIsMS45NC0uMDQuNDYuMzQuNzQsMS4zMy44NSwyLjA4LS41Miw0LjM2LTEuNjksOC4yOC0zLjM0LDEyLjM1LTQuNTcsMTEuMjYtMTEuOTgsMjAuOTYtMjIuMTUsMjgsMTQuMDQsMjYuMSwxOC43NSw1NC45MiwxMS42NSw4My43OC00LjQ5LDE4LjIxLTEzLjY4LDM1LjE0LTI2LjY1LDQ4LjcyLTEyLjQ5LDEzLjA3LTI4LjMsMjIuMzgtNDUuNzgsMjcuNDd2LS4wM1pNMTkzLjE5LDUxLjAyYy0uOC0uMjQtMS40NC0uNjQtMS42NS0xLjI1LS4xNS0uNDUuMTctMS4zNi42Ny0xLjcxLDQuNDItMy4xNCw4LjM0LTYuNTYsMTEuODktMTAuNjIsMS4zOS0xLjc5LDIuNjgtMy4zOCwzLjgtNS43Ni0xNy44MywzLjc3LTMyLjI3LDEuOTQtNDkuNTQtMS44NC01LjY2LTEuMjQtMTAuOTQtMi4yOS0xNi43NC0yLjk0LTIxLjQ0LTIuNC00My4wOCwyLjY3LTYwLjg1LDE0Ljk4LTExLjM5LDcuODktMjAuNDMsMTguNjktMjYuNDksMzEuMDgtMS44OCw0LjE4LTMuNTUsOC4wNS00LjQ4LDEyLjgsMjkuODktMjAuODEsNjguMjgtMzEuMDMsMTA0LjM5LTMwLjQxLDE3Ljk2LjMxLDM1LjQyLDMuNjIsNTIuMTUsMTAuNTEsNy4yNS0yLjYxLDEzLjk2LTYuOTMsMTguNjQtMTMuNTQtNi4xOC44Mi0xMS43LDEuNTEtMTcuNTQsMS4wNi00Ljg4LS4zOC05LjQ1LS45Ny0xNC4yNS0yLjM3aDBaTTE3Ny45Miw5Ny4xNWMxMy4wNi41NCwyNS43MSwyLjU1LDM4LjIxLDYuMDQuMjQtLjQzLjQ1LTEuMTguMzYtMS41Mi0xLjc5LTYuOS00LjIzLTEzLjMyLTcuNzgtMTkuNDgtLjQ3LS44Mi0xLjQtMi4wNi0yLjMxLTIuMzgtNi4wMy0yLjA5LTExLjktMy41LTE4LjIyLTQuNjgtMzUuNDctNi41OC03My4wNi0yLjgyLTEwNi4yOSwxMS40MS0xMy41Miw1Ljc5LTI5LjEsMTQuNTktMzkuMDUsMjUuMy00LDQuMy02LjY3LDkuMzctNy43NCwxNS4xNC0uODQsNC4wNS0uOSw4LjA0LjQ1LDEyLjMsNi43NS0xMC4zLDE3Ljk1LTE3LjM3LDI4Ljk3LTIyLjQzLDMzLjIxLTE1LjI0LDc3LjA1LTIxLjE4LDExMy40MS0xOS42OWgtLjAxWk0xOTYuNTksMTk0LjI4YzE4Ljc3LTIwLjUzLDI1LjEyLTQ3LjYzLDE5LjE3LTc0LjY3LS40LTEuOC0xLjMxLTIuOTEtMy4xMy0zLjQyLTExLjE5LTMuMTUtMjIuNDctNS4zMy0zNC4xOS02LjM3LTIzLjA4LTIuMDUtNDYuMjYtLjg4LTY5LjAxLDMuMzctMTEuNTEsMi4xNS0yMi41OCw1LjA3LTMzLjQzLDkuMjctMTAuNDEsNC4wMy0yMS40Miw5LjM1LTI5LjIxLDE3LjMxLTEuMDMsMS4wNS0xLjI5LDIuNjgtMS4yNyw0LjI0LjQ5LDMxLjAyLDIwLjc0LDU3LjgsNDguNzgsNzAuMTMsMzQuNjQsMTUuMjIsNzYuNDMsOC40MiwxMDIuMjktMTkuODZoMFoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTk2LjU5LDE5NC4yOGMtMjUuODYsMjguMjktNjcuNjUsMzUuMDktMTAyLjI5LDE5Ljg2LTI4LjA1LTEyLjMyLTQ4LjMtMzkuMS00OC43OC03MC4xMy0uMDItMS41Ni4yNC0zLjE5LDEuMjctNC4yNCw3Ljc5LTcuOTYsMTguOC0xMy4yOCwyOS4yMS0xNy4zMSwxMC44NS00LjIsMjEuOTItNy4xMiwzMy40My05LjI3LDIyLjc1LTQuMjUsNDUuOTQtNS40Miw2OS4wMS0zLjM3LDExLjcyLDEuMDQsMjMsMy4yMywzNC4xOSw2LjM3LDEuODEuNTEsMi43MywxLjYyLDMuMTMsMy40Miw1Ljk1LDI3LjA0LS40LDU0LjE0LTE5LjE3LDc0LjY3aDBaTTk4LjkyLDE1OS45MWM0LjY5LDMuMTYsMTAuMjksMS41MiwxMy4yLTMuMTQsMi42NC00LjIzLDMuMjUtOS4zOCwyLjEzLTE0LjMzLS43OC0zLjQ0LTIuMTgtNi42Mi00LjczLTguOTktMy43NC0zLjQ3LTkuMjEtMy40NS0xMi43OS4xNS02Ljc2LDYuODEtNS42MiwyMS4wNCwyLjE4LDI2LjNoLjAxWk0xODkuMywxNDMuMTZjLjk2LS4xMi42NC0xLjg4LjQxLTIuNDgtMi4xOS01LjY0LTcuMTQtOS4zMi0xMy4zLTkuMDQtMTEuMjEuNS0xOS41OCw5LjQ2LTIyLjg0LDE5Ljk1LS4yLjYzLjExLDEuNzIuNTksMS45My40LjE3LDEuMzEuMDgsMS43Ni0uMiwxMC4xNy02LjI3LDIxLjIzLTExLjQ2LDMzLjM4LTEwLjE1aDBaTTEwMS4xNSwxODYuNjljNC4zNCwzLjU3LDguOTcsNiwxNC4yLDcuOTEsMTcuMDEsNi4yMiwzNi4xOSw0LjU4LDUxLjgzLTQuNTcsNi4wMi0zLjUyLDExLTguMTksMTQuNjYtMTQuMDEsMS4xOC0xLjg4LDEuMjItNC4yNi0uMzYtNS43Ni0yLjE2LTIuMDUtNS4xNi0xLjQ0LTcuMDYuNjktNi4xNCw2Ljg2LTEzLjkzLDExLjY0LTIyLjg0LDE0LjI2LTE1LjY4LDQuNjEtMzIuNTIsMi44Ni00Ny4xNi00LjI1LTEuNC0uNjgtMy4xOC0uNDgtNC4xMS42Mi0xLjM0LDEuNTktLjc4LDMuNzkuODQsNS4xMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMTc3LjkyLDk3LjE1Yy0zNi4zNi0xLjQ5LTgwLjIsNC40NC0xMTMuNDEsMTkuNjktMTEuMDIsNS4wNi0yMi4yMiwxMi4xMy0yOC45NywyMi40My0xLjM0LTQuMjYtMS4yOS04LjI1LS40NS0xMi4zLDEuMDctNS43NywzLjc0LTEwLjgzLDcuNzQtMTUuMTQsOS45Ni0xMC43MSwyNS41My0xOS41MSwzOS4wNS0yNS4zLDMzLjIzLTE0LjIzLDcwLjgyLTE3Ljk5LDEwNi4yOS0xMS40MSw2LjMyLDEuMTcsMTIuMTksMi41OCwxOC4yMiw0LjY4LjkxLjMyLDEuODQsMS41NSwyLjMxLDIuMzgsMy41NSw2LjE2LDUuOTgsMTIuNTksNy43OCwxOS40OC4wOS4zNC0uMTIsMS4wOS0uMzYsMS41Mi0xMi41LTMuNDktMjUuMTUtNS41MS0zOC4yMS02LjA0aC4wMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTkzLjE5LDUxLjAyYzQuOCwxLjM5LDkuMzcsMS45OSwxNC4yNSwyLjM3LDUuODQuNDUsMTEuMzYtLjI0LDE3LjU0LTEuMDYtNC42OCw2LjYxLTExLjM5LDEwLjkzLTE4LjY0LDEzLjU0LTE2LjczLTYuODktMzQuMi0xMC4yLTUyLjE1LTEwLjUxLTM2LjEtLjYyLTc0LjUsOS42LTEwNC4zOSwzMC40MS45Mi00Ljc1LDIuNTktOC42Miw0LjQ4LTEyLjgsNi4wNi0xMi40LDE1LjA5LTIzLjE5LDI2LjQ5LTMxLjA4LDE3Ljc3LTEyLjMxLDM5LjQtMTcuMzgsNjAuODUtMTQuOTgsNS44LjY1LDExLjA5LDEuNywxNi43NCwyLjk0LDE3LjI3LDMuNzcsMzEuNzEsNS42MSw0OS41NCwxLjg0LTEuMTIsMi4zOS0yLjQxLDMuOTctMy44LDUuNzYtMy41NSw0LjA2LTcuNDcsNy40OC0xMS44OSwxMC42Mi0uNS4zNS0uODIsMS4yNi0uNjcsMS43MS4yMS42MS44NSwxLjAxLDEuNjUsMS4yNWgwWiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xMDEuMTUsMTg2LjY5Yy0xLjYxLTEuMzMtMi4xOC0zLjUyLS44NC01LjExLjkzLTEuMSwyLjctMS4zLDQuMTEtLjYyLDE0LjY0LDcuMSwzMS40Nyw4Ljg2LDQ3LjE2LDQuMjUsOC45MS0yLjYyLDE2LjctNy40LDIyLjg0LTE0LjI2LDEuOS0yLjEzLDQuOS0yLjc0LDcuMDYtLjY5LDEuNTgsMS41MSwxLjU0LDMuODguMzYsNS43Ni0zLjY1LDUuODItOC42NCwxMC40OS0xNC42NiwxNC4wMS0xNS42NCw5LjE1LTM0LjgyLDEwLjc5LTUxLjgzLDQuNTctNS4yMy0xLjkxLTkuODYtNC4zNS0xNC4yLTcuOTFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTk4LjkyLDE1OS45MWMtNy44LTUuMjYtOC45NC0xOS40OS0yLjE4LTI2LjMsMy41OC0zLjYsOS4wNC0zLjYyLDEyLjc5LS4xNSwyLjU1LDIuMzYsMy45NSw1LjU1LDQuNzMsOC45OSwxLjEyLDQuOTUuNTEsMTAuMS0yLjEzLDE0LjMzLTIuOTEsNC42Ni04LjUxLDYuMzEtMTMuMiwzLjE0aC0uMDFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTE4OS4zLDE0My4xNmMtMTIuMTUtMS4zMS0yMy4yMSwzLjg5LTMzLjM4LDEwLjE1LS40NS4yOC0xLjM3LjM3LTEuNzYuMi0uNDgtLjIxLS43OC0xLjMtLjU5LTEuOTMsMy4yNi0xMC40OSwxMS42My0xOS40NSwyMi44NC0xOS45NSw2LjE2LS4yNywxMS4xMSwzLjQsMTMuMyw5LjA0LjIzLjYuNTUsMi4zNi0uNDEsMi40OGgwWiIvPgo8L3N2Zz4=" alt="Wiiin" style="width:100%;height:100%;object-fit:contain"></div>
+  <h1 class="display-xl" style="margin-bottom:6px">Wiiin+</h1>
+  <p style="font-size:14px;color:var(--ink-soft);font-weight:500;line-height:1.45;margin-bottom:20px">Active la valise de triche, vire les pubs, et reçois nos petits bonus surprise.</p>
+
+  <div class="feature-row">
+    <div class="feature-row-icon">🚫</div>
+    <div class="feature-row-name">Zéro pub</div>
+    <div class="feature-row-value">incl.</div>
+  </div>
+  <div class="feature-row">
+    <div class="feature-row-icon">💼</div>
+    <div class="feature-row-name">Valise de triche</div>
+    <div class="feature-row-value">×3</div>
+  </div>
+  <div class="feature-row">
+    <div class="feature-row-icon" style="background:#ffd8e1">🎁</div>
+    <div class="feature-row-name">Bonus surprise</div>
+    <div class="feature-row-value">+pts</div>
+  </div>
+  <div class="feature-row">
+    <div class="feature-row-icon">📊</div>
+    <div class="feature-row-name">Stats avancées</div>
+    <div class="feature-row-value">incl.</div>
+  </div>
+  <div class="feature-row">
+    <div class="feature-row-icon">🏆</div>
+    <div class="feature-row-name">Tournois pro</div>
+    <div class="feature-row-value">incl.</div>
+  </div>
+</div>
+<div class="sticky-cta">
+  <a href="#shop_hub" class="btn btn-ink"><span style="color:var(--mint);font-weight:800">5,99 € / mois</span></a>
+  <p style="text-align:center;font-size:12px;color:var(--ink-mute);margin-top:10px;font-weight:500">ou 49 €/an · annulable à tout moment</p>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="12"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="app-header">
+  <a href="#shop_hub" class="app-header-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a>
+  <div style="width:44px"></div>
+  <div style="width:44px"></div>
+</div>
+<div class="phone-body tight">
+  <h1 class="display-xl" style="margin-bottom:4px">Mes triches</h1>
+  <p style="font-size:14px;color:var(--ink-soft);font-weight:500;margin-bottom:20px">7/14 collectées · 3 disponibles</p>
+
+  <div class="trading-grid" style="margin-bottom:16px">
+    <div class="trading-card gold">
+      <div class="trading-card-corner">L</div>
+      <div class="trading-card-icon" style="background:rgba(11,27,46,.18)">❌</div>
+      <div class="trading-card-name">Doubleur</div>
+      <div class="trading-card-meta">×2 / ×0.5</div>
+    </div>
+    <div class="trading-card mint">
+      <div class="trading-card-corner">R</div>
+      <div class="trading-card-icon" style="background:rgba(11,27,46,.18)">🥅</div>
+      <div class="trading-card-name">Filet</div>
+      <div class="trading-card-meta">50% si raté</div>
+    </div>
+    <div class="trading-card plum">
+      <div class="trading-card-corner">E</div>
+      <div class="trading-card-icon">🔍</div>
+      <div class="trading-card-name">Espion</div>
+      <div class="trading-card-meta">Voir prono ami</div>
+    </div>
+    <div class="trading-card white">
+      <div class="trading-card-corner" style="color:var(--ink-mute)">C</div>
+      <div class="trading-card-icon" style="background:rgba(11,27,46,.06)">👁</div>
+      <div class="trading-card-name">L'Œil</div>
+      <div class="trading-card-meta">Stat-clé</div>
+    </div>
+    <div class="trading-card locked">
+      <div class="trading-card-corner">C</div>
+      <div class="trading-card-icon" style="background:rgba(11,27,46,.04)">🔥</div>
+      <div class="trading-card-name">Cannibale</div>
+      <div class="trading-card-meta" style="display:inline-flex;align-items:center;gap:4px">🔒 Verrouillée</div>
+    </div>
+    <div class="trading-card gold featured">
+      <div class="trading-card-corner">★</div>
+      <div class="trading-card-icon" style="background:rgba(11,27,46,.18)">👑</div>
+      <div class="trading-card-name">Wiiin Card</div>
+      <div class="trading-card-meta">★ 1×/saison</div>
+    </div>
+  </div>
+
+  <div class="next-match-card">
+    <div class="head">PROCHAIN MATCH · FRA-ARG</div>
+    <h4>Quelle triche utilises-tu ?</h4>
+    <div class="sub">Coup d'envoi dans 27 min</div>
+  </div>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="13"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="app-header">
+  <div class="mascot-circle xs"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMjU1LjEyIDI1NS4xMiI+CiAgPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDMwLjMuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDIuMS4zIEJ1aWxkIDE4MikgIC0tPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuc3QwIHsKICAgICAgICBmaWxsOiAjMGIxYjJlOwogICAgICB9CgogICAgICAuc3QxIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuc3QyIHsKICAgICAgICBmaWxsOiAjNjhkNzlmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTYxLjEsMjM0LjY0Yy0zMy43OSw5Ljg0LTcwLjQ3LDIuNDUtOTcuODEtMTkuMzYtMTcuNjUtMTQuMDgtMjkuOTItMzMuNTgtMzMuNjUtNTYuMDYtMy43My0zLjg5LTYuNDctOC4yNC04LjM1LTEzLjMyLTUuNzYtMTYuMzgtMS4wOC0zMy41OCwxMC41OC00Ni4yMSwxLjQtMjEuMTQsOS4xLTQwLjkyLDIzLjM1LTU2Ljc2LDIzLjU2LTI2LjE5LDU5LjEtMzcuNDEsOTMuNjYtMzEuMzYsNS44OCwxLjAzLDExLjI5LDIuMzksMTYuOTcsNC4xNCwyMS42MSw2LjYzLDQyLjk0LDMuODgsNjIuODEtNi42NC4zNy0uMiwxLjQtLjE4LDEuNzcsMCwxLjQuNjYsMS4xMyw0LjE5LjYyLDYuNzktMS44OCw5LjU2LTUuNDcsMTYuNS0xMS4zNiwyNC40Miw5LjA2LS41MiwxNy4wNC0zLjcxLDI0LjktNy45Ny40OS0uMjYsMS41Ni0uMzIsMS45NC0uMDQuNDYuMzQuNzQsMS4zMy44NSwyLjA4LS41Miw0LjM2LTEuNjksOC4yOC0zLjM0LDEyLjM1LTQuNTcsMTEuMjYtMTEuOTgsMjAuOTYtMjIuMTUsMjgsMTQuMDQsMjYuMSwxOC43NSw1NC45MiwxMS42NSw4My43OC00LjQ5LDE4LjIxLTEzLjY4LDM1LjE0LTI2LjY1LDQ4LjcyLTEyLjQ5LDEzLjA3LTI4LjMsMjIuMzgtNDUuNzgsMjcuNDd2LS4wM1pNMTkzLjE5LDUxLjAyYy0uOC0uMjQtMS40NC0uNjQtMS42NS0xLjI1LS4xNS0uNDUuMTctMS4zNi42Ny0xLjcxLDQuNDItMy4xNCw4LjM0LTYuNTYsMTEuODktMTAuNjIsMS4zOS0xLjc5LDIuNjgtMy4zOCwzLjgtNS43Ni0xNy44MywzLjc3LTMyLjI3LDEuOTQtNDkuNTQtMS44NC01LjY2LTEuMjQtMTAuOTQtMi4yOS0xNi43NC0yLjk0LTIxLjQ0LTIuNC00My4wOCwyLjY3LTYwLjg1LDE0Ljk4LTExLjM5LDcuODktMjAuNDMsMTguNjktMjYuNDksMzEuMDgtMS44OCw0LjE4LTMuNTUsOC4wNS00LjQ4LDEyLjgsMjkuODktMjAuODEsNjguMjgtMzEuMDMsMTA0LjM5LTMwLjQxLDE3Ljk2LjMxLDM1LjQyLDMuNjIsNTIuMTUsMTAuNTEsNy4yNS0yLjYxLDEzLjk2LTYuOTMsMTguNjQtMTMuNTQtNi4xOC44Mi0xMS43LDEuNTEtMTcuNTQsMS4wNi00Ljg4LS4zOC05LjQ1LS45Ny0xNC4yNS0yLjM3aDBaTTE3Ny45Miw5Ny4xNWMxMy4wNi41NCwyNS43MSwyLjU1LDM4LjIxLDYuMDQuMjQtLjQzLjQ1LTEuMTguMzYtMS41Mi0xLjc5LTYuOS00LjIzLTEzLjMyLTcuNzgtMTkuNDgtLjQ3LS44Mi0xLjQtMi4wNi0yLjMxLTIuMzgtNi4wMy0yLjA5LTExLjktMy41LTE4LjIyLTQuNjgtMzUuNDctNi41OC03My4wNi0yLjgyLTEwNi4yOSwxMS40MS0xMy41Miw1Ljc5LTI5LjEsMTQuNTktMzkuMDUsMjUuMy00LDQuMy02LjY3LDkuMzctNy43NCwxNS4xNC0uODQsNC4wNS0uOSw4LjA0LjQ1LDEyLjMsNi43NS0xMC4zLDE3Ljk1LTE3LjM3LDI4Ljk3LTIyLjQzLDMzLjIxLTE1LjI0LDc3LjA1LTIxLjE4LDExMy40MS0xOS42OWgtLjAxWk0xOTYuNTksMTk0LjI4YzE4Ljc3LTIwLjUzLDI1LjEyLTQ3LjYzLDE5LjE3LTc0LjY3LS40LTEuOC0xLjMxLTIuOTEtMy4xMy0zLjQyLTExLjE5LTMuMTUtMjIuNDctNS4zMy0zNC4xOS02LjM3LTIzLjA4LTIuMDUtNDYuMjYtLjg4LTY5LjAxLDMuMzctMTEuNTEsMi4xNS0yMi41OCw1LjA3LTMzLjQzLDkuMjctMTAuNDEsNC4wMy0yMS40Miw5LjM1LTI5LjIxLDE3LjMxLTEuMDMsMS4wNS0xLjI5LDIuNjgtMS4yNyw0LjI0LjQ5LDMxLjAyLDIwLjc0LDU3LjgsNDguNzgsNzAuMTMsMzQuNjQsMTUuMjIsNzYuNDMsOC40MiwxMDIuMjktMTkuODZoMFoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTk2LjU5LDE5NC4yOGMtMjUuODYsMjguMjktNjcuNjUsMzUuMDktMTAyLjI5LDE5Ljg2LTI4LjA1LTEyLjMyLTQ4LjMtMzkuMS00OC43OC03MC4xMy0uMDItMS41Ni4yNC0zLjE5LDEuMjctNC4yNCw3Ljc5LTcuOTYsMTguOC0xMy4yOCwyOS4yMS0xNy4zMSwxMC44NS00LjIsMjEuOTItNy4xMiwzMy40My05LjI3LDIyLjc1LTQuMjUsNDUuOTQtNS40Miw2OS4wMS0zLjM3LDExLjcyLDEuMDQsMjMsMy4yMywzNC4xOSw2LjM3LDEuODEuNTEsMi43MywxLjYyLDMuMTMsMy40Miw1Ljk1LDI3LjA0LS40LDU0LjE0LTE5LjE3LDc0LjY3aDBaTTk4LjkyLDE1OS45MWM0LjY5LDMuMTYsMTAuMjksMS41MiwxMy4yLTMuMTQsMi42NC00LjIzLDMuMjUtOS4zOCwyLjEzLTE0LjMzLS43OC0zLjQ0LTIuMTgtNi42Mi00LjczLTguOTktMy43NC0zLjQ3LTkuMjEtMy40NS0xMi43OS4xNS02Ljc2LDYuODEtNS42MiwyMS4wNCwyLjE4LDI2LjNoLjAxWk0xODkuMywxNDMuMTZjLjk2LS4xMi42NC0xLjg4LjQxLTIuNDgtMi4xOS01LjY0LTcuMTQtOS4zMi0xMy4zLTkuMDQtMTEuMjEuNS0xOS41OCw5LjQ2LTIyLjg0LDE5Ljk1LS4yLjYzLjExLDEuNzIuNTksMS45My40LjE3LDEuMzEuMDgsMS43Ni0uMiwxMC4xNy02LjI3LDIxLjIzLTExLjQ2LDMzLjM4LTEwLjE1aDBaTTEwMS4xNSwxODYuNjljNC4zNCwzLjU3LDguOTcsNiwxNC4yLDcuOTEsMTcuMDEsNi4yMiwzNi4xOSw0LjU4LDUxLjgzLTQuNTcsNi4wMi0zLjUyLDExLTguMTksMTQuNjYtMTQuMDEsMS4xOC0xLjg4LDEuMjItNC4yNi0uMzYtNS43Ni0yLjE2LTIuMDUtNS4xNi0xLjQ0LTcuMDYuNjktNi4xNCw2Ljg2LTEzLjkzLDExLjY0LTIyLjg0LDE0LjI2LTE1LjY4LDQuNjEtMzIuNTIsMi44Ni00Ny4xNi00LjI1LTEuNC0uNjgtMy4xOC0uNDgtNC4xMS42Mi0xLjM0LDEuNTktLjc4LDMuNzkuODQsNS4xMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMTc3LjkyLDk3LjE1Yy0zNi4zNi0xLjQ5LTgwLjIsNC40NC0xMTMuNDEsMTkuNjktMTEuMDIsNS4wNi0yMi4yMiwxMi4xMy0yOC45NywyMi40My0xLjM0LTQuMjYtMS4yOS04LjI1LS40NS0xMi4zLDEuMDctNS43NywzLjc0LTEwLjgzLDcuNzQtMTUuMTQsOS45Ni0xMC43MSwyNS41My0xOS41MSwzOS4wNS0yNS4zLDMzLjIzLTE0LjIzLDcwLjgyLTE3Ljk5LDEwNi4yOS0xMS40MSw2LjMyLDEuMTcsMTIuMTksMi41OCwxOC4yMiw0LjY4LjkxLjMyLDEuODQsMS41NSwyLjMxLDIuMzgsMy41NSw2LjE2LDUuOTgsMTIuNTksNy43OCwxOS40OC4wOS4zNC0uMTIsMS4wOS0uMzYsMS41Mi0xMi41LTMuNDktMjUuMTUtNS41MS0zOC4yMS02LjA0aC4wMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTkzLjE5LDUxLjAyYzQuOCwxLjM5LDkuMzcsMS45OSwxNC4yNSwyLjM3LDUuODQuNDUsMTEuMzYtLjI0LDE3LjU0LTEuMDYtNC42OCw2LjYxLTExLjM5LDEwLjkzLTE4LjY0LDEzLjU0LTE2LjczLTYuODktMzQuMi0xMC4yLTUyLjE1LTEwLjUxLTM2LjEtLjYyLTc0LjUsOS42LTEwNC4zOSwzMC40MS45Mi00Ljc1LDIuNTktOC42Miw0LjQ4LTEyLjgsNi4wNi0xMi40LDE1LjA5LTIzLjE5LDI2LjQ5LTMxLjA4LDE3Ljc3LTEyLjMxLDM5LjQtMTcuMzgsNjAuODUtMTQuOTgsNS44LjY1LDExLjA5LDEuNywxNi43NCwyLjk0LDE3LjI3LDMuNzcsMzEuNzEsNS42MSw0OS41NCwxLjg0LTEuMTIsMi4zOS0yLjQxLDMuOTctMy44LDUuNzYtMy41NSw0LjA2LTcuNDcsNy40OC0xMS44OSwxMC42Mi0uNS4zNS0uODIsMS4yNi0uNjcsMS43MS4yMS42MS44NSwxLjAxLDEuNjUsMS4yNWgwWiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xMDEuMTUsMTg2LjY5Yy0xLjYxLTEuMzMtMi4xOC0zLjUyLS44NC01LjExLjkzLTEuMSwyLjctMS4zLDQuMTEtLjYyLDE0LjY0LDcuMSwzMS40Nyw4Ljg2LDQ3LjE2LDQuMjUsOC45MS0yLjYyLDE2LjctNy40LDIyLjg0LTE0LjI2LDEuOS0yLjEzLDQuOS0yLjc0LDcuMDYtLjY5LDEuNTgsMS41MSwxLjU0LDMuODguMzYsNS43Ni0zLjY1LDUuODItOC42NCwxMC40OS0xNC42NiwxNC4wMS0xNS42NCw5LjE1LTM0LjgyLDEwLjc5LTUxLjgzLDQuNTctNS4yMy0xLjkxLTkuODYtNC4zNS0xNC4yLTcuOTFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTk4LjkyLDE1OS45MWMtNy44LTUuMjYtOC45NC0xOS40OS0yLjE4LTI2LjMsMy41OC0zLjYsOS4wNC0zLjYyLDEyLjc5LS4xNSwyLjU1LDIuMzYsMy45NSw1LjU1LDQuNzMsOC45OSwxLjEyLDQuOTUuNTEsMTAuMS0yLjEzLDE0LjMzLTIuOTEsNC42Ni04LjUxLDYuMzEtMTMuMiwzLjE0aC0uMDFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTE4OS4zLDE0My4xNmMtMTIuMTUtMS4zMS0yMy4yMSwzLjg5LTMzLjM4LDEwLjE1LS40NS4yOC0xLjM3LjM3LTEuNzYuMi0uNDgtLjIxLS43OC0xLjMtLjU5LTEuOTMsMy4yNi0xMC40OSwxMS42My0xOS40NSwyMi44NC0xOS45NSw2LjE2LS4yNywxMS4xMSwzLjQsMTMuMyw5LjA0LjIzLjYuNTUsMi4zNi0uNDEsMi40OGgwWiIvPgo8L3N2Zz4=" alt="Wiiin" style="width:100%;height:100%;object-fit:contain"></div>
+  <span class="coiiins-pill"><span class="dot"></span>240 Coiiins</span>
+  <button class="app-header-back" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/></svg></button>
+</div>
+<div class="phone-body tight">
+  <h1 class="display-xl" style="margin-bottom:4px">Tournois</h1>
+  <p style="font-size:14px;color:var(--ink-soft);font-weight:500;margin-bottom:20px">Officiels Wiiin · Entre amis</p>
+
+  <div class="tournoi-card">
+    <div class="tournoi-card-icon" style="background:rgba(11,27,46,.18)">🏆</div>
+    <div class="tournoi-card-info">
+      <h4>UCL Finale · FR</h4>
+      <div class="meta">30 mai · 1 247 inscrits</div>
+    </div>
+    <div class="price">200€</div>
+  </div>
+
+  <div class="tournoi-card cream">
+    <div class="tournoi-card-icon" style="background:white">🇻🇳</div>
+    <div class="tournoi-card-info">
+      <h4>Coupe du Monde · VN</h4>
+      <div class="meta">11 juin → 19 juil</div>
+    </div>
+    <div class="price">PS5</div>
+  </div>
+
+  <div class="tournoi-card mint">
+    <div class="tournoi-card-icon" style="background:rgba(11,27,46,.18)">⚔️</div>
+    <div class="tournoi-card-info">
+      <h4>Casa Boys</h4>
+      <div class="meta">8 amis · #2/8</div>
+    </div>
+    <div class="price">12.4K</div>
+  </div>
+
+  <a href="#leagues_create" class="tournoi-card outline" style="text-decoration:none">
+    <div class="tournoi-card-icon" style="background:transparent;border:1.5px dashed rgba(11,27,46,.3)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+    <div class="tournoi-card-info">
+      <h4>Créer un tournoi</h4>
+      <div class="meta">Code à partager</div>
+    </div>
+  </a>
+</div>
+<div class="sticky-cta">
+  <a href="#leagues_join" class="btn btn-ink btn-cap">Rejoindre un tournoi</a>
+</div>
+<div class="tab-bar"><a class="tab" href="#home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1v-9z"/></svg><span>Home</span></a><a class="tab" href="#shop_hub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg><span>Sports</span></a><a class="tab active" href="#leagues_hub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 8l4 4 5-7 5 7 4-4-1.5 11h-15z"/><circle cx="3" cy="8" r="1.2" fill="currentColor"/><circle cx="21" cy="8" r="1.2" fill="currentColor"/><circle cx="12" cy="5" r="1.2" fill="currentColor"/></svg><span>Ranks</span></a><a class="tab" href="#profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9 13.5q1.5 1.5 3 1.5t3-1.5"/></svg><span>Profil</span></a></div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="14"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="app-header">
+  <a href="#leagues_hub" class="app-header-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a>
+  <div style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--ink-mute)">CRÉER UN TOURNOI</div>
+  <div style="width:44px"></div>
+</div>
+<div class="phone-body tight" style="padding-top:8px">
+  <div class="eyebrow-mono" style="margin-bottom:14px">ÉTAPE 1 / 3</div>
+  <h2 class="display-xl" style="margin-bottom:14px">Choisis<br>le mode.</h2>
+  <p style="font-size:16px;color:var(--ink-soft);font-weight:500;line-height:1.5;margin-bottom:24px">L'intensité de ton tournoi entre amis.</p>
+
+  <div class="tournoi-card mint" style="border:2.5px solid var(--ink)">
+    <div class="tournoi-card-icon" style="background:rgba(11,27,46,.18)">🏆</div>
+    <div class="tournoi-card-info">
+      <h4>Mode Simple</h4>
+      <div class="meta">Gratuit · pronos 1N2 · privé</div>
+    </div>
+    <span style="color:var(--ink)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>
+  </div>
+  <div class="tournoi-card cream" style="opacity:.55">
+    <div class="tournoi-card-icon" style="background:rgba(11,27,46,.12)">🔥</div>
+    <div class="tournoi-card-info">
+      <h4>Mode Expert <span style="font-family:var(--mono);font-size:10px;background:var(--ink);color:var(--mint);padding:2px 8px;border-radius:4px;font-weight:700;margin-left:4px">V1</span></h4>
+      <div class="meta">200 🪙 ticket · sous-pronos</div>
+    </div>
+  </div>
+  <div class="tournoi-card" style="background:white;opacity:.55;border:1px solid rgba(11,27,46,.06)">
+    <div class="tournoi-card-icon" style="background:rgba(11,27,46,.06)">⭐</div>
+    <div class="tournoi-card-info">
+      <h4>Mode Ultra <span style="font-family:var(--mono);font-size:10px;background:var(--ink);color:var(--mint);padding:2px 8px;border-radius:4px;font-weight:700;margin-left:4px">V1</span></h4>
+      <div class="meta">Wiiin+ requis · récompenses top 3</div>
+    </div>
+  </div>
+</div>
+<div class="sticky-cta">
+  <a href="#leagues_hub" class="btn btn-mint btn-cap">Continuer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="15"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="app-header">
+  <a href="#leagues_hub" class="app-header-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a>
+  <div style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--ink-mute)">REJOINDRE</div>
+  <div style="width:44px"></div>
+</div>
+<div class="phone-body" style="padding-top:32px">
+  <div style="text-align:center;margin-bottom:32px">
+    <div class="mascot-circle lg" style="margin:0 auto 18px;background:var(--gold)"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMjU1LjEyIDI1NS4xMiI+CiAgPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDMwLjMuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDIuMS4zIEJ1aWxkIDE4MikgIC0tPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuc3QwIHsKICAgICAgICBmaWxsOiAjMGIxYjJlOwogICAgICB9CgogICAgICAuc3QxIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuc3QyIHsKICAgICAgICBmaWxsOiAjNjhkNzlmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTYxLjEsMjM0LjY0Yy0zMy43OSw5Ljg0LTcwLjQ3LDIuNDUtOTcuODEtMTkuMzYtMTcuNjUtMTQuMDgtMjkuOTItMzMuNTgtMzMuNjUtNTYuMDYtMy43My0zLjg5LTYuNDctOC4yNC04LjM1LTEzLjMyLTUuNzYtMTYuMzgtMS4wOC0zMy41OCwxMC41OC00Ni4yMSwxLjQtMjEuMTQsOS4xLTQwLjkyLDIzLjM1LTU2Ljc2LDIzLjU2LTI2LjE5LDU5LjEtMzcuNDEsOTMuNjYtMzEuMzYsNS44OCwxLjAzLDExLjI5LDIuMzksMTYuOTcsNC4xNCwyMS42MSw2LjYzLDQyLjk0LDMuODgsNjIuODEtNi42NC4zNy0uMiwxLjQtLjE4LDEuNzcsMCwxLjQuNjYsMS4xMyw0LjE5LjYyLDYuNzktMS44OCw5LjU2LTUuNDcsMTYuNS0xMS4zNiwyNC40Miw5LjA2LS41MiwxNy4wNC0zLjcxLDI0LjktNy45Ny40OS0uMjYsMS41Ni0uMzIsMS45NC0uMDQuNDYuMzQuNzQsMS4zMy44NSwyLjA4LS41Miw0LjM2LTEuNjksOC4yOC0zLjM0LDEyLjM1LTQuNTcsMTEuMjYtMTEuOTgsMjAuOTYtMjIuMTUsMjgsMTQuMDQsMjYuMSwxOC43NSw1NC45MiwxMS42NSw4My43OC00LjQ5LDE4LjIxLTEzLjY4LDM1LjE0LTI2LjY1LDQ4LjcyLTEyLjQ5LDEzLjA3LTI4LjMsMjIuMzgtNDUuNzgsMjcuNDd2LS4wM1pNMTkzLjE5LDUxLjAyYy0uOC0uMjQtMS40NC0uNjQtMS42NS0xLjI1LS4xNS0uNDUuMTctMS4zNi42Ny0xLjcxLDQuNDItMy4xNCw4LjM0LTYuNTYsMTEuODktMTAuNjIsMS4zOS0xLjc5LDIuNjgtMy4zOCwzLjgtNS43Ni0xNy44MywzLjc3LTMyLjI3LDEuOTQtNDkuNTQtMS44NC01LjY2LTEuMjQtMTAuOTQtMi4yOS0xNi43NC0yLjk0LTIxLjQ0LTIuNC00My4wOCwyLjY3LTYwLjg1LDE0Ljk4LTExLjM5LDcuODktMjAuNDMsMTguNjktMjYuNDksMzEuMDgtMS44OCw0LjE4LTMuNTUsOC4wNS00LjQ4LDEyLjgsMjkuODktMjAuODEsNjguMjgtMzEuMDMsMTA0LjM5LTMwLjQxLDE3Ljk2LjMxLDM1LjQyLDMuNjIsNTIuMTUsMTAuNTEsNy4yNS0yLjYxLDEzLjk2LTYuOTMsMTguNjQtMTMuNTQtNi4xOC44Mi0xMS43LDEuNTEtMTcuNTQsMS4wNi00Ljg4LS4zOC05LjQ1LS45Ny0xNC4yNS0yLjM3aDBaTTE3Ny45Miw5Ny4xNWMxMy4wNi41NCwyNS43MSwyLjU1LDM4LjIxLDYuMDQuMjQtLjQzLjQ1LTEuMTguMzYtMS41Mi0xLjc5LTYuOS00LjIzLTEzLjMyLTcuNzgtMTkuNDgtLjQ3LS44Mi0xLjQtMi4wNi0yLjMxLTIuMzgtNi4wMy0yLjA5LTExLjktMy41LTE4LjIyLTQuNjgtMzUuNDctNi41OC03My4wNi0yLjgyLTEwNi4yOSwxMS40MS0xMy41Miw1Ljc5LTI5LjEsMTQuNTktMzkuMDUsMjUuMy00LDQuMy02LjY3LDkuMzctNy43NCwxNS4xNC0uODQsNC4wNS0uOSw4LjA0LjQ1LDEyLjMsNi43NS0xMC4zLDE3Ljk1LTE3LjM3LDI4Ljk3LTIyLjQzLDMzLjIxLTE1LjI0LDc3LjA1LTIxLjE4LDExMy40MS0xOS42OWgtLjAxWk0xOTYuNTksMTk0LjI4YzE4Ljc3LTIwLjUzLDI1LjEyLTQ3LjYzLDE5LjE3LTc0LjY3LS40LTEuOC0xLjMxLTIuOTEtMy4xMy0zLjQyLTExLjE5LTMuMTUtMjIuNDctNS4zMy0zNC4xOS02LjM3LTIzLjA4LTIuMDUtNDYuMjYtLjg4LTY5LjAxLDMuMzctMTEuNTEsMi4xNS0yMi41OCw1LjA3LTMzLjQzLDkuMjctMTAuNDEsNC4wMy0yMS40Miw5LjM1LTI5LjIxLDE3LjMxLTEuMDMsMS4wNS0xLjI5LDIuNjgtMS4yNyw0LjI0LjQ5LDMxLjAyLDIwLjc0LDU3LjgsNDguNzgsNzAuMTMsMzQuNjQsMTUuMjIsNzYuNDMsOC40MiwxMDIuMjktMTkuODZoMFoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTk2LjU5LDE5NC4yOGMtMjUuODYsMjguMjktNjcuNjUsMzUuMDktMTAyLjI5LDE5Ljg2LTI4LjA1LTEyLjMyLTQ4LjMtMzkuMS00OC43OC03MC4xMy0uMDItMS41Ni4yNC0zLjE5LDEuMjctNC4yNCw3Ljc5LTcuOTYsMTguOC0xMy4yOCwyOS4yMS0xNy4zMSwxMC44NS00LjIsMjEuOTItNy4xMiwzMy40My05LjI3LDIyLjc1LTQuMjUsNDUuOTQtNS40Miw2OS4wMS0zLjM3LDExLjcyLDEuMDQsMjMsMy4yMywzNC4xOSw2LjM3LDEuODEuNTEsMi43MywxLjYyLDMuMTMsMy40Miw1Ljk1LDI3LjA0LS40LDU0LjE0LTE5LjE3LDc0LjY3aDBaTTk4LjkyLDE1OS45MWM0LjY5LDMuMTYsMTAuMjksMS41MiwxMy4yLTMuMTQsMi42NC00LjIzLDMuMjUtOS4zOCwyLjEzLTE0LjMzLS43OC0zLjQ0LTIuMTgtNi42Mi00LjczLTguOTktMy43NC0zLjQ3LTkuMjEtMy40NS0xMi43OS4xNS02Ljc2LDYuODEtNS42MiwyMS4wNCwyLjE4LDI2LjNoLjAxWk0xODkuMywxNDMuMTZjLjk2LS4xMi42NC0xLjg4LjQxLTIuNDgtMi4xOS01LjY0LTcuMTQtOS4zMi0xMy4zLTkuMDQtMTEuMjEuNS0xOS41OCw5LjQ2LTIyLjg0LDE5Ljk1LS4yLjYzLjExLDEuNzIuNTksMS45My40LjE3LDEuMzEuMDgsMS43Ni0uMiwxMC4xNy02LjI3LDIxLjIzLTExLjQ2LDMzLjM4LTEwLjE1aDBaTTEwMS4xNSwxODYuNjljNC4zNCwzLjU3LDguOTcsNiwxNC4yLDcuOTEsMTcuMDEsNi4yMiwzNi4xOSw0LjU4LDUxLjgzLTQuNTcsNi4wMi0zLjUyLDExLTguMTksMTQuNjYtMTQuMDEsMS4xOC0xLjg4LDEuMjItNC4yNi0uMzYtNS43Ni0yLjE2LTIuMDUtNS4xNi0xLjQ0LTcuMDYuNjktNi4xNCw2Ljg2LTEzLjkzLDExLjY0LTIyLjg0LDE0LjI2LTE1LjY4LDQuNjEtMzIuNTIsMi44Ni00Ny4xNi00LjI1LTEuNC0uNjgtMy4xOC0uNDgtNC4xMS42Mi0xLjM0LDEuNTktLjc4LDMuNzkuODQsNS4xMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMTc3LjkyLDk3LjE1Yy0zNi4zNi0xLjQ5LTgwLjIsNC40NC0xMTMuNDEsMTkuNjktMTEuMDIsNS4wNi0yMi4yMiwxMi4xMy0yOC45NywyMi40My0xLjM0LTQuMjYtMS4yOS04LjI1LS40NS0xMi4zLDEuMDctNS43NywzLjc0LTEwLjgzLDcuNzQtMTUuMTQsOS45Ni0xMC43MSwyNS41My0xOS41MSwzOS4wNS0yNS4zLDMzLjIzLTE0LjIzLDcwLjgyLTE3Ljk5LDEwNi4yOS0xMS40MSw2LjMyLDEuMTcsMTIuMTksMi41OCwxOC4yMiw0LjY4LjkxLjMyLDEuODQsMS41NSwyLjMxLDIuMzgsMy41NSw2LjE2LDUuOTgsMTIuNTksNy43OCwxOS40OC4wOS4zNC0uMTIsMS4wOS0uMzYsMS41Mi0xMi41LTMuNDktMjUuMTUtNS41MS0zOC4yMS02LjA0aC4wMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTkzLjE5LDUxLjAyYzQuOCwxLjM5LDkuMzcsMS45OSwxNC4yNSwyLjM3LDUuODQuNDUsMTEuMzYtLjI0LDE3LjU0LTEuMDYtNC42OCw2LjYxLTExLjM5LDEwLjkzLTE4LjY0LDEzLjU0LTE2LjczLTYuODktMzQuMi0xMC4yLTUyLjE1LTEwLjUxLTM2LjEtLjYyLTc0LjUsOS42LTEwNC4zOSwzMC40MS45Mi00Ljc1LDIuNTktOC42Miw0LjQ4LTEyLjgsNi4wNi0xMi40LDE1LjA5LTIzLjE5LDI2LjQ5LTMxLjA4LDE3Ljc3LTEyLjMxLDM5LjQtMTcuMzgsNjAuODUtMTQuOTgsNS44LjY1LDExLjA5LDEuNywxNi43NCwyLjk0LDE3LjI3LDMuNzcsMzEuNzEsNS42MSw0OS41NCwxLjg0LTEuMTIsMi4zOS0yLjQxLDMuOTctMy44LDUuNzYtMy41NSw0LjA2LTcuNDcsNy40OC0xMS44OSwxMC42Mi0uNS4zNS0uODIsMS4yNi0uNjcsMS43MS4yMS42MS44NSwxLjAxLDEuNjUsMS4yNWgwWiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xMDEuMTUsMTg2LjY5Yy0xLjYxLTEuMzMtMi4xOC0zLjUyLS44NC01LjExLjkzLTEuMSwyLjctMS4zLDQuMTEtLjYyLDE0LjY0LDcuMSwzMS40Nyw4Ljg2LDQ3LjE2LDQuMjUsOC45MS0yLjYyLDE2LjctNy40LDIyLjg0LTE0LjI2LDEuOS0yLjEzLDQuOS0yLjc0LDcuMDYtLjY5LDEuNTgsMS41MSwxLjU0LDMuODguMzYsNS43Ni0zLjY1LDUuODItOC42NCwxMC40OS0xNC42NiwxNC4wMS0xNS42NCw5LjE1LTM0LjgyLDEwLjc5LTUxLjgzLDQuNTctNS4yMy0xLjkxLTkuODYtNC4zNS0xNC4yLTcuOTFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTk4LjkyLDE1OS45MWMtNy44LTUuMjYtOC45NC0xOS40OS0yLjE4LTI2LjMsMy41OC0zLjYsOS4wNC0zLjYyLDEyLjc5LS4xNSwyLjU1LDIuMzYsMy45NSw1LjU1LDQuNzMsOC45OSwxLjEyLDQuOTUuNTEsMTAuMS0yLjEzLDE0LjMzLTIuOTEsNC42Ni04LjUxLDYuMzEtMTMuMiwzLjE0aC0uMDFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTE4OS4zLDE0My4xNmMtMTIuMTUtMS4zMS0yMy4yMSwzLjg5LTMzLjM4LDEwLjE1LS40NS4yOC0xLjM3LjM3LTEuNzYuMi0uNDgtLjIxLS43OC0xLjMtLjU5LTEuOTMsMy4yNi0xMC40OSwxMS42My0xOS40NSwyMi44NC0xOS45NSw2LjE2LS4yNywxMS4xMSwzLjQsMTMuMyw5LjA0LjIzLjYuNTUsMi4zNi0uNDEsMi40OGgwWiIvPgo8L3N2Zz4=" alt="Wiiin" style="width:100%;height:100%;object-fit:contain"></div>
+    <h2 class="display-xl">Entrer<br>un code.</h2>
+    <p style="font-size:14px;color:var(--ink-soft);font-weight:500;margin-top:10px;line-height:1.5">Saisis le code que t'a partagé le créateur du tournoi.</p>
+  </div>
+  <input type="text" placeholder="WI8X-K2Z9" class="input-pill" style="text-align:center;font-family:var(--mono);font-size:22px;letter-spacing:.18em;text-transform:uppercase">
+  <div style="text-align:center;margin:20px 0;font-family:var(--mono);font-size:11px;color:var(--ink-mute);letter-spacing:.14em;font-weight:700">— OU —</div>
+  <button class="btn btn-outline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="6"/><rect x="15" y="3" width="6" height="6"/><rect x="3" y="15" width="6" height="6"/><path d="M15 15h2v2M21 21v-3M15 21h3M21 15v-2"/></svg> Scanner un QR Code</button>
+</div>
+<div class="sticky-cta">
+  <a href="#league_detail" class="btn btn-mint btn-cap">Rejoindre le tournoi</a>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="16"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="app-header">
+  <a href="#leagues_hub" class="app-header-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a>
+  <div style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--ink-mute)">TOURNOI</div>
+  <button class="app-header-back"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg></button>
+</div>
+<div class="phone-body tight">
+  <div class="team-hero">
+    <h2>Casa Boys</h2>
+    <span class="code-pill">CODE: WI8X-K2Z9</span>
+  </div>
+
+  <div class="leaderboard-row">
+    <div class="leaderboard-row-rank">1</div>
+    <div class="leaderboard-row-avatar">JL</div>
+    <div class="leaderboard-row-name">Jules Lefèvre</div>
+    <div class="leaderboard-row-score">14.8K</div>
+  </div>
+  <div class="leaderboard-row">
+    <div class="leaderboard-row-rank">2</div>
+    <div class="leaderboard-row-avatar you">RM</div>
+    <div class="leaderboard-row-name">RudyBoss <span class="up">↑1</span></div>
+    <div class="leaderboard-row-score">12.4K</div>
+  </div>
+  <div class="leaderboard-row">
+    <div class="leaderboard-row-rank">3</div>
+    <div class="leaderboard-row-avatar">SL</div>
+    <div class="leaderboard-row-name">Sam Leon</div>
+    <div class="leaderboard-row-score">11.9K</div>
+  </div>
+  <div class="leaderboard-row">
+    <div class="leaderboard-row-rank">4</div>
+    <div class="leaderboard-row-avatar">MK</div>
+    <div class="leaderboard-row-name">Maxime K.</div>
+    <div class="leaderboard-row-score">9.2K</div>
+  </div>
+  <div class="leaderboard-row">
+    <div class="leaderboard-row-rank">5</div>
+    <div class="leaderboard-row-avatar">AL</div>
+    <div class="leaderboard-row-name">Alex Loo</div>
+    <div class="leaderboard-row-score">7.1K</div>
+  </div>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="17"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="app-header">
+  <a href="#profile" class="app-header-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a>
+  <div style="width:44px"></div>
+  <div style="width:44px"></div>
+</div>
+<div class="phone-body tight">
+  <h1 class="display-xl" style="margin-bottom:4px">Mon deck</h1>
+  <p style="font-size:14px;color:var(--ink-soft);font-weight:500;margin-bottom:18px">42/200 · 7 légendaires</p>
+
+  <div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap">
+    <button class="nav-pill" style="background:var(--ink);color:white;font-family:var(--mono);font-size:12px;padding:8px 14px">TOUT</button>
+    <button class="nav-pill" style="font-family:var(--mono);font-size:12px;padding:8px 14px">LÉGEND.</button>
+    <button class="nav-pill" style="font-family:var(--mono);font-size:12px;padding:8px 14px">FOOT</button>
+    <button class="nav-pill" style="font-family:var(--mono);font-size:12px;padding:8px 14px">F1</button>
+  </div>
+
+  <div class="trading-grid three" style="margin-bottom:12px">
+    <div class="player-card gold">
+      <div class="player-card-corner">L</div>
+      <div class="player-card-name">Mbappé · Or</div>
+    </div>
+    <div class="player-card plum">
+      <div class="player-card-corner" style="color:white">E</div>
+      <div class="player-card-name">Verstappen · Bleu</div>
+    </div>
+    <div class="player-card mint">
+      <div class="player-card-corner">R</div>
+      <div class="player-card-name">Alcaraz · Rouge</div>
+    </div>
+    <div class="player-card white">
+      <div class="player-card-corner" style="color:var(--ink-mute)">C</div>
+      <div class="player-card-name">Griezmann</div>
+    </div>
+    <div class="player-card white">
+      <div class="player-card-corner" style="color:var(--ink-mute)">C</div>
+      <div class="player-card-name">Tchouaméni</div>
+    </div>
+    <div class="player-card mint">
+      <div class="player-card-corner">R</div>
+      <div class="player-card-name">Leclerc · F1</div>
+    </div>
+    <div class="player-card empty">
+      <div class="player-card-corner">L</div>
+      <div class="player-card-name">???</div>
+    </div>
+    <div class="player-card empty">
+      <div class="player-card-corner">E</div>
+      <div class="player-card-name">???</div>
+    </div>
+    <div class="player-card empty">
+      <div class="player-card-corner">L</div>
+      <div class="player-card-name">???</div>
+    </div>
+  </div>
+</div>
+<div class="sticky-cta">
+  <a href="#shop_hub" class="btn btn-ink btn-cap">Ouvrir un pack · 30 🪙</a>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="18"><div class="phone bg-ink">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="phone-body" style="padding-top:32px;color:white">
+  <h1 style="font-size:36px;font-weight:800;letter-spacing:-.035em;line-height:1;color:var(--mint);margin-bottom:8px">Roue de la fortune</h1>
+  <p style="font-size:13px;color:rgba(255,255,255,.6);font-weight:500">Spin gratuit · 1 / 24h · ou paie 5 Coiiins</p>
+
+  <div class="wheel-stage">
+    <div class="wheel-pointer"></div>
+    <div class="wheel-disc"></div>
+    <div class="wheel-center">
+      <div class="num">200</div>
+      <div class="lbl">PTS</div>
+    </div>
+  </div>
+
+  <p style="text-align:center;font-size:14px;color:rgba(255,255,255,.7);font-weight:500;margin-top:auto;margin-bottom:0">Prochain gratuit dans <b style="color:var(--gold)">2h12</b></p>
+</div>
+<div class="sticky-cta">
+  <a href="#home" class="btn btn-mint btn-cap">Spin — Gratuit</a>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="19"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="app-header">
+  <div style="width:44px"></div>
+  <span class="coiiins-pill"><span class="dot"></span>240 Coiiins</span>
+  <a href="#settings" class="app-header-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/></svg></a>
+</div>
+<div class="phone-body tight" style="text-align:center">
+  <div class="mascot-circle xl" style="margin:0 auto 16px"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMjU1LjEyIDI1NS4xMiI+CiAgPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDMwLjMuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDIuMS4zIEJ1aWxkIDE4MikgIC0tPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuc3QwIHsKICAgICAgICBmaWxsOiAjMGIxYjJlOwogICAgICB9CgogICAgICAuc3QxIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuc3QyIHsKICAgICAgICBmaWxsOiAjNjhkNzlmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTYxLjEsMjM0LjY0Yy0zMy43OSw5Ljg0LTcwLjQ3LDIuNDUtOTcuODEtMTkuMzYtMTcuNjUtMTQuMDgtMjkuOTItMzMuNTgtMzMuNjUtNTYuMDYtMy43My0zLjg5LTYuNDctOC4yNC04LjM1LTEzLjMyLTUuNzYtMTYuMzgtMS4wOC0zMy41OCwxMC41OC00Ni4yMSwxLjQtMjEuMTQsOS4xLTQwLjkyLDIzLjM1LTU2Ljc2LDIzLjU2LTI2LjE5LDU5LjEtMzcuNDEsOTMuNjYtMzEuMzYsNS44OCwxLjAzLDExLjI5LDIuMzksMTYuOTcsNC4xNCwyMS42MSw2LjYzLDQyLjk0LDMuODgsNjIuODEtNi42NC4zNy0uMiwxLjQtLjE4LDEuNzcsMCwxLjQuNjYsMS4xMyw0LjE5LjYyLDYuNzktMS44OCw5LjU2LTUuNDcsMTYuNS0xMS4zNiwyNC40Miw5LjA2LS41MiwxNy4wNC0zLjcxLDI0LjktNy45Ny40OS0uMjYsMS41Ni0uMzIsMS45NC0uMDQuNDYuMzQuNzQsMS4zMy44NSwyLjA4LS41Miw0LjM2LTEuNjksOC4yOC0zLjM0LDEyLjM1LTQuNTcsMTEuMjYtMTEuOTgsMjAuOTYtMjIuMTUsMjgsMTQuMDQsMjYuMSwxOC43NSw1NC45MiwxMS42NSw4My43OC00LjQ5LDE4LjIxLTEzLjY4LDM1LjE0LTI2LjY1LDQ4LjcyLTEyLjQ5LDEzLjA3LTI4LjMsMjIuMzgtNDUuNzgsMjcuNDd2LS4wM1pNMTkzLjE5LDUxLjAyYy0uOC0uMjQtMS40NC0uNjQtMS42NS0xLjI1LS4xNS0uNDUuMTctMS4zNi42Ny0xLjcxLDQuNDItMy4xNCw4LjM0LTYuNTYsMTEuODktMTAuNjIsMS4zOS0xLjc5LDIuNjgtMy4zOCwzLjgtNS43Ni0xNy44MywzLjc3LTMyLjI3LDEuOTQtNDkuNTQtMS44NC01LjY2LTEuMjQtMTAuOTQtMi4yOS0xNi43NC0yLjk0LTIxLjQ0LTIuNC00My4wOCwyLjY3LTYwLjg1LDE0Ljk4LTExLjM5LDcuODktMjAuNDMsMTguNjktMjYuNDksMzEuMDgtMS44OCw0LjE4LTMuNTUsOC4wNS00LjQ4LDEyLjgsMjkuODktMjAuODEsNjguMjgtMzEuMDMsMTA0LjM5LTMwLjQxLDE3Ljk2LjMxLDM1LjQyLDMuNjIsNTIuMTUsMTAuNTEsNy4yNS0yLjYxLDEzLjk2LTYuOTMsMTguNjQtMTMuNTQtNi4xOC44Mi0xMS43LDEuNTEtMTcuNTQsMS4wNi00Ljg4LS4zOC05LjQ1LS45Ny0xNC4yNS0yLjM3aDBaTTE3Ny45Miw5Ny4xNWMxMy4wNi41NCwyNS43MSwyLjU1LDM4LjIxLDYuMDQuMjQtLjQzLjQ1LTEuMTguMzYtMS41Mi0xLjc5LTYuOS00LjIzLTEzLjMyLTcuNzgtMTkuNDgtLjQ3LS44Mi0xLjQtMi4wNi0yLjMxLTIuMzgtNi4wMy0yLjA5LTExLjktMy41LTE4LjIyLTQuNjgtMzUuNDctNi41OC03My4wNi0yLjgyLTEwNi4yOSwxMS40MS0xMy41Miw1Ljc5LTI5LjEsMTQuNTktMzkuMDUsMjUuMy00LDQuMy02LjY3LDkuMzctNy43NCwxNS4xNC0uODQsNC4wNS0uOSw4LjA0LjQ1LDEyLjMsNi43NS0xMC4zLDE3Ljk1LTE3LjM3LDI4Ljk3LTIyLjQzLDMzLjIxLTE1LjI0LDc3LjA1LTIxLjE4LDExMy40MS0xOS42OWgtLjAxWk0xOTYuNTksMTk0LjI4YzE4Ljc3LTIwLjUzLDI1LjEyLTQ3LjYzLDE5LjE3LTc0LjY3LS40LTEuOC0xLjMxLTIuOTEtMy4xMy0zLjQyLTExLjE5LTMuMTUtMjIuNDctNS4zMy0zNC4xOS02LjM3LTIzLjA4LTIuMDUtNDYuMjYtLjg4LTY5LjAxLDMuMzctMTEuNTEsMi4xNS0yMi41OCw1LjA3LTMzLjQzLDkuMjctMTAuNDEsNC4wMy0yMS40Miw5LjM1LTI5LjIxLDE3LjMxLTEuMDMsMS4wNS0xLjI5LDIuNjgtMS4yNyw0LjI0LjQ5LDMxLjAyLDIwLjc0LDU3LjgsNDguNzgsNzAuMTMsMzQuNjQsMTUuMjIsNzYuNDMsOC40MiwxMDIuMjktMTkuODZoMFoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTk2LjU5LDE5NC4yOGMtMjUuODYsMjguMjktNjcuNjUsMzUuMDktMTAyLjI5LDE5Ljg2LTI4LjA1LTEyLjMyLTQ4LjMtMzkuMS00OC43OC03MC4xMy0uMDItMS41Ni4yNC0zLjE5LDEuMjctNC4yNCw3Ljc5LTcuOTYsMTguOC0xMy4yOCwyOS4yMS0xNy4zMSwxMC44NS00LjIsMjEuOTItNy4xMiwzMy40My05LjI3LDIyLjc1LTQuMjUsNDUuOTQtNS40Miw2OS4wMS0zLjM3LDExLjcyLDEuMDQsMjMsMy4yMywzNC4xOSw2LjM3LDEuODEuNTEsMi43MywxLjYyLDMuMTMsMy40Miw1Ljk1LDI3LjA0LS40LDU0LjE0LTE5LjE3LDc0LjY3aDBaTTk4LjkyLDE1OS45MWM0LjY5LDMuMTYsMTAuMjksMS41MiwxMy4yLTMuMTQsMi42NC00LjIzLDMuMjUtOS4zOCwyLjEzLTE0LjMzLS43OC0zLjQ0LTIuMTgtNi42Mi00LjczLTguOTktMy43NC0zLjQ3LTkuMjEtMy40NS0xMi43OS4xNS02Ljc2LDYuODEtNS42MiwyMS4wNCwyLjE4LDI2LjNoLjAxWk0xODkuMywxNDMuMTZjLjk2LS4xMi42NC0xLjg4LjQxLTIuNDgtMi4xOS01LjY0LTcuMTQtOS4zMi0xMy4zLTkuMDQtMTEuMjEuNS0xOS41OCw5LjQ2LTIyLjg0LDE5Ljk1LS4yLjYzLjExLDEuNzIuNTksMS45My40LjE3LDEuMzEuMDgsMS43Ni0uMiwxMC4xNy02LjI3LDIxLjIzLTExLjQ2LDMzLjM4LTEwLjE1aDBaTTEwMS4xNSwxODYuNjljNC4zNCwzLjU3LDguOTcsNiwxNC4yLDcuOTEsMTcuMDEsNi4yMiwzNi4xOSw0LjU4LDUxLjgzLTQuNTcsNi4wMi0zLjUyLDExLTguMTksMTQuNjYtMTQuMDEsMS4xOC0xLjg4LDEuMjItNC4yNi0uMzYtNS43Ni0yLjE2LTIuMDUtNS4xNi0xLjQ0LTcuMDYuNjktNi4xNCw2Ljg2LTEzLjkzLDExLjY0LTIyLjg0LDE0LjI2LTE1LjY4LDQuNjEtMzIuNTIsMi44Ni00Ny4xNi00LjI1LTEuNC0uNjgtMy4xOC0uNDgtNC4xMS42Mi0xLjM0LDEuNTktLjc4LDMuNzkuODQsNS4xMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMTc3LjkyLDk3LjE1Yy0zNi4zNi0xLjQ5LTgwLjIsNC40NC0xMTMuNDEsMTkuNjktMTEuMDIsNS4wNi0yMi4yMiwxMi4xMy0yOC45NywyMi40My0xLjM0LTQuMjYtMS4yOS04LjI1LS40NS0xMi4zLDEuMDctNS43NywzLjc0LTEwLjgzLDcuNzQtMTUuMTQsOS45Ni0xMC43MSwyNS41My0xOS41MSwzOS4wNS0yNS4zLDMzLjIzLTE0LjIzLDcwLjgyLTE3Ljk5LDEwNi4yOS0xMS40MSw2LjMyLDEuMTcsMTIuMTksMi41OCwxOC4yMiw0LjY4LjkxLjMyLDEuODQsMS41NSwyLjMxLDIuMzgsMy41NSw2LjE2LDUuOTgsMTIuNTksNy43OCwxOS40OC4wOS4zNC0uMTIsMS4wOS0uMzYsMS41Mi0xMi41LTMuNDktMjUuMTUtNS41MS0zOC4yMS02LjA0aC4wMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTkzLjE5LDUxLjAyYzQuOCwxLjM5LDkuMzcsMS45OSwxNC4yNSwyLjM3LDUuODQuNDUsMTEuMzYtLjI0LDE3LjU0LTEuMDYtNC42OCw2LjYxLTExLjM5LDEwLjkzLTE4LjY0LDEzLjU0LTE2LjczLTYuODktMzQuMi0xMC4yLTUyLjE1LTEwLjUxLTM2LjEtLjYyLTc0LjUsOS42LTEwNC4zOSwzMC40MS45Mi00Ljc1LDIuNTktOC42Miw0LjQ4LTEyLjgsNi4wNi0xMi40LDE1LjA5LTIzLjE5LDI2LjQ5LTMxLjA4LDE3Ljc3LTEyLjMxLDM5LjQtMTcuMzgsNjAuODUtMTQuOTgsNS44LjY1LDExLjA5LDEuNywxNi43NCwyLjk0LDE3LjI3LDMuNzcsMzEuNzEsNS42MSw0OS41NCwxLjg0LTEuMTIsMi4zOS0yLjQxLDMuOTctMy44LDUuNzYtMy41NSw0LjA2LTcuNDcsNy40OC0xMS44OSwxMC42Mi0uNS4zNS0uODIsMS4yNi0uNjcsMS43MS4yMS42MS44NSwxLjAxLDEuNjUsMS4yNWgwWiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xMDEuMTUsMTg2LjY5Yy0xLjYxLTEuMzMtMi4xOC0zLjUyLS44NC01LjExLjkzLTEuMSwyLjctMS4zLDQuMTEtLjYyLDE0LjY0LDcuMSwzMS40Nyw4Ljg2LDQ3LjE2LDQuMjUsOC45MS0yLjYyLDE2LjctNy40LDIyLjg0LTE0LjI2LDEuOS0yLjEzLDQuOS0yLjc0LDcuMDYtLjY5LDEuNTgsMS41MSwxLjU0LDMuODguMzYsNS43Ni0zLjY1LDUuODItOC42NCwxMC40OS0xNC42NiwxNC4wMS0xNS42NCw5LjE1LTM0LjgyLDEwLjc5LTUxLjgzLDQuNTctNS4yMy0xLjkxLTkuODYtNC4zNS0xNC4yLTcuOTFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTk4LjkyLDE1OS45MWMtNy44LTUuMjYtOC45NC0xOS40OS0yLjE4LTI2LjMsMy41OC0zLjYsOS4wNC0zLjYyLDEyLjc5LS4xNSwyLjU1LDIuMzYsMy45NSw1LjU1LDQuNzMsOC45OSwxLjEyLDQuOTUuNTEsMTAuMS0yLjEzLDE0LjMzLTIuOTEsNC42Ni04LjUxLDYuMzEtMTMuMiwzLjE0aC0uMDFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTE4OS4zLDE0My4xNmMtMTIuMTUtMS4zMS0yMy4yMSwzLjg5LTMzLjM4LDEwLjE1LS40NS4yOC0xLjM3LjM3LTEuNzYuMi0uNDgtLjIxLS43OC0xLjMtLjU5LTEuOTMsMy4yNi0xMC40OSwxMS42My0xOS40NSwyMi44NC0xOS45NSw2LjE2LS4yNywxMS4xMSwzLjQsMTMuMyw5LjA0LjIzLjYuNTUsMi4zNi0uNDEsMi40OGgwWiIvPgo8L3N2Zz4=" alt="Wiiin" style="width:100%;height:100%;object-fit:contain"></div>
+  <h1 class="display-xl">RudyBoss</h1>
+  <p style="font-family:var(--mono);font-size:13px;color:var(--ink-mute);font-weight:600;letter-spacing:.06em;margin-top:4px;margin-bottom:24px">@rudy.wiiin · 18+</p>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:24px">
+    <div style="background:var(--mint);border-radius:18px;padding:16px 8px">
+      <div style="font-size:24px;font-weight:800;letter-spacing:-.025em">12.4K</div>
+      <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:rgba(11,27,46,.7);letter-spacing:.1em;margin-top:4px">POINTS</div>
+    </div>
+    <div style="background:var(--gold);border-radius:18px;padding:16px 8px">
+      <div style="font-size:24px;font-weight:800;letter-spacing:-.025em">42</div>
+      <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:rgba(11,27,46,.7);letter-spacing:.1em;margin-top:4px">CARTES</div>
+    </div>
+    <div style="background:var(--ink);color:white;border-radius:18px;padding:16px 8px">
+      <div style="font-size:24px;font-weight:800;letter-spacing:-.025em;color:var(--mint)">3 🔥</div>
+      <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.1em;margin-top:4px">STREAK</div>
+    </div>
+  </div>
+
+  <div style="text-align:left">
+    <h3 class="display-lg" style="font-size:24px;margin-bottom:12px">Mes pronos récents</h3>
+    <div class="prono-row">
+      <div class="prono-avatar">⚽</div>
+      <div class="prono-info">
+        <div class="title">FRA - ARG</div>
+        <div class="meta">Pronostic · FRA · gagné</div>
+      </div>
+      <div class="prono-stat">
+        <div class="pts">+210 pts</div>
+        <div class="rank">#847 ↑12</div>
+      </div>
+    </div>
+    <div class="prono-row">
+      <div class="prono-avatar" style="background:#cbe85a">🎾</div>
+      <div class="prono-info">
+        <div class="title">Alcaraz vs Sinner</div>
+        <div class="meta">En attente</div>
+      </div>
+      <div class="prono-stat">
+        <div class="pts pending">+180 si</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="tab-bar"><a class="tab" href="#home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1v-9z"/></svg><span>Home</span></a><a class="tab" href="#shop_hub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg><span>Sports</span></a><a class="tab" href="#leagues_hub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 8l4 4 5-7 5 7 4-4-1.5 11h-15z"/><circle cx="3" cy="8" r="1.2" fill="currentColor"/><circle cx="21" cy="8" r="1.2" fill="currentColor"/><circle cx="12" cy="5" r="1.2" fill="currentColor"/></svg><span>Ranks</span></a><a class="tab active" href="#profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9 13.5q1.5 1.5 3 1.5t3-1.5"/></svg><span>Profil</span></a></div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="20"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="app-header">
+  <a href="#profile" class="app-header-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a>
+  <div style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--ink-mute)">RÉGLAGES</div>
+  <div style="width:44px"></div>
+</div>
+<div class="phone-body tight">
+  <h1 class="display-lg" style="margin-bottom:18px">Compte</h1>
+  <div class="settings-card">
+    <div class="settings-row">
+      <span class="label">Email</span>
+      <span class="value">rudy@vehea.com</span>
+    </div>
+    <div class="settings-row">
+      <span class="label">Pseudo</span>
+      <span class="value">@rudy.wiiin</span>
+    </div>
+    <div class="settings-row">
+      <span class="label">Pays</span>
+      <span class="value">Vietnam</span>
+    </div>
+  </div>
+
+  <h2 class="display-lg" style="font-size:24px;margin:20px 0 12px">Préférences</h2>
+  <div class="settings-card">
+    <div class="settings-row">
+      <span class="label">Langue</span>
+      <span class="value">FR</span>
+    </div>
+    <div class="settings-row">
+      <span class="label">Notifications push</span>
+      <div class="toggle"></div>
+    </div>
+    <div class="settings-row">
+      <span class="label">Roaster muet</span>
+      <div class="toggle off"></div>
+    </div>
+    <div class="settings-row">
+      <span class="label">Mode sombre</span>
+      <div class="toggle off"></div>
+    </div>
+  </div>
+
+  <h2 class="display-lg" style="font-size:24px;margin:20px 0 12px">Légal</h2>
+  <div class="settings-card">
+    <div class="settings-row">
+      <span class="label">CGU</span>
+      <span class="value"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+    </div>
+    <div class="settings-row">
+      <span class="label">Privacy Policy</span>
+      <span class="value"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+    </div>
+  </div>
+
+  <button class="btn btn-outline" style="margin-top:20px;border-color:var(--hot);color:var(--hot)">Se déconnecter</button>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="21"><div class="phone bg-ink">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="lock-screen">
+  <div class="lock-time">9:41</div>
+  <div class="lock-date">vendredi 30 mai</div>
+  <div class="notif-preview">
+    <div class="notif-preview-row">
+      <div class="notif-icon"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMjU1LjEyIDI1NS4xMiI+CiAgPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDMwLjMuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDIuMS4zIEJ1aWxkIDE4MikgIC0tPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuc3QwIHsKICAgICAgICBmaWxsOiAjMGIxYjJlOwogICAgICB9CgogICAgICAuc3QxIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuc3QyIHsKICAgICAgICBmaWxsOiAjNjhkNzlmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTYxLjEsMjM0LjY0Yy0zMy43OSw5Ljg0LTcwLjQ3LDIuNDUtOTcuODEtMTkuMzYtMTcuNjUtMTQuMDgtMjkuOTItMzMuNTgtMzMuNjUtNTYuMDYtMy43My0zLjg5LTYuNDctOC4yNC04LjM1LTEzLjMyLTUuNzYtMTYuMzgtMS4wOC0zMy41OCwxMC41OC00Ni4yMSwxLjQtMjEuMTQsOS4xLTQwLjkyLDIzLjM1LTU2Ljc2LDIzLjU2LTI2LjE5LDU5LjEtMzcuNDEsOTMuNjYtMzEuMzYsNS44OCwxLjAzLDExLjI5LDIuMzksMTYuOTcsNC4xNCwyMS42MSw2LjYzLDQyLjk0LDMuODgsNjIuODEtNi42NC4zNy0uMiwxLjQtLjE4LDEuNzcsMCwxLjQuNjYsMS4xMyw0LjE5LjYyLDYuNzktMS44OCw5LjU2LTUuNDcsMTYuNS0xMS4zNiwyNC40Miw5LjA2LS41MiwxNy4wNC0zLjcxLDI0LjktNy45Ny40OS0uMjYsMS41Ni0uMzIsMS45NC0uMDQuNDYuMzQuNzQsMS4zMy44NSwyLjA4LS41Miw0LjM2LTEuNjksOC4yOC0zLjM0LDEyLjM1LTQuNTcsMTEuMjYtMTEuOTgsMjAuOTYtMjIuMTUsMjgsMTQuMDQsMjYuMSwxOC43NSw1NC45MiwxMS42NSw4My43OC00LjQ5LDE4LjIxLTEzLjY4LDM1LjE0LTI2LjY1LDQ4LjcyLTEyLjQ5LDEzLjA3LTI4LjMsMjIuMzgtNDUuNzgsMjcuNDd2LS4wM1pNMTkzLjE5LDUxLjAyYy0uOC0uMjQtMS40NC0uNjQtMS42NS0xLjI1LS4xNS0uNDUuMTctMS4zNi42Ny0xLjcxLDQuNDItMy4xNCw4LjM0LTYuNTYsMTEuODktMTAuNjIsMS4zOS0xLjc5LDIuNjgtMy4zOCwzLjgtNS43Ni0xNy44MywzLjc3LTMyLjI3LDEuOTQtNDkuNTQtMS44NC01LjY2LTEuMjQtMTAuOTQtMi4yOS0xNi43NC0yLjk0LTIxLjQ0LTIuNC00My4wOCwyLjY3LTYwLjg1LDE0Ljk4LTExLjM5LDcuODktMjAuNDMsMTguNjktMjYuNDksMzEuMDgtMS44OCw0LjE4LTMuNTUsOC4wNS00LjQ4LDEyLjgsMjkuODktMjAuODEsNjguMjgtMzEuMDMsMTA0LjM5LTMwLjQxLDE3Ljk2LjMxLDM1LjQyLDMuNjIsNTIuMTUsMTAuNTEsNy4yNS0yLjYxLDEzLjk2LTYuOTMsMTguNjQtMTMuNTQtNi4xOC44Mi0xMS43LDEuNTEtMTcuNTQsMS4wNi00Ljg4LS4zOC05LjQ1LS45Ny0xNC4yNS0yLjM3aDBaTTE3Ny45Miw5Ny4xNWMxMy4wNi41NCwyNS43MSwyLjU1LDM4LjIxLDYuMDQuMjQtLjQzLjQ1LTEuMTguMzYtMS41Mi0xLjc5LTYuOS00LjIzLTEzLjMyLTcuNzgtMTkuNDgtLjQ3LS44Mi0xLjQtMi4wNi0yLjMxLTIuMzgtNi4wMy0yLjA5LTExLjktMy41LTE4LjIyLTQuNjgtMzUuNDctNi41OC03My4wNi0yLjgyLTEwNi4yOSwxMS40MS0xMy41Miw1Ljc5LTI5LjEsMTQuNTktMzkuMDUsMjUuMy00LDQuMy02LjY3LDkuMzctNy43NCwxNS4xNC0uODQsNC4wNS0uOSw4LjA0LjQ1LDEyLjMsNi43NS0xMC4zLDE3Ljk1LTE3LjM3LDI4Ljk3LTIyLjQzLDMzLjIxLTE1LjI0LDc3LjA1LTIxLjE4LDExMy40MS0xOS42OWgtLjAxWk0xOTYuNTksMTk0LjI4YzE4Ljc3LTIwLjUzLDI1LjEyLTQ3LjYzLDE5LjE3LTc0LjY3LS40LTEuOC0xLjMxLTIuOTEtMy4xMy0zLjQyLTExLjE5LTMuMTUtMjIuNDctNS4zMy0zNC4xOS02LjM3LTIzLjA4LTIuMDUtNDYuMjYtLjg4LTY5LjAxLDMuMzctMTEuNTEsMi4xNS0yMi41OCw1LjA3LTMzLjQzLDkuMjctMTAuNDEsNC4wMy0yMS40Miw5LjM1LTI5LjIxLDE3LjMxLTEuMDMsMS4wNS0xLjI5LDIuNjgtMS4yNyw0LjI0LjQ5LDMxLjAyLDIwLjc0LDU3LjgsNDguNzgsNzAuMTMsMzQuNjQsMTUuMjIsNzYuNDMsOC40MiwxMDIuMjktMTkuODZoMFoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTk2LjU5LDE5NC4yOGMtMjUuODYsMjguMjktNjcuNjUsMzUuMDktMTAyLjI5LDE5Ljg2LTI4LjA1LTEyLjMyLTQ4LjMtMzkuMS00OC43OC03MC4xMy0uMDItMS41Ni4yNC0zLjE5LDEuMjctNC4yNCw3Ljc5LTcuOTYsMTguOC0xMy4yOCwyOS4yMS0xNy4zMSwxMC44NS00LjIsMjEuOTItNy4xMiwzMy40My05LjI3LDIyLjc1LTQuMjUsNDUuOTQtNS40Miw2OS4wMS0zLjM3LDExLjcyLDEuMDQsMjMsMy4yMywzNC4xOSw2LjM3LDEuODEuNTEsMi43MywxLjYyLDMuMTMsMy40Miw1Ljk1LDI3LjA0LS40LDU0LjE0LTE5LjE3LDc0LjY3aDBaTTk4LjkyLDE1OS45MWM0LjY5LDMuMTYsMTAuMjksMS41MiwxMy4yLTMuMTQsMi42NC00LjIzLDMuMjUtOS4zOCwyLjEzLTE0LjMzLS43OC0zLjQ0LTIuMTgtNi42Mi00LjczLTguOTktMy43NC0zLjQ3LTkuMjEtMy40NS0xMi43OS4xNS02Ljc2LDYuODEtNS42MiwyMS4wNCwyLjE4LDI2LjNoLjAxWk0xODkuMywxNDMuMTZjLjk2LS4xMi42NC0xLjg4LjQxLTIuNDgtMi4xOS01LjY0LTcuMTQtOS4zMi0xMy4zLTkuMDQtMTEuMjEuNS0xOS41OCw5LjQ2LTIyLjg0LDE5Ljk1LS4yLjYzLjExLDEuNzIuNTksMS45My40LjE3LDEuMzEuMDgsMS43Ni0uMiwxMC4xNy02LjI3LDIxLjIzLTExLjQ2LDMzLjM4LTEwLjE1aDBaTTEwMS4xNSwxODYuNjljNC4zNCwzLjU3LDguOTcsNiwxNC4yLDcuOTEsMTcuMDEsNi4yMiwzNi4xOSw0LjU4LDUxLjgzLTQuNTcsNi4wMi0zLjUyLDExLTguMTksMTQuNjYtMTQuMDEsMS4xOC0xLjg4LDEuMjItNC4yNi0uMzYtNS43Ni0yLjE2LTIuMDUtNS4xNi0xLjQ0LTcuMDYuNjktNi4xNCw2Ljg2LTEzLjkzLDExLjY0LTIyLjg0LDE0LjI2LTE1LjY4LDQuNjEtMzIuNTIsMi44Ni00Ny4xNi00LjI1LTEuNC0uNjgtMy4xOC0uNDgtNC4xMS42Mi0xLjM0LDEuNTktLjc4LDMuNzkuODQsNS4xMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMTc3LjkyLDk3LjE1Yy0zNi4zNi0xLjQ5LTgwLjIsNC40NC0xMTMuNDEsMTkuNjktMTEuMDIsNS4wNi0yMi4yMiwxMi4xMy0yOC45NywyMi40My0xLjM0LTQuMjYtMS4yOS04LjI1LS40NS0xMi4zLDEuMDctNS43NywzLjc0LTEwLjgzLDcuNzQtMTUuMTQsOS45Ni0xMC43MSwyNS41My0xOS41MSwzOS4wNS0yNS4zLDMzLjIzLTE0LjIzLDcwLjgyLTE3Ljk5LDEwNi4yOS0xMS40MSw2LjMyLDEuMTcsMTIuMTksMi41OCwxOC4yMiw0LjY4LjkxLjMyLDEuODQsMS41NSwyLjMxLDIuMzgsMy41NSw2LjE2LDUuOTgsMTIuNTksNy43OCwxOS40OC4wOS4zNC0uMTIsMS4wOS0uMzYsMS41Mi0xMi41LTMuNDktMjUuMTUtNS41MS0zOC4yMS02LjA0aC4wMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTkzLjE5LDUxLjAyYzQuOCwxLjM5LDkuMzcsMS45OSwxNC4yNSwyLjM3LDUuODQuNDUsMTEuMzYtLjI0LDE3LjU0LTEuMDYtNC42OCw2LjYxLTExLjM5LDEwLjkzLTE4LjY0LDEzLjU0LTE2LjczLTYuODktMzQuMi0xMC4yLTUyLjE1LTEwLjUxLTM2LjEtLjYyLTc0LjUsOS42LTEwNC4zOSwzMC40MS45Mi00Ljc1LDIuNTktOC42Miw0LjQ4LTEyLjgsNi4wNi0xMi40LDE1LjA5LTIzLjE5LDI2LjQ5LTMxLjA4LDE3Ljc3LTEyLjMxLDM5LjQtMTcuMzgsNjAuODUtMTQuOTgsNS44LjY1LDExLjA5LDEuNywxNi43NCwyLjk0LDE3LjI3LDMuNzcsMzEuNzEsNS42MSw0OS41NCwxLjg0LTEuMTIsMi4zOS0yLjQxLDMuOTctMy44LDUuNzYtMy41NSw0LjA2LTcuNDcsNy40OC0xMS44OSwxMC42Mi0uNS4zNS0uODIsMS4yNi0uNjcsMS43MS4yMS42MS44NSwxLjAxLDEuNjUsMS4yNWgwWiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xMDEuMTUsMTg2LjY5Yy0xLjYxLTEuMzMtMi4xOC0zLjUyLS44NC01LjExLjkzLTEuMSwyLjctMS4zLDQuMTEtLjYyLDE0LjY0LDcuMSwzMS40Nyw4Ljg2LDQ3LjE2LDQuMjUsOC45MS0yLjYyLDE2LjctNy40LDIyLjg0LTE0LjI2LDEuOS0yLjEzLDQuOS0yLjc0LDcuMDYtLjY5LDEuNTgsMS41MSwxLjU0LDMuODguMzYsNS43Ni0zLjY1LDUuODItOC42NCwxMC40OS0xNC42NiwxNC4wMS0xNS42NCw5LjE1LTM0LjgyLDEwLjc5LTUxLjgzLDQuNTctNS4yMy0xLjkxLTkuODYtNC4zNS0xNC4yLTcuOTFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTk4LjkyLDE1OS45MWMtNy44LTUuMjYtOC45NC0xOS40OS0yLjE4LTI2LjMsMy41OC0zLjYsOS4wNC0zLjYyLDEyLjc5LS4xNSwyLjU1LDIuMzYsMy45NSw1LjU1LDQuNzMsOC45OSwxLjEyLDQuOTUuNTEsMTAuMS0yLjEzLDE0LjMzLTIuOTEsNC42Ni04LjUxLDYuMzEtMTMuMiwzLjE0aC0uMDFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTE4OS4zLDE0My4xNmMtMTIuMTUtMS4zMS0yMy4yMSwzLjg5LTMzLjM4LDEwLjE1LS40NS4yOC0xLjM3LjM3LTEuNzYuMi0uNDgtLjIxLS43OC0xLjMtLjU5LTEuOTMsMy4yNi0xMC40OSwxMS42My0xOS40NSwyMi44NC0xOS45NSw2LjE2LS4yNywxMS4xMSwzLjQsMTMuMyw5LjA0LjIzLjYuNTUsMi4zNi0uNDEsMi40OGgwWiIvPgo8L3N2Zz4=" alt="Wiiin" style="width:100%;height:100%;object-fit:contain"></div>
+      <div style="flex:1">
+        <div class="notif-preview-meta">
+          <span class="source">WIIIN</span>
+          <span>maintenant</span>
+        </div>
+        <div class="notif-preview-title">Real Madrid - Manchester City dans 2h</div>
+        <div class="notif-preview-body">T'as posé ton prono ? Sinon active L'Assistant pour éviter d'être le vilain petit canard.</div>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:32px;font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.14em;font-weight:700">PUSH NOTIFICATION · J-2H</div>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="22"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="app-header">
+  <a href="#home" class="app-header-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a>
+  <div style="display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--hot);letter-spacing:.14em">
+    <span style="width:8px;height:8px;border-radius:50%;background:var(--hot);animation:pulse 1.6s infinite;display:inline-block"></span>
+    EN DIRECT
+  </div>
+  <div style="width:44px"></div>
+</div>
+<div class="phone-body tight">
+  <div class="live-card">
+    <div class="live-tag">
+      <span style="width:8px;height:8px;border-radius:50%;background:var(--mint);animation:pulse 1.6s infinite;display:inline-block"></span>
+      UCL FINALE · 67E MIN
+    </div>
+    <div class="teams">Real <em>2</em> - <em>1</em> City</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.5);font-family:var(--mono);font-weight:500">Vinicius (34'), Bellingham (52') · Haaland (12')</div>
+    <div class="pts">+210 pts</div>
+  </div>
+
+  <div class="next-match-card" style="margin-top:14px;background:var(--mint);color:var(--ink)">
+    <div class="head" style="color:rgba(11,27,46,.6)">TON PRONO</div>
+    <h4>Real Madrid gagne · 210 pts potentiels</h4>
+    <div class="sub" style="color:rgba(11,27,46,.7)">+210 pts si correct au coup de sifflet</div>
+  </div>
+
+  <h3 class="display-lg" style="font-size:22px;margin:20px 0 10px">Classement live</h3>
+  <div style="background:white;border-radius:18px;padding:4px 18px;border:1px solid rgba(11,27,46,.04)">
+    <div class="settings-row">
+      <span class="label">Soirée poker du dimanche</span>
+      <span class="value" style="color:var(--mint-deep);font-size:15px">#3 / 7</span>
+    </div>
+    <div class="settings-row">
+      <span class="label">UCL Finale officiel</span>
+      <span class="value" style="color:var(--mint-deep);font-size:15px">#42 / 87</span>
+    </div>
+  </div>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="23"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="modal-bg">
+  <div class="modal-sheet">
+    <div class="mascot-circle md" style="margin:0 auto 18px;background:var(--plum)"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMjU1LjEyIDI1NS4xMiI+CiAgPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDMwLjMuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDIuMS4zIEJ1aWxkIDE4MikgIC0tPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuc3QwIHsKICAgICAgICBmaWxsOiAjMGIxYjJlOwogICAgICB9CgogICAgICAuc3QxIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuc3QyIHsKICAgICAgICBmaWxsOiAjNjhkNzlmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTYxLjEsMjM0LjY0Yy0zMy43OSw5Ljg0LTcwLjQ3LDIuNDUtOTcuODEtMTkuMzYtMTcuNjUtMTQuMDgtMjkuOTItMzMuNTgtMzMuNjUtNTYuMDYtMy43My0zLjg5LTYuNDctOC4yNC04LjM1LTEzLjMyLTUuNzYtMTYuMzgtMS4wOC0zMy41OCwxMC41OC00Ni4yMSwxLjQtMjEuMTQsOS4xLTQwLjkyLDIzLjM1LTU2Ljc2LDIzLjU2LTI2LjE5LDU5LjEtMzcuNDEsOTMuNjYtMzEuMzYsNS44OCwxLjAzLDExLjI5LDIuMzksMTYuOTcsNC4xNCwyMS42MSw2LjYzLDQyLjk0LDMuODgsNjIuODEtNi42NC4zNy0uMiwxLjQtLjE4LDEuNzcsMCwxLjQuNjYsMS4xMyw0LjE5LjYyLDYuNzktMS44OCw5LjU2LTUuNDcsMTYuNS0xMS4zNiwyNC40Miw5LjA2LS41MiwxNy4wNC0zLjcxLDI0LjktNy45Ny40OS0uMjYsMS41Ni0uMzIsMS45NC0uMDQuNDYuMzQuNzQsMS4zMy44NSwyLjA4LS41Miw0LjM2LTEuNjksOC4yOC0zLjM0LDEyLjM1LTQuNTcsMTEuMjYtMTEuOTgsMjAuOTYtMjIuMTUsMjgsMTQuMDQsMjYuMSwxOC43NSw1NC45MiwxMS42NSw4My43OC00LjQ5LDE4LjIxLTEzLjY4LDM1LjE0LTI2LjY1LDQ4LjcyLTEyLjQ5LDEzLjA3LTI4LjMsMjIuMzgtNDUuNzgsMjcuNDd2LS4wM1pNMTkzLjE5LDUxLjAyYy0uOC0uMjQtMS40NC0uNjQtMS42NS0xLjI1LS4xNS0uNDUuMTctMS4zNi42Ny0xLjcxLDQuNDItMy4xNCw4LjM0LTYuNTYsMTEuODktMTAuNjIsMS4zOS0xLjc5LDIuNjgtMy4zOCwzLjgtNS43Ni0xNy44MywzLjc3LTMyLjI3LDEuOTQtNDkuNTQtMS44NC01LjY2LTEuMjQtMTAuOTQtMi4yOS0xNi43NC0yLjk0LTIxLjQ0LTIuNC00My4wOCwyLjY3LTYwLjg1LDE0Ljk4LTExLjM5LDcuODktMjAuNDMsMTguNjktMjYuNDksMzEuMDgtMS44OCw0LjE4LTMuNTUsOC4wNS00LjQ4LDEyLjgsMjkuODktMjAuODEsNjguMjgtMzEuMDMsMTA0LjM5LTMwLjQxLDE3Ljk2LjMxLDM1LjQyLDMuNjIsNTIuMTUsMTAuNTEsNy4yNS0yLjYxLDEzLjk2LTYuOTMsMTguNjQtMTMuNTQtNi4xOC44Mi0xMS43LDEuNTEtMTcuNTQsMS4wNi00Ljg4LS4zOC05LjQ1LS45Ny0xNC4yNS0yLjM3aDBaTTE3Ny45Miw5Ny4xNWMxMy4wNi41NCwyNS43MSwyLjU1LDM4LjIxLDYuMDQuMjQtLjQzLjQ1LTEuMTguMzYtMS41Mi0xLjc5LTYuOS00LjIzLTEzLjMyLTcuNzgtMTkuNDgtLjQ3LS44Mi0xLjQtMi4wNi0yLjMxLTIuMzgtNi4wMy0yLjA5LTExLjktMy41LTE4LjIyLTQuNjgtMzUuNDctNi41OC03My4wNi0yLjgyLTEwNi4yOSwxMS40MS0xMy41Miw1Ljc5LTI5LjEsMTQuNTktMzkuMDUsMjUuMy00LDQuMy02LjY3LDkuMzctNy43NCwxNS4xNC0uODQsNC4wNS0uOSw4LjA0LjQ1LDEyLjMsNi43NS0xMC4zLDE3Ljk1LTE3LjM3LDI4Ljk3LTIyLjQzLDMzLjIxLTE1LjI0LDc3LjA1LTIxLjE4LDExMy40MS0xOS42OWgtLjAxWk0xOTYuNTksMTk0LjI4YzE4Ljc3LTIwLjUzLDI1LjEyLTQ3LjYzLDE5LjE3LTc0LjY3LS40LTEuOC0xLjMxLTIuOTEtMy4xMy0zLjQyLTExLjE5LTMuMTUtMjIuNDctNS4zMy0zNC4xOS02LjM3LTIzLjA4LTIuMDUtNDYuMjYtLjg4LTY5LjAxLDMuMzctMTEuNTEsMi4xNS0yMi41OCw1LjA3LTMzLjQzLDkuMjctMTAuNDEsNC4wMy0yMS40Miw5LjM1LTI5LjIxLDE3LjMxLTEuMDMsMS4wNS0xLjI5LDIuNjgtMS4yNyw0LjI0LjQ5LDMxLjAyLDIwLjc0LDU3LjgsNDguNzgsNzAuMTMsMzQuNjQsMTUuMjIsNzYuNDMsOC40MiwxMDIuMjktMTkuODZoMFoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTk2LjU5LDE5NC4yOGMtMjUuODYsMjguMjktNjcuNjUsMzUuMDktMTAyLjI5LDE5Ljg2LTI4LjA1LTEyLjMyLTQ4LjMtMzkuMS00OC43OC03MC4xMy0uMDItMS41Ni4yNC0zLjE5LDEuMjctNC4yNCw3Ljc5LTcuOTYsMTguOC0xMy4yOCwyOS4yMS0xNy4zMSwxMC44NS00LjIsMjEuOTItNy4xMiwzMy40My05LjI3LDIyLjc1LTQuMjUsNDUuOTQtNS40Miw2OS4wMS0zLjM3LDExLjcyLDEuMDQsMjMsMy4yMywzNC4xOSw2LjM3LDEuODEuNTEsMi43MywxLjYyLDMuMTMsMy40Miw1Ljk1LDI3LjA0LS40LDU0LjE0LTE5LjE3LDc0LjY3aDBaTTk4LjkyLDE1OS45MWM0LjY5LDMuMTYsMTAuMjksMS41MiwxMy4yLTMuMTQsMi42NC00LjIzLDMuMjUtOS4zOCwyLjEzLTE0LjMzLS43OC0zLjQ0LTIuMTgtNi42Mi00LjczLTguOTktMy43NC0zLjQ3LTkuMjEtMy40NS0xMi43OS4xNS02Ljc2LDYuODEtNS42MiwyMS4wNCwyLjE4LDI2LjNoLjAxWk0xODkuMywxNDMuMTZjLjk2LS4xMi42NC0xLjg4LjQxLTIuNDgtMi4xOS01LjY0LTcuMTQtOS4zMi0xMy4zLTkuMDQtMTEuMjEuNS0xOS41OCw5LjQ2LTIyLjg0LDE5Ljk1LS4yLjYzLjExLDEuNzIuNTksMS45My40LjE3LDEuMzEuMDgsMS43Ni0uMiwxMC4xNy02LjI3LDIxLjIzLTExLjQ2LDMzLjM4LTEwLjE1aDBaTTEwMS4xNSwxODYuNjljNC4zNCwzLjU3LDguOTcsNiwxNC4yLDcuOTEsMTcuMDEsNi4yMiwzNi4xOSw0LjU4LDUxLjgzLTQuNTcsNi4wMi0zLjUyLDExLTguMTksMTQuNjYtMTQuMDEsMS4xOC0xLjg4LDEuMjItNC4yNi0uMzYtNS43Ni0yLjE2LTIuMDUtNS4xNi0xLjQ0LTcuMDYuNjktNi4xNCw2Ljg2LTEzLjkzLDExLjY0LTIyLjg0LDE0LjI2LTE1LjY4LDQuNjEtMzIuNTIsMi44Ni00Ny4xNi00LjI1LTEuNC0uNjgtMy4xOC0uNDgtNC4xMS42Mi0xLjM0LDEuNTktLjc4LDMuNzkuODQsNS4xMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMTc3LjkyLDk3LjE1Yy0zNi4zNi0xLjQ5LTgwLjIsNC40NC0xMTMuNDEsMTkuNjktMTEuMDIsNS4wNi0yMi4yMiwxMi4xMy0yOC45NywyMi40My0xLjM0LTQuMjYtMS4yOS04LjI1LS40NS0xMi4zLDEuMDctNS43NywzLjc0LTEwLjgzLDcuNzQtMTUuMTQsOS45Ni0xMC43MSwyNS41My0xOS41MSwzOS4wNS0yNS4zLDMzLjIzLTE0LjIzLDcwLjgyLTE3Ljk5LDEwNi4yOS0xMS40MSw2LjMyLDEuMTcsMTIuMTksMi41OCwxOC4yMiw0LjY4LjkxLjMyLDEuODQsMS41NSwyLjMxLDIuMzgsMy41NSw2LjE2LDUuOTgsMTIuNTksNy43OCwxOS40OC4wOS4zNC0uMTIsMS4wOS0uMzYsMS41Mi0xMi41LTMuNDktMjUuMTUtNS41MS0zOC4yMS02LjA0aC4wMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTkzLjE5LDUxLjAyYzQuOCwxLjM5LDkuMzcsMS45OSwxNC4yNSwyLjM3LDUuODQuNDUsMTEuMzYtLjI0LDE3LjU0LTEuMDYtNC42OCw2LjYxLTExLjM5LDEwLjkzLTE4LjY0LDEzLjU0LTE2LjczLTYuODktMzQuMi0xMC4yLTUyLjE1LTEwLjUxLTM2LjEtLjYyLTc0LjUsOS42LTEwNC4zOSwzMC40MS45Mi00Ljc1LDIuNTktOC42Miw0LjQ4LTEyLjgsNi4wNi0xMi40LDE1LjA5LTIzLjE5LDI2LjQ5LTMxLjA4LDE3Ljc3LTEyLjMxLDM5LjQtMTcuMzgsNjAuODUtMTQuOTgsNS44LjY1LDExLjA5LDEuNywxNi43NCwyLjk0LDE3LjI3LDMuNzcsMzEuNzEsNS42MSw0OS41NCwxLjg0LTEuMTIsMi4zOS0yLjQxLDMuOTctMy44LDUuNzYtMy41NSw0LjA2LTcuNDcsNy40OC0xMS44OSwxMC42Mi0uNS4zNS0uODIsMS4yNi0uNjcsMS43MS4yMS42MS44NSwxLjAxLDEuNjUsMS4yNWgwWiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xMDEuMTUsMTg2LjY5Yy0xLjYxLTEuMzMtMi4xOC0zLjUyLS44NC01LjExLjkzLTEuMSwyLjctMS4zLDQuMTEtLjYyLDE0LjY0LDcuMSwzMS40Nyw4Ljg2LDQ3LjE2LDQuMjUsOC45MS0yLjYyLDE2LjctNy40LDIyLjg0LTE0LjI2LDEuOS0yLjEzLDQuOS0yLjc0LDcuMDYtLjY5LDEuNTgsMS41MSwxLjU0LDMuODguMzYsNS43Ni0zLjY1LDUuODItOC42NCwxMC40OS0xNC42NiwxNC4wMS0xNS42NCw5LjE1LTM0LjgyLDEwLjc5LTUxLjgzLDQuNTctNS4yMy0xLjkxLTkuODYtNC4zNS0xNC4yLTcuOTFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTk4LjkyLDE1OS45MWMtNy44LTUuMjYtOC45NC0xOS40OS0yLjE4LTI2LjMsMy41OC0zLjYsOS4wNC0zLjYyLDEyLjc5LS4xNSwyLjU1LDIuMzYsMy45NSw1LjU1LDQuNzMsOC45OSwxLjEyLDQuOTUuNTEsMTAuMS0yLjEzLDE0LjMzLTIuOTEsNC42Ni04LjUxLDYuMzEtMTMuMiwzLjE0aC0uMDFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTE4OS4zLDE0My4xNmMtMTIuMTUtMS4zMS0yMy4yMSwzLjg5LTMzLjM4LDEwLjE1LS40NS4yOC0xLjM3LjM3LTEuNzYuMi0uNDgtLjIxLS43OC0xLjMtLjU5LTEuOTMsMy4yNi0xMC40OSwxMS42My0xOS40NSwyMi44NC0xOS45NSw2LjE2LS4yNywxMS4xMSwzLjQsMTMuMyw5LjA0LjIzLjYuNTUsMi4zNi0uNDEsMi40OGgwWiIvPgo8L3N2Zz4=" alt="Wiiin" style="width:100%;height:100%;object-fit:contain"></div>
+    <h2 class="display-xl" style="text-align:center;margin-bottom:10px">Mode Expert<br>requiert Wiiin+.</h2>
+    <p style="font-size:14px;color:var(--ink-soft);font-weight:500;line-height:1.5;text-align:center;margin-bottom:18px;max-width:280px;margin-left:auto;margin-right:auto">Active la valise de triche, vire les pubs, et reçois nos petits bonus surprise.</p>
+    <a href="#shop_plus" class="btn btn-mint">S'abonner · 5,99€/mois</a>
+    <button style="background:transparent;border:0;color:var(--ink-mute);padding:12px 0;font-size:14px;text-decoration:underline;width:100%;font-weight:600;cursor:pointer;margin-top:6px">Continuer en gratuit</button>
+  </div>
+</div>
+
+    </div>
+  </div></section>
+<section class="appscreen" data-i="24"><div class="phone ">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>•••• 5G</span>
+    </div>
+    <div class="phone-content">
+      
+<div class="app-header">
+  <div class="mascot-circle xs"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMjU1LjEyIDI1NS4xMiI+CiAgPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDMwLjMuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDIuMS4zIEJ1aWxkIDE4MikgIC0tPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuc3QwIHsKICAgICAgICBmaWxsOiAjMGIxYjJlOwogICAgICB9CgogICAgICAuc3QxIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuc3QyIHsKICAgICAgICBmaWxsOiAjNjhkNzlmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTYxLjEsMjM0LjY0Yy0zMy43OSw5Ljg0LTcwLjQ3LDIuNDUtOTcuODEtMTkuMzYtMTcuNjUtMTQuMDgtMjkuOTItMzMuNTgtMzMuNjUtNTYuMDYtMy43My0zLjg5LTYuNDctOC4yNC04LjM1LTEzLjMyLTUuNzYtMTYuMzgtMS4wOC0zMy41OCwxMC41OC00Ni4yMSwxLjQtMjEuMTQsOS4xLTQwLjkyLDIzLjM1LTU2Ljc2LDIzLjU2LTI2LjE5LDU5LjEtMzcuNDEsOTMuNjYtMzEuMzYsNS44OCwxLjAzLDExLjI5LDIuMzksMTYuOTcsNC4xNCwyMS42MSw2LjYzLDQyLjk0LDMuODgsNjIuODEtNi42NC4zNy0uMiwxLjQtLjE4LDEuNzcsMCwxLjQuNjYsMS4xMyw0LjE5LjYyLDYuNzktMS44OCw5LjU2LTUuNDcsMTYuNS0xMS4zNiwyNC40Miw5LjA2LS41MiwxNy4wNC0zLjcxLDI0LjktNy45Ny40OS0uMjYsMS41Ni0uMzIsMS45NC0uMDQuNDYuMzQuNzQsMS4zMy44NSwyLjA4LS41Miw0LjM2LTEuNjksOC4yOC0zLjM0LDEyLjM1LTQuNTcsMTEuMjYtMTEuOTgsMjAuOTYtMjIuMTUsMjgsMTQuMDQsMjYuMSwxOC43NSw1NC45MiwxMS42NSw4My43OC00LjQ5LDE4LjIxLTEzLjY4LDM1LjE0LTI2LjY1LDQ4LjcyLTEyLjQ5LDEzLjA3LTI4LjMsMjIuMzgtNDUuNzgsMjcuNDd2LS4wM1pNMTkzLjE5LDUxLjAyYy0uOC0uMjQtMS40NC0uNjQtMS42NS0xLjI1LS4xNS0uNDUuMTctMS4zNi42Ny0xLjcxLDQuNDItMy4xNCw4LjM0LTYuNTYsMTEuODktMTAuNjIsMS4zOS0xLjc5LDIuNjgtMy4zOCwzLjgtNS43Ni0xNy44MywzLjc3LTMyLjI3LDEuOTQtNDkuNTQtMS44NC01LjY2LTEuMjQtMTAuOTQtMi4yOS0xNi43NC0yLjk0LTIxLjQ0LTIuNC00My4wOCwyLjY3LTYwLjg1LDE0Ljk4LTExLjM5LDcuODktMjAuNDMsMTguNjktMjYuNDksMzEuMDgtMS44OCw0LjE4LTMuNTUsOC4wNS00LjQ4LDEyLjgsMjkuODktMjAuODEsNjguMjgtMzEuMDMsMTA0LjM5LTMwLjQxLDE3Ljk2LjMxLDM1LjQyLDMuNjIsNTIuMTUsMTAuNTEsNy4yNS0yLjYxLDEzLjk2LTYuOTMsMTguNjQtMTMuNTQtNi4xOC44Mi0xMS43LDEuNTEtMTcuNTQsMS4wNi00Ljg4LS4zOC05LjQ1LS45Ny0xNC4yNS0yLjM3aDBaTTE3Ny45Miw5Ny4xNWMxMy4wNi41NCwyNS43MSwyLjU1LDM4LjIxLDYuMDQuMjQtLjQzLjQ1LTEuMTguMzYtMS41Mi0xLjc5LTYuOS00LjIzLTEzLjMyLTcuNzgtMTkuNDgtLjQ3LS44Mi0xLjQtMi4wNi0yLjMxLTIuMzgtNi4wMy0yLjA5LTExLjktMy41LTE4LjIyLTQuNjgtMzUuNDctNi41OC03My4wNi0yLjgyLTEwNi4yOSwxMS40MS0xMy41Miw1Ljc5LTI5LjEsMTQuNTktMzkuMDUsMjUuMy00LDQuMy02LjY3LDkuMzctNy43NCwxNS4xNC0uODQsNC4wNS0uOSw4LjA0LjQ1LDEyLjMsNi43NS0xMC4zLDE3Ljk1LTE3LjM3LDI4Ljk3LTIyLjQzLDMzLjIxLTE1LjI0LDc3LjA1LTIxLjE4LDExMy40MS0xOS42OWgtLjAxWk0xOTYuNTksMTk0LjI4YzE4Ljc3LTIwLjUzLDI1LjEyLTQ3LjYzLDE5LjE3LTc0LjY3LS40LTEuOC0xLjMxLTIuOTEtMy4xMy0zLjQyLTExLjE5LTMuMTUtMjIuNDctNS4zMy0zNC4xOS02LjM3LTIzLjA4LTIuMDUtNDYuMjYtLjg4LTY5LjAxLDMuMzctMTEuNTEsMi4xNS0yMi41OCw1LjA3LTMzLjQzLDkuMjctMTAuNDEsNC4wMy0yMS40Miw5LjM1LTI5LjIxLDE3LjMxLTEuMDMsMS4wNS0xLjI5LDIuNjgtMS4yNyw0LjI0LjQ5LDMxLjAyLDIwLjc0LDU3LjgsNDguNzgsNzAuMTMsMzQuNjQsMTUuMjIsNzYuNDMsOC40MiwxMDIuMjktMTkuODZoMFoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTk2LjU5LDE5NC4yOGMtMjUuODYsMjguMjktNjcuNjUsMzUuMDktMTAyLjI5LDE5Ljg2LTI4LjA1LTEyLjMyLTQ4LjMtMzkuMS00OC43OC03MC4xMy0uMDItMS41Ni4yNC0zLjE5LDEuMjctNC4yNCw3Ljc5LTcuOTYsMTguOC0xMy4yOCwyOS4yMS0xNy4zMSwxMC44NS00LjIsMjEuOTItNy4xMiwzMy40My05LjI3LDIyLjc1LTQuMjUsNDUuOTQtNS40Miw2OS4wMS0zLjM3LDExLjcyLDEuMDQsMjMsMy4yMywzNC4xOSw2LjM3LDEuODEuNTEsMi43MywxLjYyLDMuMTMsMy40Miw1Ljk1LDI3LjA0LS40LDU0LjE0LTE5LjE3LDc0LjY3aDBaTTk4LjkyLDE1OS45MWM0LjY5LDMuMTYsMTAuMjksMS41MiwxMy4yLTMuMTQsMi42NC00LjIzLDMuMjUtOS4zOCwyLjEzLTE0LjMzLS43OC0zLjQ0LTIuMTgtNi42Mi00LjczLTguOTktMy43NC0zLjQ3LTkuMjEtMy40NS0xMi43OS4xNS02Ljc2LDYuODEtNS42MiwyMS4wNCwyLjE4LDI2LjNoLjAxWk0xODkuMywxNDMuMTZjLjk2LS4xMi42NC0xLjg4LjQxLTIuNDgtMi4xOS01LjY0LTcuMTQtOS4zMi0xMy4zLTkuMDQtMTEuMjEuNS0xOS41OCw5LjQ2LTIyLjg0LDE5Ljk1LS4yLjYzLjExLDEuNzIuNTksMS45My40LjE3LDEuMzEuMDgsMS43Ni0uMiwxMC4xNy02LjI3LDIxLjIzLTExLjQ2LDMzLjM4LTEwLjE1aDBaTTEwMS4xNSwxODYuNjljNC4zNCwzLjU3LDguOTcsNiwxNC4yLDcuOTEsMTcuMDEsNi4yMiwzNi4xOSw0LjU4LDUxLjgzLTQuNTcsNi4wMi0zLjUyLDExLTguMTksMTQuNjYtMTQuMDEsMS4xOC0xLjg4LDEuMjItNC4yNi0uMzYtNS43Ni0yLjE2LTIuMDUtNS4xNi0xLjQ0LTcuMDYuNjktNi4xNCw2Ljg2LTEzLjkzLDExLjY0LTIyLjg0LDE0LjI2LTE1LjY4LDQuNjEtMzIuNTIsMi44Ni00Ny4xNi00LjI1LTEuNC0uNjgtMy4xOC0uNDgtNC4xMS42Mi0xLjM0LDEuNTktLjc4LDMuNzkuODQsNS4xMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMTc3LjkyLDk3LjE1Yy0zNi4zNi0xLjQ5LTgwLjIsNC40NC0xMTMuNDEsMTkuNjktMTEuMDIsNS4wNi0yMi4yMiwxMi4xMy0yOC45NywyMi40My0xLjM0LTQuMjYtMS4yOS04LjI1LS40NS0xMi4zLDEuMDctNS43NywzLjc0LTEwLjgzLDcuNzQtMTUuMTQsOS45Ni0xMC43MSwyNS41My0xOS41MSwzOS4wNS0yNS4zLDMzLjIzLTE0LjIzLDcwLjgyLTE3Ljk5LDEwNi4yOS0xMS40MSw2LjMyLDEuMTcsMTIuMTksMi41OCwxOC4yMiw0LjY4LjkxLjMyLDEuODQsMS41NSwyLjMxLDIuMzgsMy41NSw2LjE2LDUuOTgsMTIuNTksNy43OCwxOS40OC4wOS4zNC0uMTIsMS4wOS0uMzYsMS41Mi0xMi41LTMuNDktMjUuMTUtNS41MS0zOC4yMS02LjA0aC4wMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTkzLjE5LDUxLjAyYzQuOCwxLjM5LDkuMzcsMS45OSwxNC4yNSwyLjM3LDUuODQuNDUsMTEuMzYtLjI0LDE3LjU0LTEuMDYtNC42OCw2LjYxLTExLjM5LDEwLjkzLTE4LjY0LDEzLjU0LTE2LjczLTYuODktMzQuMi0xMC4yLTUyLjE1LTEwLjUxLTM2LjEtLjYyLTc0LjUsOS42LTEwNC4zOSwzMC40MS45Mi00Ljc1LDIuNTktOC42Miw0LjQ4LTEyLjgsNi4wNi0xMi40LDE1LjA5LTIzLjE5LDI2LjQ5LTMxLjA4LDE3Ljc3LTEyLjMxLDM5LjQtMTcuMzgsNjAuODUtMTQuOTgsNS44LjY1LDExLjA5LDEuNywxNi43NCwyLjk0LDE3LjI3LDMuNzcsMzEuNzEsNS42MSw0OS41NCwxLjg0LTEuMTIsMi4zOS0yLjQxLDMuOTctMy44LDUuNzYtMy41NSw0LjA2LTcuNDcsNy40OC0xMS44OSwxMC42Mi0uNS4zNS0uODIsMS4yNi0uNjcsMS43MS4yMS42MS44NSwxLjAxLDEuNjUsMS4yNWgwWiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xMDEuMTUsMTg2LjY5Yy0xLjYxLTEuMzMtMi4xOC0zLjUyLS44NC01LjExLjkzLTEuMSwyLjctMS4zLDQuMTEtLjYyLDE0LjY0LDcuMSwzMS40Nyw4Ljg2LDQ3LjE2LDQuMjUsOC45MS0yLjYyLDE2LjctNy40LDIyLjg0LTE0LjI2LDEuOS0yLjEzLDQuOS0yLjc0LDcuMDYtLjY5LDEuNTgsMS41MSwxLjU0LDMuODguMzYsNS43Ni0zLjY1LDUuODItOC42NCwxMC40OS0xNC42NiwxNC4wMS0xNS42NCw5LjE1LTM0LjgyLDEwLjc5LTUxLjgzLDQuNTctNS4yMy0xLjkxLTkuODYtNC4zNS0xNC4yLTcuOTFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTk4LjkyLDE1OS45MWMtNy44LTUuMjYtOC45NC0xOS40OS0yLjE4LTI2LjMsMy41OC0zLjYsOS4wNC0zLjYyLDEyLjc5LS4xNSwyLjU1LDIuMzYsMy45NSw1LjU1LDQuNzMsOC45OSwxLjEyLDQuOTUuNTEsMTAuMS0yLjEzLDE0LjMzLTIuOTEsNC42Ni04LjUxLDYuMzEtMTMuMiwzLjE0aC0uMDFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTE4OS4zLDE0My4xNmMtMTIuMTUtMS4zMS0yMy4yMSwzLjg5LTMzLjM4LDEwLjE1LS40NS4yOC0xLjM3LjM3LTEuNzYuMi0uNDgtLjIxLS43OC0xLjMtLjU5LTEuOTMsMy4yNi0xMC40OSwxMS42My0xOS40NSwyMi44NC0xOS45NSw2LjE2LS4yNywxMS4xMSwzLjQsMTMuMyw5LjA0LjIzLjYuNTUsMi4zNi0uNDEsMi40OGgwWiIvPgo8L3N2Zz4=" alt="Wiiin" style="width:100%;height:100%;object-fit:contain"></div>
+  <span class="coiiins-pill"><span class="dot"></span>240 Coiiins</span>
+  <button class="app-header-back" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/></svg></button>
+</div>
+<div class="phone-body tight">
+  <h1 class="display-xl" style="margin-bottom:20px">Tournois</h1>
+
+  <div class="empty-hero">
+    <div class="mascot-circle md" style="margin:0 auto;background:var(--ink)"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMjU1LjEyIDI1NS4xMiI+CiAgPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDMwLjMuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDIuMS4zIEJ1aWxkIDE4MikgIC0tPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuc3QwIHsKICAgICAgICBmaWxsOiAjMGIxYjJlOwogICAgICB9CgogICAgICAuc3QxIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuc3QyIHsKICAgICAgICBmaWxsOiAjNjhkNzlmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTYxLjEsMjM0LjY0Yy0zMy43OSw5Ljg0LTcwLjQ3LDIuNDUtOTcuODEtMTkuMzYtMTcuNjUtMTQuMDgtMjkuOTItMzMuNTgtMzMuNjUtNTYuMDYtMy43My0zLjg5LTYuNDctOC4yNC04LjM1LTEzLjMyLTUuNzYtMTYuMzgtMS4wOC0zMy41OCwxMC41OC00Ni4yMSwxLjQtMjEuMTQsOS4xLTQwLjkyLDIzLjM1LTU2Ljc2LDIzLjU2LTI2LjE5LDU5LjEtMzcuNDEsOTMuNjYtMzEuMzYsNS44OCwxLjAzLDExLjI5LDIuMzksMTYuOTcsNC4xNCwyMS42MSw2LjYzLDQyLjk0LDMuODgsNjIuODEtNi42NC4zNy0uMiwxLjQtLjE4LDEuNzcsMCwxLjQuNjYsMS4xMyw0LjE5LjYyLDYuNzktMS44OCw5LjU2LTUuNDcsMTYuNS0xMS4zNiwyNC40Miw5LjA2LS41MiwxNy4wNC0zLjcxLDI0LjktNy45Ny40OS0uMjYsMS41Ni0uMzIsMS45NC0uMDQuNDYuMzQuNzQsMS4zMy44NSwyLjA4LS41Miw0LjM2LTEuNjksOC4yOC0zLjM0LDEyLjM1LTQuNTcsMTEuMjYtMTEuOTgsMjAuOTYtMjIuMTUsMjgsMTQuMDQsMjYuMSwxOC43NSw1NC45MiwxMS42NSw4My43OC00LjQ5LDE4LjIxLTEzLjY4LDM1LjE0LTI2LjY1LDQ4LjcyLTEyLjQ5LDEzLjA3LTI4LjMsMjIuMzgtNDUuNzgsMjcuNDd2LS4wM1pNMTkzLjE5LDUxLjAyYy0uOC0uMjQtMS40NC0uNjQtMS42NS0xLjI1LS4xNS0uNDUuMTctMS4zNi42Ny0xLjcxLDQuNDItMy4xNCw4LjM0LTYuNTYsMTEuODktMTAuNjIsMS4zOS0xLjc5LDIuNjgtMy4zOCwzLjgtNS43Ni0xNy44MywzLjc3LTMyLjI3LDEuOTQtNDkuNTQtMS44NC01LjY2LTEuMjQtMTAuOTQtMi4yOS0xNi43NC0yLjk0LTIxLjQ0LTIuNC00My4wOCwyLjY3LTYwLjg1LDE0Ljk4LTExLjM5LDcuODktMjAuNDMsMTguNjktMjYuNDksMzEuMDgtMS44OCw0LjE4LTMuNTUsOC4wNS00LjQ4LDEyLjgsMjkuODktMjAuODEsNjguMjgtMzEuMDMsMTA0LjM5LTMwLjQxLDE3Ljk2LjMxLDM1LjQyLDMuNjIsNTIuMTUsMTAuNTEsNy4yNS0yLjYxLDEzLjk2LTYuOTMsMTguNjQtMTMuNTQtNi4xOC44Mi0xMS43LDEuNTEtMTcuNTQsMS4wNi00Ljg4LS4zOC05LjQ1LS45Ny0xNC4yNS0yLjM3aDBaTTE3Ny45Miw5Ny4xNWMxMy4wNi41NCwyNS43MSwyLjU1LDM4LjIxLDYuMDQuMjQtLjQzLjQ1LTEuMTguMzYtMS41Mi0xLjc5LTYuOS00LjIzLTEzLjMyLTcuNzgtMTkuNDgtLjQ3LS44Mi0xLjQtMi4wNi0yLjMxLTIuMzgtNi4wMy0yLjA5LTExLjktMy41LTE4LjIyLTQuNjgtMzUuNDctNi41OC03My4wNi0yLjgyLTEwNi4yOSwxMS40MS0xMy41Miw1Ljc5LTI5LjEsMTQuNTktMzkuMDUsMjUuMy00LDQuMy02LjY3LDkuMzctNy43NCwxNS4xNC0uODQsNC4wNS0uOSw4LjA0LjQ1LDEyLjMsNi43NS0xMC4zLDE3Ljk1LTE3LjM3LDI4Ljk3LTIyLjQzLDMzLjIxLTE1LjI0LDc3LjA1LTIxLjE4LDExMy40MS0xOS42OWgtLjAxWk0xOTYuNTksMTk0LjI4YzE4Ljc3LTIwLjUzLDI1LjEyLTQ3LjYzLDE5LjE3LTc0LjY3LS40LTEuOC0xLjMxLTIuOTEtMy4xMy0zLjQyLTExLjE5LTMuMTUtMjIuNDctNS4zMy0zNC4xOS02LjM3LTIzLjA4LTIuMDUtNDYuMjYtLjg4LTY5LjAxLDMuMzctMTEuNTEsMi4xNS0yMi41OCw1LjA3LTMzLjQzLDkuMjctMTAuNDEsNC4wMy0yMS40Miw5LjM1LTI5LjIxLDE3LjMxLTEuMDMsMS4wNS0xLjI5LDIuNjgtMS4yNyw0LjI0LjQ5LDMxLjAyLDIwLjc0LDU3LjgsNDguNzgsNzAuMTMsMzQuNjQsMTUuMjIsNzYuNDMsOC40MiwxMDIuMjktMTkuODZoMFoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTk2LjU5LDE5NC4yOGMtMjUuODYsMjguMjktNjcuNjUsMzUuMDktMTAyLjI5LDE5Ljg2LTI4LjA1LTEyLjMyLTQ4LjMtMzkuMS00OC43OC03MC4xMy0uMDItMS41Ni4yNC0zLjE5LDEuMjctNC4yNCw3Ljc5LTcuOTYsMTguOC0xMy4yOCwyOS4yMS0xNy4zMSwxMC44NS00LjIsMjEuOTItNy4xMiwzMy40My05LjI3LDIyLjc1LTQuMjUsNDUuOTQtNS40Miw2OS4wMS0zLjM3LDExLjcyLDEuMDQsMjMsMy4yMywzNC4xOSw2LjM3LDEuODEuNTEsMi43MywxLjYyLDMuMTMsMy40Miw1Ljk1LDI3LjA0LS40LDU0LjE0LTE5LjE3LDc0LjY3aDBaTTk4LjkyLDE1OS45MWM0LjY5LDMuMTYsMTAuMjksMS41MiwxMy4yLTMuMTQsMi42NC00LjIzLDMuMjUtOS4zOCwyLjEzLTE0LjMzLS43OC0zLjQ0LTIuMTgtNi42Mi00LjczLTguOTktMy43NC0zLjQ3LTkuMjEtMy40NS0xMi43OS4xNS02Ljc2LDYuODEtNS42MiwyMS4wNCwyLjE4LDI2LjNoLjAxWk0xODkuMywxNDMuMTZjLjk2LS4xMi42NC0xLjg4LjQxLTIuNDgtMi4xOS01LjY0LTcuMTQtOS4zMi0xMy4zLTkuMDQtMTEuMjEuNS0xOS41OCw5LjQ2LTIyLjg0LDE5Ljk1LS4yLjYzLjExLDEuNzIuNTksMS45My40LjE3LDEuMzEuMDgsMS43Ni0uMiwxMC4xNy02LjI3LDIxLjIzLTExLjQ2LDMzLjM4LTEwLjE1aDBaTTEwMS4xNSwxODYuNjljNC4zNCwzLjU3LDguOTcsNiwxNC4yLDcuOTEsMTcuMDEsNi4yMiwzNi4xOSw0LjU4LDUxLjgzLTQuNTcsNi4wMi0zLjUyLDExLTguMTksMTQuNjYtMTQuMDEsMS4xOC0xLjg4LDEuMjItNC4yNi0uMzYtNS43Ni0yLjE2LTIuMDUtNS4xNi0xLjQ0LTcuMDYuNjktNi4xNCw2Ljg2LTEzLjkzLDExLjY0LTIyLjg0LDE0LjI2LTE1LjY4LDQuNjEtMzIuNTIsMi44Ni00Ny4xNi00LjI1LTEuNC0uNjgtMy4xOC0uNDgtNC4xMS42Mi0xLjM0LDEuNTktLjc4LDMuNzkuODQsNS4xMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMTc3LjkyLDk3LjE1Yy0zNi4zNi0xLjQ5LTgwLjIsNC40NC0xMTMuNDEsMTkuNjktMTEuMDIsNS4wNi0yMi4yMiwxMi4xMy0yOC45NywyMi40My0xLjM0LTQuMjYtMS4yOS04LjI1LS40NS0xMi4zLDEuMDctNS43NywzLjc0LTEwLjgzLDcuNzQtMTUuMTQsOS45Ni0xMC43MSwyNS41My0xOS41MSwzOS4wNS0yNS4zLDMzLjIzLTE0LjIzLDcwLjgyLTE3Ljk5LDEwNi4yOS0xMS40MSw2LjMyLDEuMTcsMTIuMTksMi41OCwxOC4yMiw0LjY4LjkxLjMyLDEuODQsMS41NSwyLjMxLDIuMzgsMy41NSw2LjE2LDUuOTgsMTIuNTksNy43OCwxOS40OC4wOS4zNC0uMTIsMS4wOS0uMzYsMS41Mi0xMi41LTMuNDktMjUuMTUtNS41MS0zOC4yMS02LjA0aC4wMVoiLz4KICA8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTkzLjE5LDUxLjAyYzQuOCwxLjM5LDkuMzcsMS45OSwxNC4yNSwyLjM3LDUuODQuNDUsMTEuMzYtLjI0LDE3LjU0LTEuMDYtNC42OCw2LjYxLTExLjM5LDEwLjkzLTE4LjY0LDEzLjU0LTE2LjczLTYuODktMzQuMi0xMC4yLTUyLjE1LTEwLjUxLTM2LjEtLjYyLTc0LjUsOS42LTEwNC4zOSwzMC40MS45Mi00Ljc1LDIuNTktOC42Miw0LjQ4LTEyLjgsNi4wNi0xMi40LDE1LjA5LTIzLjE5LDI2LjQ5LTMxLjA4LDE3Ljc3LTEyLjMxLDM5LjQtMTcuMzgsNjAuODUtMTQuOTgsNS44LjY1LDExLjA5LDEuNywxNi43NCwyLjk0LDE3LjI3LDMuNzcsMzEuNzEsNS42MSw0OS41NCwxLjg0LTEuMTIsMi4zOS0yLjQxLDMuOTctMy44LDUuNzYtMy41NSw0LjA2LTcuNDcsNy40OC0xMS44OSwxMC42Mi0uNS4zNS0uODIsMS4yNi0uNjcsMS43MS4yMS42MS44NSwxLjAxLDEuNjUsMS4yNWgwWiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xMDEuMTUsMTg2LjY5Yy0xLjYxLTEuMzMtMi4xOC0zLjUyLS44NC01LjExLjkzLTEuMSwyLjctMS4zLDQuMTEtLjYyLDE0LjY0LDcuMSwzMS40Nyw4Ljg2LDQ3LjE2LDQuMjUsOC45MS0yLjYyLDE2LjctNy40LDIyLjg0LTE0LjI2LDEuOS0yLjEzLDQuOS0yLjc0LDcuMDYtLjY5LDEuNTgsMS41MSwxLjU0LDMuODguMzYsNS43Ni0zLjY1LDUuODItOC42NCwxMC40OS0xNC42NiwxNC4wMS0xNS42NCw5LjE1LTM0LjgyLDEwLjc5LTUxLjgzLDQuNTctNS4yMy0xLjkxLTkuODYtNC4zNS0xNC4yLTcuOTFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTk4LjkyLDE1OS45MWMtNy44LTUuMjYtOC45NC0xOS40OS0yLjE4LTI2LjMsMy41OC0zLjYsOS4wNC0zLjYyLDEyLjc5LS4xNSwyLjU1LDIuMzYsMy45NSw1LjU1LDQuNzMsOC45OSwxLjEyLDQuOTUuNTEsMTAuMS0yLjEzLDE0LjMzLTIuOTEsNC42Ni04LjUxLDYuMzEtMTMuMiwzLjE0aC0uMDFaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTE4OS4zLDE0My4xNmMtMTIuMTUtMS4zMS0yMy4yMSwzLjg5LTMzLjM4LDEwLjE1LS40NS4yOC0xLjM3LjM3LTEuNzYuMi0uNDgtLjIxLS43OC0xLjMtLjU5LTEuOTMsMy4yNi0xMC40OSwxMS42My0xOS40NSwyMi44NC0xOS45NSw2LjE2LS4yNywxMS4xMSwzLjQsMTMuMyw5LjA0LjIzLjYuNTUsMi4zNi0uNDEsMi40OGgwWiIvPgo8L3N2Zz4=" alt="Wiiin" style="width:100%;height:100%;object-fit:contain"></div>
+    <div class="title">Pas encore<br>de tournoi.</div>
+    <p>Crée-en un avec tes potes ou rejoins un tournoi officiel Wiiin.</p>
+    <a href="#leagues_create" class="btn btn-ink" style="margin-bottom:8px">Créer un tournoi</a>
+    <a href="#leagues_join" class="btn btn-outline">Rejoindre par code</a>
+  </div>
+
+  <div class="eyebrow-mono" style="margin-bottom:10px">EN COURS</div>
+  <div class="tournoi-card">
+    <div class="tournoi-card-icon" style="background:rgba(11,27,46,.18)">🏆</div>
+    <div class="tournoi-card-info">
+      <h4>UCL Finale · FR</h4>
+      <div class="meta">30 mai · 1 247 inscrits</div>
+    </div>
+    <div class="price">200€</div>
+  </div>
+</div>
+<div class="tab-bar"><a class="tab" href="#home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1v-9z"/></svg><span>Home</span></a><a class="tab" href="#shop_hub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg><span>Sports</span></a><a class="tab active" href="#leagues_hub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 8l4 4 5-7 5 7 4-4-1.5 11h-15z"/><circle cx="3" cy="8" r="1.2" fill="currentColor"/><circle cx="21" cy="8" r="1.2" fill="currentColor"/><circle cx="12" cy="5" r="1.2" fill="currentColor"/></svg><span>Ranks</span></a><a class="tab" href="#profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9 13.5q1.5 1.5 3 1.5t3-1.5"/></svg><span>Profil</span></a></div>
+
+    </div>
+  </div></section>
+  <div class="navbtns"><button id="prev">‹</button><span class="pos" id="pos">1 / 25</span><button id="next">›</button></div>
+</div>
+<script>
+  const total=25; let cur=0;
+  const secs=[...document.querySelectorAll('.appscreen')];
+  const chips=[...document.querySelectorAll('.chip')];
+  function go(i){cur=(i+total)%total;secs.forEach((s,k)=>s.style.display=k===cur?'flex':'none');chips.forEach((c,k)=>c.classList.toggle('on',k===cur));document.getElementById('pos').textContent=(cur+1)+' / '+total;const c=chips[cur];if(c)c.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});window.scrollTo({top:0});}
+  chips.forEach(c=>c.onclick=()=>go(+c.dataset.go));
+  document.getElementById('prev').onclick=()=>go(cur-1);
+  document.getElementById('next').onclick=()=>go(cur+1);
+  // swipe
+  let x0=null;addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});
+  addEventListener('touchend',e=>{if(x0==null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>60)go(cur+(dx<0?1:-1));x0=null;},{passive:true});
+  go(0);
+</script>
+</body></html>
