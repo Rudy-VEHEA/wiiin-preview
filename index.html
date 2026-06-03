@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Wiiin · Roland-Garros</title>
+<style>
+  :root { --bg:#0B1121; --card:#141b2e; --line:#23314f; --green:#9be15d; --dim:#7a7f87; --red:#e5484d; --blue:#5b8def; }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body { margin:0; background:var(--bg); color:#fff; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+  header { position:sticky; top:0; background:var(--bg); padding:14px 16px calc(env(safe-area-inset-top)); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--line); }
+  h1 { font-size:20px; margin:0; font-weight:800; }
+  .pill { background:var(--green); color:var(--bg); border:none; font-weight:800; padding:8px 12px; border-radius:999px; font-size:13px; }
+  .ghost { background:transparent; color:var(--green); border:1px solid var(--line); padding:7px 11px; border-radius:999px; font-weight:700; font-size:13px; }
+  main { padding:12px; max-width:560px; margin:0 auto; }
+  .tabs { display:flex; gap:8px; margin-bottom:12px; }
+  .tab { flex:1; text-align:center; padding:9px; border-radius:10px; background:var(--card); color:var(--dim); font-weight:700; border:1px solid var(--line); }
+  .tab.on { color:var(--green); border-color:var(--green); }
+  .card { background:var(--card); border-radius:14px; padding:14px; margin-bottom:10px; border:1px solid var(--line); }
+  .row { display:flex; justify-content:space-between; align-items:center; }
+  .muted { color:var(--dim); font-size:13px; }
+  .side { display:flex; justify-content:space-between; align-items:center; padding:9px 0; }
+  .side+.side { border-top:1px solid var(--line); }
+  .name { font-weight:600; font-size:16px; }
+  .pts { color:var(--green); font-weight:800; }
+  .prob { color:var(--dim); width:48px; text-align:right; }
+  .badge { font-size:11px; font-weight:800; padding:3px 7px; border-radius:6px; }
+  .pick { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; margin:8px 0; width:100%; color:#fff; text-align:left; }
+  .pick.on { border-color:var(--green); background:#15351f; }
+  .pick:disabled { opacity:.55; }
+  .kpis { display:flex; gap:10px; margin:10px 0; }
+  .kpi { flex:1; background:var(--card); border-radius:12px; padding:14px; text-align:center; }
+  .kpi b { display:block; color:var(--green); font-size:24px; }
+  button { cursor:pointer; }
+  .big { width:100%; background:var(--green); color:var(--bg); border:none; padding:15px; border-radius:12px; font-weight:800; font-size:15px; }
+  a.back { color:var(--green); text-decoration:none; font-weight:700; }
+  .center { text-align:center; color:var(--dim); padding:30px 10px; }
+  .toast { position:fixed; left:50%; transform:translateX(-50%); bottom:24px; background:#141b2e; border:1px solid var(--line); padding:12px 16px; border-radius:12px; max-width:90%; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🎾 Wiiin</h1>
+  <div id="auth"></div>
+</header>
+<main>
+  <div class="tabs">
+    <div class="tab on" data-tab="matches" onclick="showTab('matches')">Matchs</div>
+    <div class="tab" data-tab="board" onclick="showTab('board')">🏆 Classement</div>
+    <div class="tab" id="godtab" data-tab="god" onclick="showTab('god')" style="display:none">👑 GOD</div>
+  </div>
+  <div id="view"></div>
+</main>
+<div id="toast"></div>
+
+<script type="module">
+import { Clerk } from 'https://esm.sh/@clerk/clerk-js@5';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+// --- Config PUBLIQUE uniquement (aucun secret ici) ---
+const SUPABASE_URL = 'https://jtohychyjmzyilucmncy.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_3NUafZam7zoQuHZKy9Ciyw_q-kcCrxe';
+const CLERK_PK = 'pk_test_ZWFzeS1zYXdmbHktNTAuY2xlcmsuYWNjb3VudHMuZGV2JA';
+const FN_URL = SUPABASE_URL + '/functions/v1/ingest';
+
+const clerk = new Clerk(CLERK_PK);
+await clerk.load({ afterSignOutUrl: location.href });
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
+  auth: { persistSession: false },
+  accessToken: async () => (clerk.session ? await clerk.session.getToken() : null),
+});
+
+let isAdmin = false, tab = 'matches';
+const $ = (id) => document.getElementById(id);
+const toast = (m) => { const t=$('toast'); t.innerHTML=`<div class="toast">${m}</div>`; setTimeout(()=>t.innerHTML='',3500); };
+const fmtScore = (s) => s ? [s.period_1,s.period_2,s.period_3,s.period_4,s.period_5].filter(v=>v!=null).join(' ') : '';
+const badge = (st) => st==='live'?`<span class="badge" style="background:var(--red)">EN DIRECT</span>`
+  : st==='finished'?`<span class="badge" style="background:var(--dim)">TERMINÉ</span>`
+  : `<span class="badge" style="background:var(--blue)">À VENIR</span>`;
+
+async function refreshAuth() {
+  const u = clerk.user;
+  if (u) {
+    const email = u.primaryEmailAddress?.emailAddress?.toLowerCase();
+    const { data } = await supabase.from('admins').select('email').eq('email', email).maybeSingle();
+    isAdmin = !!data;
+    $('godtab').style.display = isAdmin ? 'block' : 'none';
+    $('auth').innerHTML = `<button class="ghost" id="out">Déconnexion</button>`;
+    $('out').onclick = () => clerk.signOut();
+  } else {
+    isAdmin = false; $('godtab').style.display='none';
+    $('auth').innerHTML = `<button class="pill" id="in">Connexion</button>`;
+    $('in').onclick = () => clerk.openSignIn({});
+  }
+}
+clerk.addListener(() => { refreshAuth(); if (tab!=='matches') render(); });
+
+window.showTab = (t) => { tab=t; document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('on', e.dataset.tab===t)); render(); };
+
+async function render() {
+  const v = $('view');
+  if (tab==='matches') return renderMatches(v);
+  if (tab==='board') return renderBoard(v);
+  if (tab==='god') return renderGod(v);
+}
+
+async function renderMatches(v) {
+  v.innerHTML = `<div class="center">Chargement…</div>`;
+  const { data: ms } = await supabase.from('matches').select('*').order('start_time');
+  if (!ms?.length) { v.innerHTML = `<div class="center">Aucun match pour l'instant.</div>`; return; }
+  let myPicks = {};
+  if (clerk.user) {
+    const { data: ps } = await supabase.from('predictions').select('*');
+    (ps||[]).forEach(p => myPicks[p.source_match_id]=p);
+  }
+  v.innerHTML = ms.map(m => {
+    const p = myPicks[m.source_match_id];
+    return `<div class="card">
+      <div class="row" style="margin-bottom:6px"><div>${m.sport==='tennis'?'🎾':'⚽️'} ${badge(m.status)}</div>
+        <span class="muted">${new Date(m.start_time).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</span></div>
+      ${side(m,'home',p)} ${side(m,'away',p)}
+      ${p?`<div class="muted" style="margin-top:8px;color:var(--green)">✅ Ton choix : ${p.pick==='home'?m.home_name:m.away_name} · ${p.locked_points} pts en jeu${p.settled?` → ${p.awarded_points} pts gagnés`:''}</div>`:''}
+    </div>`;
+  }).join('');
+}
+function side(m, k, p) {
+  const name=m[k+'_name'], prob=m[k+'_prob'], pts=m[k+'_points'], sc=fmtScore(m[k+'_score']);
+  const picked = p && p.pick===k;
+  const canPick = clerk.user && m.status==='upcoming' && !p && pts!=null;
+  return `<div class="side" ${canPick?`onclick="pick('${m.source_match_id}','${k}',${pts},${prob})"`:''} style="${picked?'color:var(--green)':''};${canPick?'cursor:pointer':''}">
+    <span class="name">${name}${picked?' ✓':''}</span>
+    <span class="row" style="gap:12px">${sc?`<span class="pts" style="color:#fff">${sc}</span>`:''}<span class="prob">${prob!=null?Math.round(prob*100)+'%':'—'}</span><span class="pts">${pts!=null?pts+' pts':'—'}</span></span>
+  </div>`;
+}
+window.pick = async (id, k, pts, prob) => {
+  if (!clerk.user) return clerk.openSignIn({});
+  const { error } = await supabase.from('predictions').insert({
+    user_id: clerk.user.id, source_match_id:id, pick:k, locked_points:pts, locked_prob:isNaN(prob)?null:prob });
+  if (error) return toast('⚠️ '+error.message);
+  toast('✅ Pronostic enregistré !'); render();
+};
+
+async function renderBoard(v) {
+  v.innerHTML = `<div class="center">Chargement…</div>`;
+  const { data } = await supabase.from('user_scores').select('*').order('total_points',{ascending:false}).limit(100);
+  if (!data?.length) { v.innerHTML=`<div class="center">Pas encore de scores. Joue un pronostic !</div>`; return; }
+  v.innerHTML = data.map((r,i)=>`<div class="card row"><div><b>${i+1}</b> &nbsp; ${clerk.user&&r.user_id===clerk.user.id?'Toi':'Joueur '+r.user_id.slice(-4)}</div><span class="pts">${r.total_points} pts</span></div>`).join('');
+}
+
+async function renderGod(v) {
+  if (!isAdmin) { v.innerHTML=`<div class="center">⛔ Réservé. Connecte-toi avec un compte autorisé.</div>`; return; }
+  v.innerHTML = `<div class="kpis">
+    <div class="kpi"><b id="k1">–</b>Matchs</div><div class="kpi"><b id="k2">–</b>En direct</div><div class="kpi"><b id="k3">–</b>Joueurs</div></div>
+    <button class="big" id="rf">⟳ Forcer un rafraîchissement</button><div class="muted" id="gout" style="margin-top:10px"></div>`;
+  const c = async (q)=> (await q).count ?? 0;
+  $('k1').textContent = await c(supabase.from('matches').select('*',{count:'exact',head:true}));
+  $('k2').textContent = await c(supabase.from('matches').select('*',{count:'exact',head:true}).eq('status','live'));
+  $('k3').textContent = await c(supabase.from('user_scores').select('*',{count:'exact',head:true}));
+  $('rf').onclick = async () => {
+    $('gout').textContent='…';
+    try {
+      const token = await clerk.session.getToken();
+      const r = await fetch(FN_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:'{}'});
+      const j = await r.json();
+      $('gout').textContent = j.ok ? `✅ ${j.count} matchs, ${j.settled} pronostics réglés.` : `⚠️ ${j.error||'erreur (secrets API posés ?)'}`;
+    } catch(e){ $('gout').textContent='⚠️ '+e.message; }
+  };
+}
+
+await refreshAuth();
+render();
+setInterval(()=>{ if(tab==='matches'||tab==='board') render(); }, 20000);
+</script>
+</body>
+</html>
